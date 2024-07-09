@@ -1,6 +1,13 @@
 import express from 'express';
 import dotenv from "dotenv";
 import { syncDb } from './models/index.js';
+import cookieParser from "cookie-parser";
+import {
+    authRoutes,
+    expenseRoutes,
+    userRoutes,
+    groupRoutes,
+} from "./routes"
 
 dotenv.config();
 
@@ -8,8 +15,19 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 
+// middleware
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 
-syncDb();
+//routes
+app.use('/api/auth/', authRoutes);
+app.use('/api/expense/', expenseRoutes);
+app.use('/api/group/', groupRoutes);
+app.use('/api/user/', userRoutes);
+
+
+// syncDb();
 
 app.listen(PORT, ()=> {
     console.log(`Server is running on port ${PORT}`);

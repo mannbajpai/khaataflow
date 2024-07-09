@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
 
-const ExpenseSplit = sequelize.define('ExpemseSplit', {
+const ExpenseSplit = sequelize.define('ExpenseSplit', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
