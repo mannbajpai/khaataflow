@@ -1,4 +1,4 @@
-import  User from '../models';
+import  {User} from '../models/index.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -42,7 +42,7 @@ const validateUserCredentials = async (email, password) => {
   return user;
 };
 
-export {
+const authService = {
   createToken,
   hashPassword,
   comparePassword,
@@ -50,3 +50,5 @@ export {
   createUser,
   validateUserCredentials,
 };
+
+export default authService;

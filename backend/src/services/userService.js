@@ -1,4 +1,4 @@
-import { User } from "../models"
+import { User } from "../models/index.js"
 
 const getUserById = async (id) => {
     return await User.findByPk(id);
@@ -21,8 +21,10 @@ const deleteUser = async (id) => {
     return user;
 }
 
-export {
+const userService = {
     getUserById,
     updateUser,
     deleteUser
 };
+
+export default userService;

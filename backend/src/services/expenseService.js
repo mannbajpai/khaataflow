@@ -1,4 +1,4 @@
-import {User, Expense, GroupExpense, ExpenseSplit} from "../models"
+import {User, Expense, GroupExpense, ExpenseSplit} from "../models/index.js"
 
 const createExpense = async(expenseData, userId) => {
     const {description, amount, payerId, groupId, splits } = expenseData;
@@ -55,11 +55,12 @@ const deleteExpense= async (id) => {
     return expense;
 }
 
-
-export {
+const expenseService = {
     createExpense,
     getExpenseById,
     getAllExpensesByGroup,
     updateExpense,
     deleteExpense
 }
+
+export default expenseService;

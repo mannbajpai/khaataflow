@@ -1,4 +1,4 @@
-import { Expense, ExpenseSplit, Group, GroupMember, User } from "../models"
+import { Expense, ExpenseSplit, Group, GroupMember, User } from "../models/index.js"
 
 const createGroup = async (groupData, userId) => {
     const { name, description, members } = groupData;
@@ -72,7 +72,7 @@ const deleteGroup = async (id, userId) => {
     return group;
 }
 
-export {
+const groupService = {
     createGroup,
     getGroupById,
     getAllGroupsForUser,
@@ -80,3 +80,5 @@ export {
     updateGroup,
     deleteGroup,
 }
+
+export default groupService;

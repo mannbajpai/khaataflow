@@ -1,7 +1,7 @@
-import authRoutes from "authRoutes";
-import expenseRoutes from "expenseRoutes";
-import userRoutes from "userRoutes";
-import groupRoutes from "groupRoutes";
+import authRoutes from "./authRoutes.js";
+import expenseRoutes from "./expenseRoutes.js";
+import userRoutes from "./userRoutes.js";
+import groupRoutes from "./groupRoutes.js";
 
 export {
     authRoutes,

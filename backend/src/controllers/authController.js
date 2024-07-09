@@ -1,4 +1,4 @@
-import authService from '../services/authService';
+import authService from '../services/authService.js';
 
 const sendToken = (user, statusCode, res) => {
   const token = authService.createToken(user.id);
@@ -42,4 +42,4 @@ const logout = (req, res) => {
   res.status(200).json({ status: 'success', message: 'Logged out successfully' });
 };
 
-export  { signup, login, logout };
+export { signup, login, logout };

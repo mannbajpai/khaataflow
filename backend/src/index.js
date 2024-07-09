@@ -7,7 +7,7 @@ import {
     expenseRoutes,
     userRoutes,
     groupRoutes,
-} from "./routes"
+} from "./routes/index.js"
 
 dotenv.config();
 
@@ -27,7 +27,7 @@ app.use('/api/group/', groupRoutes);
 app.use('/api/user/', userRoutes);
 
 
-// syncDb();
+syncDb();
 
 app.listen(PORT, ()=> {
     console.log(`Server is running on port ${PORT}`);

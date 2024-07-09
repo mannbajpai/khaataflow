@@ -57,7 +57,7 @@ const deleteGroup = async (req, res) => {
     }
 };
 
-export {
+const groupController = {
     createGroup,
     getGroup,
     getAllGroups,
@@ -65,3 +65,5 @@ export {
     updateGroup,
     deleteGroup,
 }
+
+export default groupController;
