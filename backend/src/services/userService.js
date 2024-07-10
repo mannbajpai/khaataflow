@@ -9,7 +9,7 @@ const getUserById = async (id) => {
 }
 
 const updateUser = async (id, data) => {
-    const user = getUserById(id);
+    const user = await getUserById(id);
     if (!user) throw new Error();
     Object.assign(user, data);
     await user.save();
@@ -17,11 +17,16 @@ const updateUser = async (id, data) => {
 }
 
 const deleteUser = async (id) => {
-    const user = getUserById(id);
-    if (!user) throw new Error();
-    await user.destroy({
-        truncate: true,
-      });
+    console.log(id);
+    const user = await getUserById(id);
+    if (!user) {
+        throw new Error();
+    }
+    else {
+        await User.destroy({where: {
+            id: user.id,
+        }});
+    }
     return user;
 }
 
