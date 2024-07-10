@@ -27,8 +27,11 @@ app.use('/api/group/', groupRoutes);
 app.use('/api/user/', userRoutes);
 
 
-syncDb();
+syncDb().then(()=>{
+    app.listen(PORT, ()=> {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}).catch(err=>{
+    console.error('Unable to Connect', err);
+})
 
-app.listen(PORT, ()=> {
-    console.log(`Server is running on port ${PORT}`);
-});

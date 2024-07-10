@@ -1,5 +1,14 @@
 import userService from "../services/userService.js"
 
+const getAllUsers = async(req,res)=> {
+    try {
+        const users = await userService.getAllUsers();
+        res.status(200).json({status:'success', data:users});
+    } catch (error) {
+        res.status(401).json({status: fail, message: error.message});
+    }
+}
+
 const getUser = async (req, res)=> {
     try {
         const user = await userService.getUserById(req.params.id);
@@ -34,6 +43,7 @@ const deleteUser = async (req,res)=> {
 }
 
 export {
+    getAllUsers,
     getUser,
     updateUser,
     deleteUser

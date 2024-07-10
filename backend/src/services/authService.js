@@ -1,16 +1,16 @@
-import  {User} from '../models/index.js';
+import { User } from '../models/index.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import dotenv from "dotenv"
+dotenv.config();
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
+  
 };
 
-const hashPassword = async (password) => {
-  return await bcrypt.hash(password, 12);
-};
 
 const comparePassword = async (inputPassword, storedPassword) => {
   return await bcrypt.compare(inputPassword, storedPassword);
@@ -30,8 +30,9 @@ const checkExistingUser = async (email, username) => {
 };
 
 const createUser = async (username, email, password) => {
-  const hashedPassword = await hashPassword(password);
-  return await User.create({ username, email, password: hashedPassword });
+  const hashedPassword = await bcrypt.hash(password, 12);
+  console.log(`Password hashed :${hashedPassword}`)
+  return await User.create({ username: username, email: email, password: hashedPassword });
 };
 
 const validateUserCredentials = async (email, password) => {
@@ -44,7 +45,6 @@ const validateUserCredentials = async (email, password) => {
 
 const authService = {
   createToken,
-  hashPassword,
   comparePassword,
   checkExistingUser,
   createUser,

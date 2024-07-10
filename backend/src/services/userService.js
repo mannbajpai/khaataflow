@@ -1,5 +1,9 @@
 import { User } from "../models/index.js"
 
+const getAllUsers = async () => {
+    return await User.findAll();
+}
+
 const getUserById = async (id) => {
     return await User.findByPk(id);
 }
@@ -22,6 +26,7 @@ const deleteUser = async (id) => {
 }
 
 const userService = {
+    getAllUsers,
     getUserById,
     updateUser,
     deleteUser
