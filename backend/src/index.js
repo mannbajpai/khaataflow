@@ -7,6 +7,7 @@ import {
     expenseRoutes,
     userRoutes,
     groupRoutes,
+    groupExpenseRoutes
 } from "./routes/index.js"
 
 dotenv.config();
@@ -25,6 +26,7 @@ app.use('/api/auth/', authRoutes);
 app.use('/api/expense/', expenseRoutes);
 app.use('/api/group/', groupRoutes);
 app.use('/api/user/', userRoutes);
+app.use('/api/group/expense/', groupExpenseRoutes);
 
 
 syncDb().then(()=>{

@@ -9,6 +9,7 @@ const ExpenseSplit = sequelize.define('ExpenseSplit', {
     },
     groupExpenseId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: {
             model: 'GroupExpenses',
             key: 'id',
@@ -16,22 +17,19 @@ const ExpenseSplit = sequelize.define('ExpenseSplit', {
     },
     userId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: {
             model: 'Users',
             key: 'id',
         },
     },
     amount: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.FLOAT,
         allowNull: false,
     },
     settled:{
         type: DataTypes.BOOLEAN,
         defaultValue: false,
-    },
-    createdAt: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
     },
 });
 

@@ -7,8 +7,8 @@ const router = express.Router();
 router.use(authenticate);
 
 router.post('/', expenseController.createExpense);
+router.get('/', expenseController.getAllExpenses);
 router.get('/:id', expenseController.getExpense);
-router.get('/group/:groupId', expenseController.getAllExpenses);
 router.patch('/:id', expenseController.updateExpense);
 router.delete('/:id', expenseController.deleteExpense);
 

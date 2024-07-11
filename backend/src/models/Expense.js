@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
 
 const Expense = sequelize.define('Expense', {
-    
+
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -10,13 +10,18 @@ const Expense = sequelize.define('Expense', {
     },
     userId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: {
             model: "Users",
             key: "id"
         },
     },
     amount: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
+    name:{
+        type: DataTypes.STRING,
         allowNull: false,
     },
     category: {
@@ -29,10 +34,10 @@ const Expense = sequelize.define('Expense', {
         type: DataTypes.DATEONLY,
         allowNull: false,
     },
-    createdAt: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-    },
+    type: {
+        type: DataTypes.ENUM("income", "expense"),
+        allowNull: false,
+    }
 });
 
 export default Expense;

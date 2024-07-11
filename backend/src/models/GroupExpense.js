@@ -9,6 +9,7 @@ const GroupExpense = sequelize.define('GroupExpense', {
     },
     groupId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: {
             model: 'Groups',
             key: 'id',
@@ -16,13 +17,14 @@ const GroupExpense = sequelize.define('GroupExpense', {
     },
     payerId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: {
             model: 'Users',
             key: 'id',
         },
     },
     amount: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.FLOAT,
         allowNull: false,
     },
     description: {
