@@ -1,7 +1,8 @@
-export default function App() {
+import Login from './components/Auth/login'
+const App = () => {
   return (
-    <h1 className="text-3xl font-bold underline">
-      khaataFlow
-    </h1>
+    <Login/>
   )
 }
+
+export default App
