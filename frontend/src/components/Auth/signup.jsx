@@ -1,13 +1,14 @@
 import { useState } from "react";
 import logo from "../../assets/logo-2.png"
-const Login = () => {
-
+const Signup = () => {
     const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
     }
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-light-gray">
             <div className="bg-base-100 p-8 rounded-lg shadow-md w-full max-w-md">
@@ -16,35 +17,39 @@ const Login = () => {
                 <form>
                     <input
                         type="email"
-                        value={email}
-                        onChange={(e)=>setEmail(e.target.value)}
                         placeholder="Email"
                         className="w-full p-3 border border-light-turquoise rounded mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
+                        value={email}
+                        onChange={(e)=>setEmail(e.target.value)}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        className="w-full p-3 border border-light-turquoise rounded mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
+                        value={username}
+                        onChange={(e)=>setUsername(e.target.value)}
                     />
                     <input
                         type="password"
-                        value={password}
-                        onChange={(e)=>setPassword(e.target.value)}
                         placeholder="Password"
                         className="w-full p-3 border border-light-turquoise rounded mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
+                        value={password}
+                        onChange={(e)=>setPassword(e.target.value)}
                     />
                     <button
                         type="submit"
                         className="w-full bg-primary text-base-100 p-3 rounded"
-                        onSubmit={handleSubmit}
+                        onClick={handleSubmit}
                     >
-                        Login
+                        Signup
                     </button>
                 </form>
-                <a href="/forgot-password" className="text-primary block text-center mt-4">
-                    Forgot Password?
-                </a>
-                <a href="/signup" className="text-primary block text-center mt-2">
-                    Sign Up
+                <a href="/signin" className="text-primary block text-center mt-2">
+                    Already have an account? Signin
                 </a>
             </div>
         </div>
     );
 };
 
-export default Login;
+export default Signup;
