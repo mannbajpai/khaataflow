@@ -44,7 +44,7 @@ const deleteGroupExpense = async (id, groupId) => {
     return await groupExpense.destroy();
 }
 
-const settleGroupExpense = async (splitId, userId) => {
+const settleGroupExpense = async (splitId,userId) => {
     const expenseSplit = ExpenseSplit.findOne({ where: { id: splitId, userId } });
     if (!expenseSplit) throw new Error("No Split Found");
     return await expenseSplit.update({ settled: true });
