@@ -7,8 +7,10 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(email,password);
     }
     return (
+        <div>
         <div className="flex items-center justify-center min-h-screen bg-light-gray">
             <div className="bg-base-100 p-8 rounded-lg shadow-md w-full max-w-md">
                 <img src={logo} className="w-24 mx-auto mb-6" alt="Logo" />
@@ -43,6 +45,7 @@ const Login = () => {
                     Sign Up
                 </a>
             </div>
+        </div>
         </div>
     );
 };

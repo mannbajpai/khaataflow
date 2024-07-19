@@ -44,8 +44,8 @@ const Signup = () => {
                         Signup
                     </button>
                 </form>
-                <a href="/signin" className="text-primary block text-center mt-2">
-                    Already have an account? Signin
+                <a href="/login" className="text-primary block text-center mt-2">
+                    Already have an account? Login
                 </a>
             </div>
         </div>
