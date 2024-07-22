@@ -1,8 +1,8 @@
 const Footer = () => {
   return (
-    <footer className="footer footer-center bg-base-300 text-base-content p-4 mx-0">
+    <footer className="footer footer-center bg-turquoise-green text-primary-content p-4 mx-0">
       <aside>
-        <p>Copyright © {new Date().getFullYear()} - All right reserved by khaataFlow.Inc</p>
+        <p className="text-xl">Copyright © {new Date().getFullYear()} - All right reserved by khaataFlow.Inc</p>
       </aside>
     </footer>
   )

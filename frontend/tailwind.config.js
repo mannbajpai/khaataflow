@@ -22,20 +22,7 @@ export default {
   ],
   daisyui:{
     themes: [
-      {
-        mytheme: {
-          "primary": "#4ECCA3",
-          "secondary": "#4EB1BA",
-          "accent": "#4EB1BA",
-          "neutral": "#333333",
-          "base-100": "#FFFFFF",
-          "info": "#4EB1BA",
-          "success": "#28A745",
-          "warning": "#FF6B6B",
-          "error": "#FF6B6B",
-        },
-      },
-      "business",
+      "pastel",
     ],
   }
 }
