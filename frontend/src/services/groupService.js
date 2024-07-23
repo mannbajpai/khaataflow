@@ -24,7 +24,7 @@ const deleteGroup = async (id) => {
     return response.data;
 }
 
-export default {
+export {
     createGroup,
     joinGroup,
     getGroup,

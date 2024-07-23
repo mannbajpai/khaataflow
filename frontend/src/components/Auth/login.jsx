@@ -1,13 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {login} from "../../services/authService"
 import logo from "../../assets/logo-2.png"
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState();
+
+    useEffect(()=>{
+
+    },[]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
         console.log(email,password);
+        try {
+            const response = login(JSON.stringify({email,password}));
+            if (response.status === 200) {
+                setLoading(false);
+            } else {
+                setLoading(false);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
     }
     return (
         <div>
@@ -32,12 +49,13 @@ const Login = () => {
                     />
                     <button
                         type="submit"
-                        className="w-full bg-primary text-base-100 p-3 rounded"
+                        className="w-full bg-turquoise-green hover:bg-green-300 text-base-100 p-3 rounded"
                         onSubmit={handleSubmit}
                     >
                         Login
                     </button>
                 </form>
+                {loading && <span className="loading loading-dots loading-lg"></span>}
                 <a href="/forgot-password" className="text-primary block text-center mt-4">
                     Forgot Password?
                 </a>

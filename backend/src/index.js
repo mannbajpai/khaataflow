@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from "dotenv";
 import { syncDb } from './models/index.js';
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import {
     authRoutes,
     expenseRoutes,
@@ -20,6 +21,7 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
+app.use(cors())
 
 //routes
 app.use('/api/auth/', authRoutes);

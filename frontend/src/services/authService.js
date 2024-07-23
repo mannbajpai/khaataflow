@@ -1,7 +1,11 @@
-import api from "./api";
+import axios from "axios";
+
+const api = axios.create({
+    baseURL: 'http://localhost:5000/api',
+});
 
 const signup = async (credentials) => {
-    const response = await api.post('/auth/signup', credentials);
+    const response = await api.post('/auth/signup', {data: JSON.stringify(credentials) });
     return response.data;
 }
 
@@ -19,7 +23,7 @@ const logout = () => {
 
 const isAuthenticated = () => !!localStorage.getItem('token');
 
-export default {
+export {
     login,
     logout,
     signup,
