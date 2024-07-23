@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 const ExpenseList = ({ expenses }) => {
   return (
     <div className="overflow-x-auto ">
@@ -22,7 +23,9 @@ const ExpenseList = ({ expenses }) => {
           ))}
         </tbody>
       </table>
-      <button className="btn btn-accent mt-4 shadow-xl">Add Expense</button>
+      <Link to='/addExpense' className="btn btn-accent mt-4 shadow-xl">
+      Add Expense
+      </Link>
     </div>
   );
 };

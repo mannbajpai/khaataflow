@@ -25,7 +25,7 @@ const deleteExpense = async (id) => {
     return response.data;
 }
 
-export default {
+export {
     createExpense,
     getAllExpenses,
     getExpense,
