@@ -28,7 +28,7 @@ const GroupPage = ({ groupId }) => {
         users: [{id:1, name:"Rohan", email:"rohan@test.com"},{id:2, name:"Rohit", email:"rohit@test.com"}],
         expenses: [{name:"Rohan to All",description:"Momos",amount:200,splitType:"equal"}],
     })
-    return <div>Loading...</div>;
+    return <span className="loading loading-spinner loading-lg"></span>;
   }
 
   return (

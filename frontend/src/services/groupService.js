@@ -1,5 +1,10 @@
 import api from './api';
 
+const getAllGroups = async () => {
+    const response = await api.get('/group/');
+    return response.data;
+}
+
 const createGroup = async (data) => {
     const response =  await api.post('/group/', data);
     return response.data;
@@ -9,6 +14,7 @@ const joinGroup = async (data) => {
     const response = await api.post('/group/join', data);
     return response.data;
 }
+
 
 const getGroup = async (id) => {
     const response  = await api.get(`/group/${id}`);
@@ -26,6 +32,7 @@ const deleteGroup = async (id) => {
 
 export {
     createGroup,
+    getAllGroups,
     joinGroup,
     getGroup,
     updateGroup,
