@@ -1,5 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
+
+import LoginPage from './components/Auth/LoginPage';
+
 import Login from './components/Auth/Login'
 import Signup from './components/Auth/Signup'
 import ForgotPasswordPage from './components/Auth/ForgetPassword';
@@ -8,6 +11,7 @@ import AddExpense from './components/Expense/AddExpense';
 import Groups from './components/Groups/GroupsPage'
 import GroupPage from "./components/Groups/GroupPage"
 import JoinGroupPage from './components/Groups/JoinGroup';
+
 const App = () => {
   return (
     <Routes>

@@ -1,11 +1,18 @@
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
-  const { logout } = useAuth();
-  const user = { username: "user1" }
+  const { logout,user } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const isGroupPage = location.pathname.startsWith("/groups/");
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+
+  }
+
   return (
     <div className="navbar px-8 rounded-3xl bg-turquoise-green text-primary-content">
       <div className="navbar-start">
@@ -26,7 +33,7 @@ const Navbar = () => {
       </div>
       <div className="navbar-end">
         <div className="dropdown dropdown-end">
-          <span className="text-xl font-semibold lg:absolute top-2 right-12">{user.username}</span>
+          {user?<span className="text-xl font-semibold lg:absolute top-2 right-12">{user.username}</span>:<span>Login please</span>}
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
               <img
@@ -58,7 +65,7 @@ const Navbar = () => {
               </a>
             </li>
             <li>
-              <button className="justify-between" onClick={logout}>
+              <button className="justify-between" onClick={handleLogout}>
                 Logout
                 <span className="badge">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4">

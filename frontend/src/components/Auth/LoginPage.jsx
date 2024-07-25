@@ -1,22 +1,35 @@
-import { useState } from "react";
+import { useState} from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import api from "../../services/api";
 
 import logo from "../../assets/logo-2.png"
-const Login = () => {
+const LoginPage = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState();
-    const {login} = useAuth();
     const navigate = useNavigate();
+
+        // Login function
+        const login = async (email, password) => {
+            try {
+                const response = await api.post("/auth/login", { email, password });
+                const token = response.data.token;
+                localStorage.setItem("token", token);
+                api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+                return response.data;
+            } catch (error) {
+                console.error("Login failed:", error);
+                return false;
+            }
+        };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         console.log("inFunc");
-        const success = await login(email, password);
-        if (success) {
+        const res = await login(email, password);
+        if (res) {
             setLoading(false);
             navigate("/");
         } else {
@@ -66,4 +79,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default LoginPage;
