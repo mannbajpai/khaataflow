@@ -1,28 +1,26 @@
 import { useState } from "react";
-import { signup } from "../../services/authService";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo-2.png"
 const Signup = () => {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState();
+    const {signup} = useAuth();
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = async (e) => {
         setLoading(true);
-        try {
-            const cred = JSON.stringify({username,email,password});
-            console.log(cred);
-            const response = signup(cred);
-            if (response.status === 200){
-                setLoading(false);
-            } else {
-                setLoading(false);
-            }
-        } catch (error) {
-            console.log(error.message);
+        e.preventDefault();
+        const success = await signup(username, email, password);
+        if (success) {
+          navigate("/");
+        } else {
+          alert("Signup failed. Please try again.");
         }
-    }
+        setLoading(false);
+      };
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-light-gray">

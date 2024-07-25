@@ -1,13 +1,15 @@
 import { Link, useLocation } from "react-router-dom"
-
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
+  const { logout } = useAuth();
+  const user = { username: "user1" }
   const location = useLocation();
   const isGroupPage = location.pathname.startsWith("/groups/");
   return (
     <div className="navbar px-8 rounded-3xl bg-turquoise-green text-primary-content">
       <div className="navbar-start">
-        <button className="btn btn-ghost btn-circle">
+        <Link to="/group/" className="btn btn-ghost btn-circle">
           <div className="indicator">
             {!isGroupPage ? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
               <path fillRule="evenodd" d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z" clipRule="evenodd" />
@@ -17,13 +19,14 @@ const Navbar = () => {
             </svg>
             }
           </div>
-        </button>
+        </Link>
       </div>
       <div className="navbar-center">
         <Link to="/" className="btn btn-ghost text-2xl">khaataFlow</Link>
       </div>
       <div className="navbar-end">
         <div className="dropdown dropdown-end">
+          <span className="text-xl font-semibold lg:absolute top-2 right-12">{user.username}</span>
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
               <img
@@ -35,14 +38,14 @@ const Navbar = () => {
             tabIndex={0}
             className="menu menu-lg dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
             <li>
-              <a className="justify-between">
+              <Link to="/me" className="justify-between">
                 Profile
                 <span className="badge">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4">
                     <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
                   </svg>
                 </span>
-              </a>
+              </Link>
             </li>
             <li>
               <a className="justify-between">
@@ -55,14 +58,14 @@ const Navbar = () => {
               </a>
             </li>
             <li>
-              <a className="justify-between">
+              <button className="justify-between" onClick={logout}>
                 Logout
                 <span className="badge">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4">
                     <path fillRule="evenodd" d="M16.5 3.75a1.5 1.5 0 0 1 1.5 1.5v13.5a1.5 1.5 0 0 1-1.5 1.5h-6a1.5 1.5 0 0 1-1.5-1.5V15a.75.75 0 0 0-1.5 0v3.75a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V5.25a3 3 0 0 0-3-3h-6a3 3 0 0 0-3 3V9A.75.75 0 1 0 9 9V5.25a1.5 1.5 0 0 1 1.5-1.5h6Zm-5.03 4.72a.75.75 0 0 0 0 1.06l1.72 1.72H2.25a.75.75 0 0 0 0 1.5h10.94l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 0 0-1.06 0Z" clipRule="evenodd" />
                   </svg>
                 </span>
-              </a>
+              </button>
             </li>
           </ul>
         </div>

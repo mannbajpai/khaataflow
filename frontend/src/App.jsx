@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute';
 import Login from './components/Auth/Login'
 import Signup from './components/Auth/Signup'
 import ForgotPasswordPage from './components/Auth/ForgetPassword';
@@ -10,11 +11,11 @@ import JoinGroupPage from './components/Groups/JoinGroup';
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/addExpense" element={<AddExpense />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path='/forgot-password' element={<ForgotPasswordPage />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/addExpense" element={<AddExpense />} />
       <Route path='/group' element={<Groups />} />
       <Route path='/group/:groupId' element={<GroupPage />} />
       <Route path='/joinGroup' element={<JoinGroupPage />} />

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Footer from "../components/Footer";
+import Footer from "../Footer";
 
 const JoinGroupPage = () => {
   const [groupCode, setGroupCode] = useState("");

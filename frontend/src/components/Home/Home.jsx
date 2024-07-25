@@ -3,6 +3,7 @@ import Navbar from "../Navbar"
 import ChartsSection from "./Chart"
 import ExpenseList from "./ExpenseList"
 import Footer from "../Footer"
+
 const Home = () => {
   const [balanceData, setBalanceData] = useState({ income: 0, expenses: 0 });
   const [expenseData, setExpenseData] = useState({ categories: [], amounts: [] });

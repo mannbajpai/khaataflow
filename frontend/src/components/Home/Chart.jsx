@@ -30,19 +30,19 @@ const ChartsSection = ({ balanceData, expenseData }) => {
     };
 
     return (
-        <div className="grid grid-cols-2">
-            <div className="card bg-base-300 text-white shadow-xl mx-2">
+        <div className="grid grid-cols-1">
+            <div className="card bg-base-300 text-white shadow-xl mx-2 w-2/3 min-w-8 m-2">
                 <div className="card-body">
                     <h2 className="card-title text-center">Balance Overview</h2>
-                    <div className="h-[30vh]">
+                    <div className="h-[40vh]">
                         <Doughnut data={doughnutData} />
                     </div>
                 </div>
             </div>
-            <div className="card bg-base-300 text-white shadow-xl mx-2">
+            <div className="card bg-base-300 text-white shadow-xl mx-2 w-2/3 min-w-8 m-2">
                 <div className="card-body">
                     <h2 className="card-title text-center">Expense Breakdown</h2>
-                    <div className="h-[30vh]">
+                    <div className="h-[45vh]">
                         <Pie data={pieData} />
                     </div>
                 </div>
