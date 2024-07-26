@@ -1,8 +1,8 @@
 import { useState,useEffect } from "react"
-import Navbar from "../Navbar"
-import ChartsSection from "./Chart"
-import ExpenseList from "./ExpenseList"
-import Footer from "../Footer"
+import Navbar from "../components/Navbar"
+import ChartsSection from "../components/Chart"
+import ExpenseList from "../components/ExpenseList"
+import Footer from "../components/Footer"
 
 const Home = () => {
   const [balanceData, setBalanceData] = useState({ income: 0, expenses: 0 });

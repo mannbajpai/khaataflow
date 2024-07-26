@@ -1,8 +1,8 @@
 import  { useEffect, useState } from "react";
-import Navbar from "../Navbar";
-import Footer from "../Footer";
-import GroupCard from "./GroupCard";
-import { getAllGroups } from "../../services/groupService";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import GroupCard from "../components/GroupCard";
+import { getAllGroups } from "../services/groupService";
 
 const GroupsPage = () => {
   const [groups, setGroups] = useState([]);

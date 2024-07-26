@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Footer from "../Footer";
-import FormInput from "../FormInput";
+import Footer from "../components/Footer";
+import FormInput from "../components/FormInput";
 
 const ForgotPasswordPage = () => {
     const [email, setEmail] = useState("");

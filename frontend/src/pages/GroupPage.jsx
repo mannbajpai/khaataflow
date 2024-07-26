@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import Navbar from "../Navbar";
-import Footer from "../Footer";
-import GroupUsersList from "./GroupUsersDetails";
-import GroupExpensesList from "./GroupExpensesList";
-import {getGroup} from "../../services/groupService";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import GroupUsersList from "../components/GroupUsersDetails";
+import GroupExpensesList from "../components/GroupExpensesList";
+import {getGroup} from "../services/groupService";
 
 const GroupPage = ({ groupId }) => {
   const [group, setGroup] = useState(null);
