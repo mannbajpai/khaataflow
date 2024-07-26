@@ -1,26 +1,16 @@
-import PropTypes from "prop-types"
-import { Route, Navigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const PrivateRoute = () => {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading state while checking authentication
+    return <span className="loading loading-ring loading-lg"></span>
   }
 
   return (
-    <Route
-      {...rest}
-      render={(props) =>
-        user ? <Component {...props} /> : <Navigate to="/login" />
-      }
-    />
+        user ? <Outlet/> : <Navigate to="/login" />
   );
 };
-
-PrivateRoute.propTypes = {
-    component: PropTypes.func,
-}
 
 export default PrivateRoute;
