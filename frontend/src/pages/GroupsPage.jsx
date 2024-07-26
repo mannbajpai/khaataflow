@@ -8,7 +8,6 @@ const GroupsPage = () => {
   const [groups, setGroups] = useState([]);
 
   useEffect(() => {
-    // Fetch user's groups from the backend
     const fetchGroups = async () => {
       try {
         const response = await getAllGroups();

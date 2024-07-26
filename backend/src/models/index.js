@@ -27,7 +27,7 @@ ExpenseSplit.belongsTo(User, { foreignKey: 'userId' });
 
 const syncDb = async () => {
     try {
-        await sequelize.sync();
+        await sequelize.sync({alter:true});
         console.log("Databased Synced");
     } catch (error) {
         console.log("Database Syncing Error!", error);

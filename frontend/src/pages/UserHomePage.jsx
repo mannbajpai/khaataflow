@@ -34,7 +34,7 @@ const Home = () => {
           <ChartsSection balanceData={balanceData} expenseData={expenseData} />
         </div>
         <div className="w-1/2 p-4 text-secondary-content">
-          <ExpenseList expenses={expenses} />
+          <ExpenseList expensesTestData={expenses} />
         </div>
       </main>
       <Footer />

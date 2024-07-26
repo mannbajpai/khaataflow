@@ -14,7 +14,6 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        console.log("inFunc");
         const success = await login(email, password);
         if (success) {
             setLoading(false);

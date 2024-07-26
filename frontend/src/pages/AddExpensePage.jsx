@@ -32,18 +32,11 @@ const AddExpense = () => {
       alert('Please fill in all required fields');
       return;
     }
-    console.log(JSON.stringify(formData));
-    
     try {
-      // Send the form data to the backend API
-      const response  = createExpense(JSON.stringify(formData));
-
-      if (response.ok) {
-        // Redirect to the home page after successful submission
-        navigate('/');
-      } else {
-        // Handle errors if any
-        console.error('Error adding expense:', response.statusText);
+      const response = await createExpense(formData);
+      if(response) {
+        navigate('/home');
+        alert('Expense Added Successfully');
       }
     } catch (error) {
       console.error('Error adding expense:', error);
@@ -52,7 +45,7 @@ const AddExpense = () => {
 
   // Handle cancel action
   const handleCancel = () => {
-    navigate('/');
+    navigate('/home');
   };
 
   return (
@@ -103,14 +96,17 @@ const AddExpense = () => {
           {/* Category */}
           <div>
             <label className="block mb-2 font-semibold">Category</label>
-            <input
-              type="text"
+            <select
               name="category"
               value={formData.category}
               onChange={handleChange}
               className="input input-bordered w-full max-w-sm"
-              required
-            />
+            >
+              <option value="entertainment">Entertainment</option>
+              <option value="travel">Travel</option>
+              <option value="groceries">Groceries</option>
+              <option value="investment">Investment</option>
+            </select>
           </div>
 
           {/* Name */}

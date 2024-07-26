@@ -1,34 +1,58 @@
-import api from "./api";
+import api from './api'
+// Function to get all expenses
+export const getAllExpenses = async () => {
+    try {
+        const response = await api.get(`/expense/`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching expenses:', error);
+        throw error;
+    }
+};
 
-const createExpense = async (data) => {
-    const response = await api.post('/expense', data);
-    return response.data;
-}
+// Function to get a single expense by ID
+export const getExpenseById = async (expenseId) => {
+    try {
+        const response = await api.get(`/expense/${expenseId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching expense:', error);
+        throw error;
+    }
+};
 
-const getAllExpenses = async (data) => {
-    const response = await api.get('/expense', data);
-    return response.data;
-}
+// Function to create a new expense
+export const createExpense = async (expenseData) => {
+    try {
+        console.log(expenseData);
+        //const { description, name, category, amount, date, type } = expenseData;
+        const response = await api.post("/expense/", expenseData);
+        return response.data;
+    } catch (error) {
+        console.error('Error creating expense:', error);
+        throw error;
+    }
+};
 
-const getExpense = async (id) => {
-    const response = await api.get(`/expense/${id}`);
-    return response.data;
-}
+// Function to update an expense
+export const updateExpense = async (expenseId, expenseData) => {
+    try {
+        console.log(expenseData);
+        const response = await api.patch(`/expense/${expenseId}`, expenseData);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating expense:', error);
+        throw error;
+    }
+};
 
-const updateExpense = async (id,data) => {
-    const response = await api.patch(`/expense/${id}`,data);
-    return response.data;
-}
-
-const deleteExpense = async (id) => {
-    const response = await api.delete(`/expense/${id}`);
-    return response.data;
-}
-
-export {
-    createExpense,
-    getAllExpenses,
-    getExpense,
-    updateExpense,
-    deleteExpense
-}
+// Function to delete an expense
+export const deleteExpense = async (expenseId) => {
+    try {
+        const response = await api.delete(`/expense/${expenseId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting expense:', error);
+        throw error;
+    }
+};
