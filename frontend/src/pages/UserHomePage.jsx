@@ -30,10 +30,10 @@ const Home = () => {
       <Navbar />
       </div>
       <main className="flex flex-grow md:flex-row p-4 bg-base-100 text-base-content space-x-4">
-        <div className="w-1/2 p-4">
+        <div className="w-1/3 p-4">
           <ChartsSection balanceData={balanceData} expenseData={expenseData} />
         </div>
-        <div className="w-1/2 p-4 text-secondary-content">
+        <div className="w-2/3 p-4 text-secondary-content">
           <ExpenseList expensesTestData={expenses} />
         </div>
       </main>

@@ -47,7 +47,7 @@ const ExpenseList = ({expensesTestData}) => {
         </thead>
         <tbody>
           {expenses.map((expense) => (
-            <tr key={expense.id} className="hover:bg-gray-100">
+            <tr key={expense.id} className="hover:bg-gray-100 text-center">
               <td className="py-2 px-4 border-b border-gray-200">{expense.type}</td>
               <td className="py-2 px-4 border-b border-gray-200">{expense.name}</td>
               <td className="py-2 px-4 border-b border-gray-200">{expense.amount}</td>

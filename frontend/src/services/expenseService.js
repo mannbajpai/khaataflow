@@ -24,8 +24,6 @@ export const getExpenseById = async (expenseId) => {
 // Function to create a new expense
 export const createExpense = async (expenseData) => {
     try {
-        console.log(expenseData);
-        //const { description, name, category, amount, date, type } = expenseData;
         const response = await api.post("/expense/", expenseData);
         return response.data;
     } catch (error) {

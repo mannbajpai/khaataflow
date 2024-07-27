@@ -8,22 +8,27 @@ import GroupMember from "./GroupMember.js";
 
 
 User.hasMany(Expense, { foreignKey: 'userId' });
-Expense.belongsTo(User, { foreignKey: 'userId' });
-
-Group.belongsToMany(User, { through: GroupMember, foreignKey: 'groupId' })
-User.belongsToMany(Group, { through: GroupMember, foreignKey: 'userId' });
-
-Group.hasMany(GroupExpense, { foreignKey: 'groupId' });
-GroupExpense.belongsTo(Group, { foreignKey: 'groupId' });
-
+User.belongsToMany(Group, { through: GroupMember, as:"groups", foreignKey: 'userId' });
 User.hasMany(GroupExpense, { as: 'payer', foreignKey: 'payerId' });
+
+Expense.belongsTo(User, { foreignKey: 'userId' });
+Expense.belongsToMany(User,{through:ExpenseSplit,as:'participants',foreignKey:'expenseId'});
+Expense.hasMany(ExpenseSplit, {as:"splits", foreignKey:'expenseId'});
+Expense.belongsTo(User, {as:'payer', foreignKey:'payerId'})
+Expense.belongsTo(Group, { through:GroupExpense, as:"group", foreignKey: 'groupId' });
+
+Group.belongsToMany(User, { through: GroupMember, as:"members", foreignKey: 'groupId' });
+Group.belongsTo(User, {as:"creator", foreignKey:"creatorId"});
+Group.belongsToMany(Expense, { through:GroupExpense, foreignKey: 'groupId' });
+Group.hasMany(GroupExpense, { as:"expenses",foreignKey: 'groupId' });
+
+GroupExpense.belongsTo(Group, { foreignKey: 'groupId' });
 GroupExpense.belongsTo(User, { as: 'payer', foreignKey: 'payerId' });
-
 GroupExpense.hasMany(ExpenseSplit, { foreignKey: 'groupExpenseId' });
-ExpenseSplit.belongsTo(GroupExpense, { foreignKey: 'groupExpenseId' });
 
-User.hasMany(ExpenseSplit, { foreignKey: 'userId' });
-ExpenseSplit.belongsTo(User, { foreignKey: 'userId' });
+ExpenseSplit.belongsTo(GroupExpense, { foreignKey: 'groupExpenseId' });
+ExpenseSplit.belongsTo(User, {as:"user", foreignKey: 'userId' });
+ExpenseSplit.belongsTo(Expense, {as:"expense", foreignKey: 'expenseId' });
 
 const syncDb = async () => {
     try {

@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import GroupCard from "../components/GroupCard";
@@ -23,7 +23,9 @@ const GroupsPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      <div className="pt-4 px-4 bg-base-100">
+        <Navbar />
+      </div>
       <div className="flex-1 p-8">
         <h1 className="text-3xl font-bold mb-6 text-center">Your Groups</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

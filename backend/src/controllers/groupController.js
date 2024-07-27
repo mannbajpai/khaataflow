@@ -2,7 +2,7 @@ import groupService from "../services/groupService.js";
 
 const createGroup = async (req, res) => {
     try {
-        const group = await groupService.createGroup(req.body, req.user.id);
+        const group = await groupService.createGroup(req.body, req.user.dataValues.id);
         res.status(201).json({ status: 'success', data: { group } });
     } catch (error) {
         res.status(400).json({ status: 'fail', message: error.message });
@@ -23,7 +23,7 @@ const getGroup = async (req, res) => {
 
 const getAllGroups = async (req, res) => {
     try {
-        const groups = await groupService.getAllGroupsForUser(req.user.id);
+        const groups = await groupService.getAllGroupsForUser(req.user.dataValues.id);
         res.status(200).json({ status: 'success', data: { groups } });
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message });
@@ -32,7 +32,7 @@ const getAllGroups = async (req, res) => {
 
 const joinGroup = async (req, res) => {
     try {
-        const group = await groupService.joinGroupByCode(req.body.code, req.user.id);
+        const group = await groupService.joinGroupByCode(req.body.code, req.user.dataValues.id);
         res.status(200).json({ status: 'success', data: { group } });
     } catch (error) {
         res.status(400).json({ status: 'fail', message: error.message });
@@ -50,7 +50,7 @@ const updateGroup = async (req, res) => {
 
 const deleteGroup = async (req, res) => {
     try {
-        await groupService.deleteGroup(req.params.id, req.user.id);
+        await groupService.deleteGroup(req.params.id, req.user.dataValues.id);
         res.status(204).json({ status: 'success', data: null });
     } catch (error) {
         res.status(400).json({ status: 'fail', message: error.message });
