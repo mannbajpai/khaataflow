@@ -7,11 +7,13 @@ import GroupExpense from "./GroupExpense.js";
 import GroupMember from "./GroupMember.js";
 
 
-User.hasMany(Expense, { foreignKey: 'userId' });
+User.hasMany(Expense, {as:'expense', foreignKey: 'userId' });
 User.belongsToMany(Group, { through: GroupMember, as:"groups", foreignKey: 'userId' });
 User.hasMany(GroupExpense, { as: 'payer', foreignKey: 'payerId' });
+User.belongsToMany(GroupExpense,{through:ExpenseSplit,as:"groupExpense",foreignKey:"userId"});
+User.hasMany(Group,{as:"createdGroups",foreignKey:"creatorId"});
 
-Expense.belongsTo(User, { foreignKey: 'userId' });
+Expense.belongsTo(User, {as:"user", foreignKey: 'userId' });
 Expense.belongsToMany(User,{through:ExpenseSplit,as:'participants',foreignKey:'expenseId'});
 Expense.hasMany(ExpenseSplit, {as:"splits", foreignKey:'expenseId'});
 Expense.belongsTo(User, {as:'payer', foreignKey:'payerId'})

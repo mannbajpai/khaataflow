@@ -8,6 +8,8 @@ import Login from "./LoginPage"
 import Signup from "./SignupPage"
 import Home from "./UserHomePage"
 import ExpenseDetail from "./ExpenseDetailsPage"
+import ProfilePage from "./ProfilePage"
+import EditProfilePage from "./EditProfilePage"
 
 export {
     AddExpense,
@@ -19,5 +21,7 @@ export {
     Signup,
     Home,
     GroupPage,
-    ExpenseDetail
+    ExpenseDetail,
+    ProfilePage,
+    EditProfilePage,
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
+import Loader from "../components/Loader";
 import logo from "../assets/logo-2.png"
 const Login = () => {
 
@@ -52,7 +52,7 @@ const Login = () => {
                             Login
                         </button>
                     </form>
-                    {loading && <span className="loading loading-dots loading-lg"></span>}
+                    {loading && <Loader/>}
                     <a href="/forgot-password" className="text-primary block text-center mt-4">
                         Forgot Password?
                     </a>

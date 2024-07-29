@@ -1,7 +1,7 @@
 import { GroupExpense, ExpenseSplit } from "../models/index.js";
 
 const createGroupExpense = async (expenseData, splits) => {
-    
+
     // Validation od splits
     let toatalSplitAmount = 0;
     splits.forEach((split)=>{
@@ -11,7 +11,7 @@ const createGroupExpense = async (expenseData, splits) => {
     if (toatalSplitAmount !== expenseData.amount){
         throw new Error("Total Split Amount does not eqaul expense amount");
     }
-    
+
     const groupExpense = await GroupExpense.create(expenseData);
     await ExpenseSplit.bulkCreate(
         splits.map((split) => ({

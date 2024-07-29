@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Loader from "../components/Loader";
 import Footer from "../components/Footer";
 import logo from "../assets/logo-2.png"
 const Signup = () => {
@@ -58,7 +59,7 @@ const Signup = () => {
                         >
                             Signup
                         </button>
-                        {loading && <span className="mt-2 loading loading-dots loading-md text-primary"></span>}
+                        {loading && <Loader/>}
                     </form>
                     <a href="/login" className="text-primary block text-center mt-2">
                         Already have an account? Login
