@@ -15,7 +15,7 @@ const GroupExpense = sequelize.define('GroupExpense', {
             key: 'id',
         },
     },
-    payerId: {
+    lenderId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -30,7 +30,12 @@ const GroupExpense = sequelize.define('GroupExpense', {
     description: {
         type: DataTypes.TEXT,
     },
-    data: {
+    type: {
+        type: DataTypes.ENUM('equal', 'exact', 'percentage'),
+        allowNull: false,
+        defaultValue: 'equal',
+    },
+    date: {
         type: DataTypes.DATEONLY,
         allowNull: false,
     },

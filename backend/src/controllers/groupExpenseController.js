@@ -2,18 +2,19 @@ import groupExpenseServices from "../services/groupExpenseService.js";
 
 const createGroupExpense = async (req, res) => {
     try {
-        const { splits, ...expenseData } = req.body;
+        const { amount, description, type, date, borrowers } = req.body;
+        const groupId = req.params.groupId;
+        const lenderId = req.user.dataValues.id;
 
-        let totalSplitAmount = 0;
-        splits.forEach((split) => {
-            totalSplitAmount += split.amount;
-        });
-
-        if (totalSplitAmount !== expenseData.amount){
-            return res.status(400).json({status:'fail', message:'Total Split amount does not eqaul expense amount'});
-        }
-
-        const groupExpense = await groupExpenseServices.createGroupExpense(expenseData, splits);
+        const groupExpense = await groupExpenseServices.createGroupExpense({
+            lenderId,
+            groupId,
+            amount,
+            description,
+            type,
+            date,
+            borrowers,
+          });
         res.status(201).json({ status: 'success', data: groupExpense });
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message });

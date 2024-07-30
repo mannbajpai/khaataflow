@@ -1,24 +1,29 @@
 import { GroupExpense, ExpenseSplit } from "../models/index.js";
+import { splitExactly,splitEqually,splitByPercentage } from "./expenseSplit.js";
+const createGroupExpense = async ({ lenderId, groupId, amount, description, type, date, borrowers }) => {
 
-const createGroupExpense = async (expenseData, splits) => {
-
-    // Validation od splits
-    let toatalSplitAmount = 0;
-    splits.forEach((split)=>{
-        toatalSplitAmount += split.amount;
-    });
-
-    if (toatalSplitAmount !== expenseData.amount){
-        throw new Error("Total Split Amount does not eqaul expense amount");
-    }
-
-    const groupExpense = await GroupExpense.create(expenseData);
-    await ExpenseSplit.bulkCreate(
-        splits.map((split) => ({
-            ...split,
-            groupExpenseId: groupExpense.id,
-        }))
-    );
+    const groupExpense = await GroupExpense.create({
+        lenderId,
+        groupId,
+        amount,
+        description,
+        type,
+        date
+      });
+    // Split the expense based on the type
+    switch (type) {
+        case 'equal':
+          await splitEqually(groupExpense, borrowers);
+          break;
+        case 'exact':
+          await splitExactly(groupExpense, borrowers);
+          break;
+        case 'percentage':
+          await splitByPercentage(groupExpense, borrowers);
+          break;
+        default:
+          throw new Error('Invalid split type');
+      }
 
     return groupExpense;
 }

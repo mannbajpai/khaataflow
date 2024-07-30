@@ -15,7 +15,15 @@ const ExpenseSplit = sequelize.define('ExpenseSplit', {
             key: 'id',
         },
     },
-    userId: {
+    lenderId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'Users',
+            key: 'id',
+        },
+    },
+    borrowerId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
