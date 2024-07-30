@@ -1,14 +1,15 @@
-import { User } from "../models/index.js"
+import { User, Expense, ExpenseSplit } from "../models/index.js"
+import { getAllGroupsForUser, getMembers, removeMember } from "./groupService.js"
 
-const getAllUsers = async () => {
+export const getAllUsers = async () => {
     return await User.findAll();
 }
 
-const getUserById = async (id) => {
+export const getUserById = async (id) => {
     return await User.findByPk(id);
 }
 
-const updateUser = async (id, data) => {
+export const updateUser = async (id, data) => {
     const user = await getUserById(id);
     if (!user) throw new Error();
     Object.assign(user, data);
@@ -16,16 +17,47 @@ const updateUser = async (id, data) => {
     return user;
 }
 
-const deleteUser = async (id) => {
+export const deleteUser = async (id) => {
     console.log(id);
     const user = await getUserById(id);
     if (!user) {
         throw new Error();
     }
     else {
-        await User.destroy({where: {
-            id: user.id,
-        }});
+        // Delete associated expenses
+        await Expense.destroy({
+            where: {
+                userId: id,
+            },
+        });
+
+        //Remove User from Groups
+        const groups = await getAllGroupsForUser(id);
+
+        await Promise.all(
+            groups.map(async (group) => {
+                await removeMember(group.id, id);
+
+                // Check if the group has no more members and delete it if needed
+                const members = await getMembers(group.id);
+                if (members.length === 0) {
+                    await group.destroy();
+                }
+            })
+        )
+
+        // Delete associated expense splits
+        await ExpenseSplit.destroy({
+            where: {
+                userId: id,
+            },
+        });
+
+        await User.destroy({
+            where: {
+                id: user.id,
+            }
+        });
     }
     return user;
 }

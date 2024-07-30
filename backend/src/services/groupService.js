@@ -6,14 +6,14 @@ const generateUniqueCode = async () => {
     for (let i = 0; i < 4; i++) {
         code += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    if (await Group.findOne({where: {code}})){
+    if (await Group.findOne({ where: { code } })) {
         generateUniqueCode();
     } else {
         return code;
     }
 }
 
-const createGroup = async (groupData, userId) => {
+export const createGroup = async (groupData, userId) => {
     const { name, description, members } = groupData;
     const code = await generateUniqueCode();
     console.log(groupData, userId)
@@ -39,7 +39,7 @@ const createGroup = async (groupData, userId) => {
     return group;
 }
 
-const getGroupById = async (id) => {
+export const getGroupById = async (id) => {
     return await Group.findByPk(id, {
         include: [
             { model: User, as: 'members' },
@@ -48,7 +48,7 @@ const getGroupById = async (id) => {
     });
 };
 
-const getAllGroupsForUser = async (userId) => {
+export const getAllGroupsForUser = async (userId) => {
     return await Group.findAll({
         include: [
             {
@@ -61,7 +61,54 @@ const getAllGroupsForUser = async (userId) => {
     });
 }
 
-const joinGroupByCode = async (code, userId) => {
+export const getMembers = async (groupId) => {
+    try {
+        const group = await Group.findByPk(groupId, {
+            include: [
+                {
+                    model: User,
+                    as: 'members',
+                    attributes: ['id', 'username', 'email'],
+                },
+            ],
+        });
+
+        if (!group) {
+            throw new Error('Group not found');
+        }
+        return group.members;
+    } catch (error) {
+        console.error('Error fetching group members:', error);
+        throw new Error('Failed to fetch group members');
+    }
+}
+
+export const removeMember = async (groupId, userId) => {
+    try {
+        const group = await getGroupById(groupId);
+
+        const member = await User.findByPk(userId);
+
+        if (!member) {
+            throw new Error('User not found');
+        }
+
+        await GroupMember.destroy({
+            where: {
+                groupId: group.id,
+                userId: member.id,
+            },
+        });
+
+        console.log(`Member with ID ${userId} removed from group ${groupId}`);
+        return { message: 'Member removed successfully' };
+    } catch (error) {
+        console.error('Error removing member:', error);
+        throw new Error('Failed to remove member');
+    }
+}
+
+export const joinGroupByCode = async (code, userId) => {
     const group = await Group.findOne({ where: { code } });
     if (!group) throw new Error('Group Not Find');
 
@@ -72,7 +119,7 @@ const joinGroupByCode = async (code, userId) => {
     return group;
 }
 
-const updateGroup = async (id, data) => {
+export const updateGroup = async (id, data) => {
     const group = await Group.findByPk(id);
     if (!group) throw new Error('Group Not Found');
     Object.assign(group, data);
@@ -80,7 +127,7 @@ const updateGroup = async (id, data) => {
     return group;
 }
 
-const deleteGroup = async (id, userId) => {
+export const deleteGroup = async (id, userId) => {
     const group = Group.findByPk(id);
     if (!group) throw new Error('Group Not Found');
     if (group.createdBy !== userId) throw new Error('Only the creator can delete the group');
@@ -95,6 +142,8 @@ const groupService = {
     joinGroupByCode,
     updateGroup,
     deleteGroup,
+    getMembers,
+    removeMember
 }
 
 export default groupService;

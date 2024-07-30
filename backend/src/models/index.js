@@ -24,6 +24,9 @@ Group.belongsTo(User, {as:"creator", foreignKey:"creatorId"});
 Group.belongsToMany(Expense, { through:GroupExpense, foreignKey: 'groupId' });
 Group.hasMany(GroupExpense, { as:"expenses",foreignKey: 'groupId' });
 
+GroupMember.belongsTo(User, { foreignKey: 'userId' });
+GroupMember.belongsTo(Group, { foreignKey: 'groupId' });
+
 GroupExpense.belongsTo(Group, { foreignKey: 'groupId' });
 GroupExpense.belongsTo(User, { as: 'payer', foreignKey: 'payerId' });
 GroupExpense.hasMany(ExpenseSplit, { foreignKey: 'groupExpenseId' });

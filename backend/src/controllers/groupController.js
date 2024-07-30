@@ -1,6 +1,6 @@
 import groupService from "../services/groupService.js";
 
-const createGroup = async (req, res) => {
+export const createGroup = async (req, res) => {
     try {
         const group = await groupService.createGroup(req.body, req.user.dataValues.id);
         res.status(201).json({ status: 'success', data: { group } });
@@ -9,7 +9,7 @@ const createGroup = async (req, res) => {
     }
 };
 
-const getGroup = async (req, res) => {
+export const getGroup = async (req, res) => {
     try {
         const group = await groupService.getGroupById(req.params.id);
         if (!group) {
@@ -21,7 +21,7 @@ const getGroup = async (req, res) => {
     }
 };
 
-const getAllGroups = async (req, res) => {
+export const getAllGroups = async (req, res) => {
     try {
         const groups = await groupService.getAllGroupsForUser(req.user.dataValues.id);
         res.status(200).json({ status: 'success', data: { groups } });
@@ -39,7 +39,25 @@ const joinGroup = async (req, res) => {
     }
 };
 
-const updateGroup = async (req, res) => {
+export const getMembers = async (req, res) => {
+    try {
+        const members = await groupService.getMembers(req.params.id);
+        res.status(200).json({ status: 'success', data:{members}})
+    } catch (error) {
+        res.status(400).json({status:'fail', message:error.message});
+    }
+}
+
+export const removeMember = async (req,res)=>{
+    try {
+        const result = await groupService.removeMember(req.params.id, req.user.dataValues.id);
+        res.status(200).json({status:'success', result:{result}})
+    } catch (error) {
+        res.status(400).json({status:'fail', message:error.message});
+    }
+}
+
+export const updateGroup = async (req, res) => {
     try {
         const group = await groupService.updateGroup(req.params.id, req.body);
         res.status(200).json({ status: 'success', data: { group } });
@@ -48,7 +66,7 @@ const updateGroup = async (req, res) => {
     }
 };
 
-const deleteGroup = async (req, res) => {
+export const deleteGroup = async (req, res) => {
     try {
         await groupService.deleteGroup(req.params.id, req.user.dataValues.id);
         res.status(204).json({ status: 'success', data: null });
