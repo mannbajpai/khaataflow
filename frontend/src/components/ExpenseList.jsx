@@ -13,7 +13,6 @@ const ExpenseList = ({expensesTestData}) => {
     const fetchExpenses = async () => {
       try {
         const expensesData = await getAllExpenses();
-        console.log(expensesData.data.expenses);
         if (expensesData.data.expenses.length > 0){
           setExpenses(expensesData.data.expenses);
         } else {

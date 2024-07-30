@@ -16,7 +16,7 @@ const GroupCard = ({ group }) => {
         <p>{group.description}</p>
         <div className="card-actions justify-end">
           <Link
-            to={`/groups/${group.id}`}
+            to={`/group/${group.id}`}
             className="btn btn-primary"
           >
             View Group

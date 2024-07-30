@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import GroupUsersList from "../components/GroupUsersDetails";
 import GroupExpensesList from "../components/GroupExpensesList";
-import {getGroup} from "../services/groupService";
+import { getGroup } from "../services/groupService";
 
 const GroupPage = ({ groupId }) => {
   const [group, setGroup] = useState(null);
@@ -13,7 +13,7 @@ const GroupPage = ({ groupId }) => {
     const fetchGroupData = async () => {
       try {
         const groupData = await getGroup(groupId);
-        setGroup(groupData);
+        setGroup(groupData.data.group);
       } catch (error) {
         console.error("Error fetching group data:", error);
       }
@@ -24,16 +24,18 @@ const GroupPage = ({ groupId }) => {
 
   if (!group) {
     setGroup({
-        name:"Goa Trip",
-        users: [{id:1, name:"Rohan", email:"rohan@test.com"},{id:2, name:"Rohit", email:"rohit@test.com"}],
-        expenses: [{name:"Rohan to All",description:"Momos",amount:200,splitType:"equal"}],
+      name: "Goa Trip",
+      users: [{ id: 1, name: "Rohan", email: "rohan@test.com" }, { id: 2, name: "Rohit", email: "rohit@test.com" }],
+      expenses: [{ name: "Rohan to All", description: "Momos", amount: 200, splitType: "equal" }],
     })
     return <span className="loading loading-spinner loading-lg"></span>;
   }
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      <div className="pt-4 px-4 bg-base-100">
+        <Navbar />
+      </div>
       <div className="flex-1 container mx-auto p-4">
         <h1 className="text-2xl font-bold text-center mb-6">{group.name}</h1>
         <div className="flex flex-col md:flex-row md:space-x-4">
@@ -51,7 +53,7 @@ const GroupPage = ({ groupId }) => {
 };
 
 GroupPage.propTypes = {
-    groupId: PropTypes.number.isRequired,
+  groupId: PropTypes.number.isRequired,
 }
 
 export default GroupPage;

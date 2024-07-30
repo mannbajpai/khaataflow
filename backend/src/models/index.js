@@ -11,7 +11,7 @@ User.hasMany(Expense, {as:'expense', foreignKey: 'userId' });
 User.belongsToMany(Group, { through: GroupMember, as:"groups", foreignKey: 'userId' });
 User.hasMany(GroupExpense, { as: 'payer', foreignKey: 'payerId' });
 User.belongsToMany(GroupExpense,{through:ExpenseSplit,as:"groupExpense",foreignKey:"userId"});
-User.hasMany(Group,{as:"createdGroups",foreignKey:"creatorId"});
+User.hasMany(Group,{as:"createdGroups",foreignKey:"createdBy"});
 
 Expense.belongsTo(User, {as:"user", foreignKey: 'userId' });
 Expense.belongsToMany(User,{through:ExpenseSplit,as:'participants',foreignKey:'expenseId'});
@@ -20,7 +20,7 @@ Expense.belongsTo(User, {as:'payer', foreignKey:'payerId'})
 Expense.belongsTo(Group, { through:GroupExpense, as:"group", foreignKey: 'groupId' });
 
 Group.belongsToMany(User, { through: GroupMember, as:"members", foreignKey: 'groupId' });
-Group.belongsTo(User, {as:"creator", foreignKey:"creatorId"});
+Group.belongsTo(User, {as:"creator", foreignKey:"createdBy"});
 Group.belongsToMany(Expense, { through:GroupExpense, foreignKey: 'groupId' });
 Group.hasMany(GroupExpense, { as:"expenses",foreignKey: 'groupId' });
 

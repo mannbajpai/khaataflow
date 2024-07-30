@@ -82,6 +82,8 @@ const groupController = {
     joinGroup,
     updateGroup,
     deleteGroup,
+    getMembers,
+    removeMember
 }
 
 export default groupController;

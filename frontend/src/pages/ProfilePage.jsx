@@ -10,7 +10,7 @@ const ProfilePage = () => {
     const handleDeleteUser = async () => {
         try {
             await deleteUser();
-            alert("Accoent Deleted");
+            alert("Account Deleted");
             navigate('/');
         } catch (error) {
             alert("Account cannot be deleted");

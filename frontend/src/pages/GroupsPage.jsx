@@ -11,8 +11,8 @@ const GroupsPage = () => {
     const fetchGroups = async () => {
       try {
         const response = await getAllGroups();
-        const data = await response.json();
-        setGroups(data);
+        console.log(response);
+        setGroups(response.data.groups);
       } catch (error) {
         console.error("Failed to fetch groups:", error);
       }

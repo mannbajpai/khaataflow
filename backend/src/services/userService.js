@@ -1,5 +1,5 @@
-import { User, Expense, ExpenseSplit } from "../models/index.js"
-import { getAllGroupsForUser, getMembers, removeMember } from "./groupService.js"
+import { User, Group, Expense, ExpenseSplit } from "../models/index.js"
+import { getAllGroupsForUser, getMembers, removeMember, getCreator } from "./groupService.js"
 
 export const getAllUsers = async () => {
     return await User.findAll();
@@ -18,8 +18,7 @@ export const updateUser = async (id, data) => {
 }
 
 export const deleteUser = async (id) => {
-    console.log(id);
-    const user = await getUserById(id);
+    const user = await User.findByPk(id);
     if (!user) {
         throw new Error();
     }
@@ -36,6 +35,16 @@ export const deleteUser = async (id) => {
 
         await Promise.all(
             groups.map(async (group) => {
+                const creator = await getCreator(group.id);
+                if (creator === id) {
+                    const members = await getMembers(group.id);
+                    if (members.length === 1) {
+                        await group.destroy();
+                    } else {
+                        const newOwnerId = (members.find((member) => member.id !== id)).id;
+                        await group.update({ createdBy: newOwnerId });
+                    }
+                }
                 await removeMember(group.id, id);
 
                 // Check if the group has no more members and delete it if needed

@@ -43,7 +43,7 @@ export const getGroupById = async (id) => {
     return await Group.findByPk(id, {
         include: [
             { model: User, as: 'members' },
-            { model: Expense, include: [{ model: ExpenseSplit, include: [{ model: User }] }] }
+            { model: Expense, include: [{ model: ExpenseSplit, as:"splits", include: [{ model: User, as:"user" }] }] }
         ],
     });
 };
@@ -56,9 +56,22 @@ export const getAllGroupsForUser = async (userId) => {
                 as: 'members',
                 where: { id: userId }
             },
-            { model: Expense, include: [{ model: ExpenseSplit, include: [{ model: User }] }] }
+            { model: Expense, include: [{ model: ExpenseSplit, as: "splits", include: [{ model: User, as: "user" }] }] }
         ],
     });
+}
+
+export const getCreator = async (groupId) => {
+    try {
+        const group = await Group.findByPk(groupId);
+        if (!group) {
+            throw new Error('Group not found');
+        }
+        return group.createdBy;
+    } catch (error) {
+        console.error('Error fetching group creator:', error);
+        throw new Error('Failed to fetch group creator');
+    }
 }
 
 export const getMembers = async (groupId) => {
@@ -85,7 +98,11 @@ export const getMembers = async (groupId) => {
 
 export const removeMember = async (groupId, userId) => {
     try {
-        const group = await getGroupById(groupId);
+        const group = await Group.findByPk(groupId);
+
+        if (!group) {
+            throw new Error('Group not found');
+        }
 
         const member = await User.findByPk(userId);
 
@@ -93,12 +110,18 @@ export const removeMember = async (groupId, userId) => {
             throw new Error('User not found');
         }
 
-        await GroupMember.destroy({
+        // Attempt to destroy the group member relationship
+        const result = await GroupMember.destroy({
             where: {
                 groupId: group.id,
                 userId: member.id,
             },
         });
+
+        // Check if the record was actually deleted
+        if (result === 0) {
+            throw new Error('Member not part of the group');
+        }
 
         console.log(`Member with ID ${userId} removed from group ${groupId}`);
         return { message: 'Member removed successfully' };
@@ -143,7 +166,8 @@ const groupService = {
     updateGroup,
     deleteGroup,
     getMembers,
-    removeMember
+    removeMember,
+    getCreator,
 }
 
 export default groupService;

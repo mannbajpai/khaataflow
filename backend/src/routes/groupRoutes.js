@@ -12,5 +12,7 @@ router.get('/', groupController.getAllGroups);
 router.post('/join', groupController.joinGroup);
 router.patch('/:id', groupController.updateGroup);
 router.delete('/:id', groupController.deleteGroup);
+router.get('/:id/members', groupController.getMembers);
+router.delete('/:groupId/members/:userId', groupController.removeMember);
 
 export default router;
