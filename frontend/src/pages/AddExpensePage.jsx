@@ -9,7 +9,7 @@ const AddExpense = () => {
     type: 'expense',
     amount: '',
     date: '',
-    category: '',
+    category: 'entertainment',
     name: '',
     description: '',
   });
@@ -101,6 +101,7 @@ const AddExpense = () => {
               value={formData.category}
               onChange={handleChange}
               className="input input-bordered w-full max-w-sm"
+              defaultValue="entertainment"
             >
               <option value="entertainment">Entertainment</option>
               <option value="travel">Travel</option>

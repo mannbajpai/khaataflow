@@ -6,13 +6,14 @@ const GroupCard = ({ group }) => {
     <div className="card bg-base-100 shadow-md">
       <figure>
         <img
-          src={`https://picsum.photos/200/300?random=${group.id}`}
+          src={`https://picsum.photos/id/2/2500/1667`}
           alt="Random group"
           className="w-full h-48 object-cover"
         />
       </figure>
       <div className="card-body">
         <h2 className="card-title">{group.name}</h2>
+        <p className="font-semibold text-lg">Code : {group.code}</p>
         <p>{group.description}</p>
         <div className="card-actions justify-end">
           <Link

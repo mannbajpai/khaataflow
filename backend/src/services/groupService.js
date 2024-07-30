@@ -1,4 +1,4 @@
-import { Expense, ExpenseSplit, Group, GroupMember, User } from "../models/index.js"
+import { Expense, ExpenseSplit, Group, GroupExpense, GroupMember, User } from "../models/index.js"
 
 const generateUniqueCode = async () => {
     let chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
@@ -43,22 +43,24 @@ export const getGroupById = async (id) => {
     return await Group.findByPk(id, {
         include: [
             { model: User, as: 'members' },
-            { model: Expense, include: [{ model: ExpenseSplit, as:"splits", include: [{ model: User, as:"user" }] }] }
+            { model: GroupExpense, as: "expenses", include: [{ model: ExpenseSplit, as: "splits", include: [{ model: User, as: "lender" }, { model: User, as: "borrower" }] }] }
         ],
     });
 };
 
 export const getAllGroupsForUser = async (userId) => {
-    return await Group.findAll({
-        include: [
-            {
-                model: User,
-                as: 'members',
-                where: { id: userId }
-            },
-            { model: Expense, include: [{ model: ExpenseSplit, as: "splits", include: [{ model: User, as: "user" }] }] }
-        ],
-    });
+    return await User.findByPk(userId,
+        {
+            attributes: [],
+            include: [
+                {
+                    model: Group,
+                    as: 'groups',
+                    attributes: ['code', 'description', 'name'],
+                    through: { attributes: [] }
+                },
+            ],
+        });
 }
 
 export const getCreator = async (groupId) => {

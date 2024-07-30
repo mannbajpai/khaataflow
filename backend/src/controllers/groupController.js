@@ -24,7 +24,7 @@ export const getGroup = async (req, res) => {
 export const getAllGroups = async (req, res) => {
     try {
         const groups = await groupService.getAllGroupsForUser(req.user.dataValues.id);
-        res.status(200).json({ status: 'success', data: { groups } });
+        res.status(200).json({ status: 'success',  data:groups });
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message });
     }
