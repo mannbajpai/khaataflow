@@ -1,15 +1,25 @@
 import { useState } from "react";
 import Footer from "../components/Footer";
-
+import { joinGroup } from "../services/groupService";
 const JoinGroupPage = () => {
   const [groupCode, setGroupCode] = useState("");
 
   const handleJoinGroup = async (e) => {
     e.preventDefault();
-    return (
-      <div className="text-2xl">Successfully Joined Group.</div>
-    )
+    try {
+      const res = await joinGroup(groupCode);
+      if (res.status === "success") {
+        alert('Group Joined Successfully');
+      }
+    } catch (error) {
+      alert("Error joining group");
+      throw new Error(error.message);
+    }
   };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -23,12 +33,21 @@ const JoinGroupPage = () => {
             value={groupCode}
             onChange={(e) => setGroupCode(e.target.value)}
           />
-          <button
-            className="btn btn-primary w-full"
-            onClick={handleJoinGroup}
-          >
-            Join Group
-          </button>
+          <div className="flex justify-between">
+            <button
+              className="btn bg-red-500 hover:bg-red-300"
+              onClick={handleCancel}
+            >
+              Cancel
+            </button>
+            <button
+              className="btn bg-turquoise-green hover:bg-green-300"
+              onClick={handleJoinGroup}
+            >
+              Join Group
+            </button>
+          </div>
+
         </div>
       </div>
       <Footer />

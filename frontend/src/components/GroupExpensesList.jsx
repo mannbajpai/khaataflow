@@ -11,15 +11,15 @@ const GroupExpensesList = ({ expenses }) => {
             className="bg-gray-100 p-2 rounded flex justify-between items-center"
           >
             <div>
-              <span className="font-semibold">{expense.name}</span>
-              <p className="text-sm text-gray-500">{expense.description}</p>
+              <span className="font-semibold">{expense.description}</span>
+              <p className="text-sm text-gray-500">{expense.date}</p>
             </div>
             <div className="text-right">
               <span className="block text-green-600">
-                ${expense.amount.toFixed(2)}
+                Rs. {expense.amount.toFixed(2)}
               </span>
               <span className="block text-sm text-gray-500">
-                Split: {expense.splitType}
+                Split: {expense.type}
               </span>
             </div>
           </li>

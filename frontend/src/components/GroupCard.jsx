@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const GroupCard = ({ group }) => {
+  console.log(group);
   return (
     <div className="card bg-base-100 shadow-md">
       <figure>
@@ -18,7 +19,7 @@ const GroupCard = ({ group }) => {
         <div className="card-actions justify-end">
           <Link
             to={`/group/${group.id}`}
-            className="btn btn-primary"
+            className="btn bg-turquoise-green hover:bg-green-300"
           >
             View Group
           </Link>

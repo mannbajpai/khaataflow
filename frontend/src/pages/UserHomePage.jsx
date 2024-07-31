@@ -21,7 +21,7 @@ const Home = () => {
         const expensesData = await getAllExpenses();
         if (expensesData.data.expenses.length > 0) {
           setExpenses(expensesData.data.expenses);
-          expenses.map((expense) => {
+          expensesData.data.expenses.map((expense) => {
             if (expense.type === 'expense') {
               balance.expenses += expense.amount;
             } else {
@@ -70,7 +70,7 @@ const Home = () => {
 
     fetchExpenses();
 
-  }, [expenses]);
+  },[]);
   return (
     <div className="flex flex-col min-h-screen">
       <div className="pt-4 px-4 bg-base-100">

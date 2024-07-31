@@ -42,8 +42,17 @@ export const createGroup = async (groupData, userId) => {
 export const getGroupById = async (id) => {
     return await Group.findByPk(id, {
         include: [
-            { model: User, as: 'members' },
-            { model: GroupExpense, as: "expenses", include: [{ model: ExpenseSplit, as: "splits", include: [{ model: User, as: "lender" }, { model: User, as: "borrower" }] }] }
+            {
+                model: User,
+                as: 'members'
+            },
+            {
+                model: GroupExpense, as: "expenses",
+                include: [{
+                    model: ExpenseSplit,
+                    as: "splits"
+                }]
+            }
         ],
     });
 };
@@ -56,7 +65,7 @@ export const getAllGroupsForUser = async (userId) => {
                 {
                     model: Group,
                     as: 'groups',
-                    attributes: ['code', 'description', 'name'],
+                    attributes: ['code', 'description', 'name', 'id'],
                     through: { attributes: [] }
                 },
             ],
