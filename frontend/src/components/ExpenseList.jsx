@@ -1,32 +1,10 @@
-import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { getAllExpenses } from '../services/expenseService';
+const ExpenseList = ({expenses}) => {
 
-const ExpenseList = ({expensesTestData}) => {
-  const [expenses, setExpenses] = useState([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchExpenses = async () => {
-      try {
-        const expensesData = await getAllExpenses();
-        if (expensesData.data.expenses.length > 0){
-          setExpenses(expensesData.data.expenses);
-        } else {
-          setExpenses(expensesTestData);
-        }
-
-      } catch (error) {
-        console.error('Error fetching expenses:', error);
-      }
-    };
-
-    fetchExpenses();
-  }, [expensesTestData]);
-
   const handleViewExpense = (expenseId) => {
     navigate(`/expense/${expenseId}`);
   };
@@ -72,7 +50,7 @@ const ExpenseList = ({expensesTestData}) => {
 };
 
 ExpenseList.propTypes = {
-  expensesTestData: PropTypes.array.isRequired,
+  expenses: PropTypes.array.isRequired,
 }
 
 export default ExpenseList;
