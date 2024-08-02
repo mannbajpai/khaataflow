@@ -38,12 +38,12 @@ export const getGroupExpenses = async (groupId) => {
         {
           model: User,
           as: "lender",
-          attributes:['username']
+          attributes: ['username']
         },
         {
           model: User,
           as: "borrower",
-          attributes:['username']
+          attributes: ['username']
         }
       ]
     }]
@@ -67,8 +67,40 @@ export const deleteGroupExpense = async (id, groupId) => {
   return await groupExpense.destroy();
 }
 
-export const settleGroupExpense = async (splitId, userId) => {
-  const expenseSplit = ExpenseSplit.findOne({ where: { id: splitId, userId } });
+export const myBorrowedSplits = async (groupId, userId) => {
+  return await GroupExpense.findAll({ 
+    where: { groupId },
+    include: [
+      {
+        model: ExpenseSplit,
+        where: {borrowerId: userId}
+      }
+    ]
+  });
+}
+
+export const myLendenedSplits = async (userId, groupId) => {
+  {
+    return await GroupExpense.findAll({ 
+      where: { groupId },
+      include: [
+        {
+          model: ExpenseSplit,
+          where: {lenderId: userId}
+        }
+      ]
+    });
+  }
+}
+
+export const mySplits = async (groupId, userId) => {
+  const borrowedSplits = await myBorrowedSplits(groupId, userId);
+  const lendedSplits = await myLendenedSplits(groupId, userId);
+  return { borrowedSplits, lendedSplits };
+}
+
+export const settleSplit = async (splitId, userId) => {
+  const expenseSplit = await ExpenseSplit.findOne({ where: { id: splitId, userId } });
   if (!expenseSplit) throw new Error("No Split Found");
   return await expenseSplit.update({ settled: true });
 }
@@ -79,7 +111,8 @@ const groupExpenseService = {
   getGroupExpenseById,
   updateGroupExpense,
   deleteGroupExpense,
-  settleGroupExpense
+  settleSplit,
+  mySplits,
 }
 
 export default groupExpenseService;

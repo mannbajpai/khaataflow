@@ -57,10 +57,19 @@ const deleteGroupExpense = async (req, res) => {
     }
 }
 
+const getMySplits = async (req, res) => {
+    try {
+        const splits = await groupExpenseServices.mySplits(req.params.groupId, req.user.dataValues.id);
+        res.status(200).json({ status: 'success', data: splits});
+    } catch (error) {
+        res.status(500).json({ status: 'fail', message: error.message});
+    }
+}
+
 const settleExpenseSplit = async (req, res) => {
     try {
-        await groupExpenseService.settleExpenseSplit(req.params.splitId, req.user.id);
-        res.status(200).send({ message: "Expense settled" });
+        await groupExpenseServices.settleSplit(req.params.splitId, req.user.dataVlues.id);
+        res.status(200).send({ message: "Split settled" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -72,7 +81,8 @@ const groupExpenseController = {
     getGroupExpenseById,
     updateGroupExpense,
     deleteGroupExpense,
-    settleExpenseSplit
+    settleExpenseSplit,
+    getMySplits,
 }
 
 export default groupExpenseController;

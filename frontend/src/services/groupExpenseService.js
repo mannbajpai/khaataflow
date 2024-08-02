@@ -25,8 +25,13 @@ const deleteGroupExpense = async (groupId,id) => {
     return response.data;
 }
 
-const settleExpense = async (id) => {
-    const response = await api.patch(`/settle/${id}`);
+export const getMySplits = async (groupId) => {
+    const response = await api.get(`/group/expense/${groupId}/splits`);
+    return response.data;
+}
+
+const settleExpense = async (splitId) => {
+    const response = await api.patch(`group/expense/splits/${splitId}/settle`);
     return response.data;
 }
 

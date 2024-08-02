@@ -10,7 +10,7 @@ import Home from "./UserHomePage"
 import ExpenseDetail from "./ExpenseDetailsPage"
 import ProfilePage from "./ProfilePage"
 import EditProfilePage from "./EditProfilePage"
-
+import MySplits from "./MySplits"
 export {
     AddExpense,
     ForgotPasswordPage,
@@ -24,4 +24,5 @@ export {
     ExpenseDetail,
     ProfilePage,
     EditProfilePage,
+    MySplits
 }
