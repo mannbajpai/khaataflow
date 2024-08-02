@@ -1,36 +1,92 @@
 import PropTypes from "prop-types"
+import { useEffect, useState } from "react";
+import { getGroupExpenses } from "../services/groupExpenseService";
+import Loader from "./Loader";
+import { Link } from "react-router-dom";
+const GroupExpensesList = ({ groupId, toggleSidebar }) => {
+  const [expenses, setExpenses] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-const GroupExpensesList = ({ expenses }) => {
+  useEffect(() => {
+    const fetchExpenses = async () => {
+      const res = await getGroupExpenses(groupId);
+      if (res.status === "success") {
+        setExpenses(res.data);
+      }
+      setLoading(false);
+    }
+
+    fetchExpenses();
+  }, [groupId])
   return (
-    <div className="bg-white shadow-md rounded-lg p-4">
-      <h2 className="text-lg font-semibold mb-4">Group Expenses</h2>
-      <ul className="space-y-2">
-        {expenses.map((expense) => (
-          <li
-            key={expense.id}
-            className="bg-gray-100 p-2 rounded flex justify-between items-center"
-          >
-            <div>
-              <span className="font-semibold">{expense.description}</span>
-              <p className="text-sm text-gray-500">{expense.date}</p>
-            </div>
-            <div className="text-right">
-              <span className="block text-green-600">
-                Rs. {expense.amount.toFixed(2)}
-              </span>
-              <span className="block text-sm text-gray-500">
-                Split: {expense.type}
-              </span>
-            </div>
-          </li>
-        ))}
-      </ul>
+    <div className="flex-1 w-full p-4">
+      <div className="flex justify-between items-center mb-4">
+        <button
+          className="md:hidden text-gray-700 hover:text-gray-900 focus:outline-none"
+          onClick={toggleSidebar}
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </button>
+
+        <button className="bg-turquoise-green btn rounded-full text-white hover:bg-green-300">
+          Add Group Expense
+        </button>
+        <Link to="/mySplits" className="bg-blue-500 btn rounded-full text-white hover:bg-blue-300">
+          My Splits
+        </Link>
+      </div>
+      <div className="bg-turquoise-green shadow-md rounded-lg p-4">
+        <h2 className="text-lg font-semibold mb-4">Group Expenses</h2>
+        {loading ? <Loader />
+          : <ul className="space-y-2">
+            {expenses.map((expense) => (
+              <li
+                key={expense.id}
+                className="bg-gray-100 p-2 rounded flex justify-between items-center"
+              >
+                <div>
+                  <span className="font-semibold">{expense.description}</span>
+                  <p className="text-sm text-gray-500">{expense.date}</p>
+                </div>
+                <div className="text-right">
+                  <span className="block text-green-600">
+                    Rs. {expense.amount.toFixed(2)}
+                  </span>
+                  <span className="block text-sm text-gray-500">
+                    Split: {expense.type}
+                  </span>
+                </div>
+
+                {/* Expense Split Details */}
+                <div className="mt-4">
+                  <h4 className="font-semibold">Expense Splits</h4>
+                  <ul className="mt-2 space-y-2">
+                    {expense.splits.map((split) => (
+                      <li
+                        key={split.id}
+                        className="bg-gray-200 p-2 rounded flex justify-between"
+                      >
+                        <span className="text-gray-700">
+                          {split.lender.username} lent to {split.borrower.username}
+                        </span>
+                        <span className="font-bold text-gray-700">Rs. {split.amount}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            ))}
+          </ul>}
+      </div>
     </div>
   );
 };
 
 GroupExpensesList.propTypes = {
-    expenses: PropTypes.array.isRequired,
+  groupId: PropTypes.string.isRequired,
+  toggleSidebar: PropTypes.func.isRequired,
 }
 
 export default GroupExpensesList;

@@ -46,13 +46,13 @@ export const getGroupById = async (id) => {
                 model: User,
                 as: 'members'
             },
-            {
+            /*{
                 model: GroupExpense, as: "expenses",
                 include: [{
                     model: ExpenseSplit,
                     as: "splits"
                 }]
-            }
+            }*/
         ],
     });
 };

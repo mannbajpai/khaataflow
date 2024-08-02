@@ -5,8 +5,8 @@ const createGroupExpense = async (groupId,data) => {
     return response.data;
 }
 
-const getGroupExpenses = async (groupId,data) => {
-    const response = await api.get(`/group/expense/${groupId}`,data);
+export const getGroupExpenses = async (groupId) => {
+    const response = await api.get(`/group/expense/${groupId}`);
     return response.data;
 }
 

@@ -2,12 +2,11 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import GroupUsersList from "../components/GroupUsersDetails";
 import GroupExpensesList from "../components/GroupExpensesList";
 import { getGroup } from "../services/groupService";
 import Loader from "../components/Loader";
 import { useParams } from "react-router-dom";
-
+import GroupSidebar from "../components/GroupSidebar";
 const GroupPage = () => {
 
   const { groupId } = useParams();
@@ -18,6 +17,12 @@ const GroupPage = () => {
     expenses:[],
   });
   const [loading, setLoading] = useState(true);
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   useEffect(() => {
     const fetchGroupData = async (groupId) => {
@@ -41,14 +46,11 @@ const GroupPage = () => {
         <Navbar />
       </div>
       <div className="flex-1 container mx-auto p-4">
-        <h1 className="text-2xl font-bold text-center mb-6">{group.name}</h1>
         {loading ? <Loader /> :
           <div className="flex flex-col md:flex-row md:space-x-4">
-            <div className="flex-1">
-              <GroupUsersList users={group.members} />
-            </div>
+            <GroupSidebar group={group} isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar}/>
             <div className="flex-1 mt-4 md:mt-0">
-              <GroupExpensesList expenses={group.expenses} />
+              <GroupExpensesList groupId={groupId} toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen}/>
             </div>
           </div>
         }
