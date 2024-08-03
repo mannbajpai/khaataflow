@@ -18,7 +18,7 @@ const App = () => {
         <Route path='/group' element={<Groups />} />
         <Route path='/group/:groupId' element={<GroupPage />} />
         <Route path='/joinGroup' element={<JoinGroupPage />} />
-        <Route path='/mySplits' element={<MySplits />} />
+        <Route path='/group/:groupId/mySplits' element={<MySplits />} />
       </Route>
     </Routes>
   )

@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import GroupCard from "../components/GroupCard";
 import { getAllGroups } from "../services/groupService";
-import {LoaderImage} from "../components/Loader"
+import Loader, {LoaderImage} from "../components/Loader"
 import { Link } from "react-router-dom";
 
 const GroupsPage = () => {
@@ -32,13 +32,13 @@ const GroupsPage = () => {
       <div className="flex-1 p-8">
         <Link to='/joinGroup' className="btn btn-lg bg-turquoise-green">Join Group</Link>
         <h1 className="text-3xl font-bold mb-6 text-center">Your Groups</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {loading?<Loader/>:<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {groups.map((group) => (
             loading?
             <LoaderImage key={group.id}/>
             :<GroupCard key={group.id} group={group} />
           ))}
-        </div>
+        </div>}
       </div>
       <Footer />
     </div>

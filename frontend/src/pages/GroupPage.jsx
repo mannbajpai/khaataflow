@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import GroupExpensesList from "../components/GroupExpensesList";
 import { getGroup } from "../services/groupService";
 import Loader from "../components/Loader";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import GroupSidebar from "../components/GroupSidebar";
 const GroupPage = () => {
 
@@ -14,15 +14,19 @@ const GroupPage = () => {
   const [group, setGroup] = useState({
     name: "",
     members: [],
-    expenses:[],
+    expenses: [],
   });
   const [loading, setLoading] = useState(true);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const navigate = useNavigate();
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const handleGoBack = () => {
+    navigate(-1);
+  }
 
   useEffect(() => {
     const fetchGroupData = async (groupId) => {
@@ -46,13 +50,21 @@ const GroupPage = () => {
         <Navbar />
       </div>
       <div className="flex-1 container mx-auto p-4">
+        
         {loading ? <Loader /> :
+        <>
+          <button className="ml-4" onClick={handleGoBack}>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+          </svg>
+        </button>
           <div className="flex flex-col md:flex-row md:space-x-4">
-            <GroupSidebar group={group} isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar}/>
+            <GroupSidebar group={group} isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
             <div className="flex-1 mt-4 md:mt-0">
-              <GroupExpensesList groupId={groupId} toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen}/>
+              <GroupExpensesList groupId={groupId} toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
             </div>
           </div>
+          </>
         }
       </div>
       <Footer />

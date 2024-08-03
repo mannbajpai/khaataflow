@@ -1,8 +1,12 @@
 import { useState } from "react";
+import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { joinGroup } from "../services/groupService";
+import { useNavigate } from "react-router-dom";
 const JoinGroupPage = () => {
   const [groupCode, setGroupCode] = useState("");
+  const navigate = useNavigate();
+
 
   const handleJoinGroup = async (e) => {
     e.preventDefault();
@@ -17,12 +21,15 @@ const JoinGroupPage = () => {
     }
   };
 
-  const handleCancel = (e) => {
-    e.preventDefault();
+  const handleCancel = () => {
+    navigate(-1);
   }
 
   return (
     <div className="min-h-screen flex flex-col">
+      <div className="pt-4 px-4 bg-base-100">
+        <Navbar />
+      </div>
       <div className="flex-1 p-8 flex flex-col justify-center items-center">
         <h1 className="text-3xl font-bold mb-6 text-center">Join a Group</h1>
         <div className="w-full max-w-sm space-y-4">

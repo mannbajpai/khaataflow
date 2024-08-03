@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getGroupExpenses } from "../services/groupExpenseService";
 import Loader from "./Loader";
 import { Link } from "react-router-dom";
+import { MySplits } from "../pages";
 const GroupExpensesList = ({ groupId, toggleSidebar }) => {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,7 +34,7 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
         <button className="bg-turquoise-green btn rounded-full text-white hover:bg-green-300">
           Add Group Expense
         </button>
-        <Link to="/mySplits" className="bg-blue-500 btn rounded-full text-white hover:bg-blue-300">
+        <Link to={`/group/${groupId}/mySplits`} className="bg-blue-500 btn rounded-full text-white hover:bg-blue-300">
           My Splits
         </Link>
       </div>
