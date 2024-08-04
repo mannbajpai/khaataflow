@@ -20,7 +20,7 @@ const updateGroupExpense = async (groupId,id,data) => {
     return response.data;
 }
 
-const deleteGroupExpense = async (groupId,id) => {
+export const deleteGroupExpense = async (groupId,id) => {
     const response = await api.delete(`/group/expense/${groupId}/${id}`);
     return response.data;
 }

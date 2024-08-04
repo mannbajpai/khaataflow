@@ -3,7 +3,6 @@ import api from './api'
 export const getAllExpenses = async () => {
     try {
         const response = await api.get(`/expense/`);
-        console.log("expense got")
         return response.data;
     } catch (error) {
         console.error('Error fetching expenses:', error);

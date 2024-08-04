@@ -32,7 +32,6 @@ const GroupPage = () => {
     const fetchGroupData = async (groupId) => {
       try {
         const groupData = await getGroup(groupId);
-        console.log(groupData.data.group);
         setGroup(groupData.data.group);
       } catch (error) {
         console.error("Error fetching group data:", error);

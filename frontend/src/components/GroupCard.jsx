@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const GroupCard = ({ group }) => {
-  console.log(group);
   return (
     <div className="card bg-base-100 shadow-md">
       <figure>

@@ -61,7 +61,7 @@ export const updateGroupExpense = async (id, groupId, expenseData) => {
 }
 
 export const deleteGroupExpense = async (id, groupId) => {
-  const groupExpense = GroupExpense.findOne({ where: { id, groupId } });
+  const groupExpense = await GroupExpense.findOne({ where: { id, groupId } });
   if (!groupExpense) throw new Error("No expense found");
   await ExpenseSplit.destroy({ where: { groupExpenseId: id } });
   return await groupExpense.destroy();
@@ -77,7 +77,8 @@ const mySplits = async (groupId, userId) => {
         as : 'splits',
         where: {
           borrowerId: userId
-        }
+        },
+        attributes: ["lenderId","amount","settled"]
       }
     ]
   });
@@ -90,7 +91,8 @@ const mySplits = async (groupId, userId) => {
         as : 'splits',
         where: {
           lenderId: userId
-        }
+        },
+        attributes: ["borrowerId","amount","settled"]
       }
     ]
   });

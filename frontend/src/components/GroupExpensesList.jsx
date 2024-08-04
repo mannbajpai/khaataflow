@@ -1,11 +1,14 @@
 import PropTypes from "prop-types"
 import { useEffect, useState } from "react";
 import { getGroupExpenses } from "../services/groupExpenseService";
+import { useAuth } from "../context/AuthContext";
+import { deleteGroupExpense } from "../services/groupExpenseService";
 import Loader from "./Loader";
 import { Link } from "react-router-dom";
 const GroupExpensesList = ({ groupId, toggleSidebar }) => {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -17,7 +20,17 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
     }
 
     fetchExpenses();
-  }, [groupId])
+  }, [groupId]);
+
+  const handleDeleteExpense = async (expenseId) => {
+    try {
+      const res = await deleteGroupExpense(groupId, expenseId);
+      return res.data;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
   return (
     <div className="flex-1 w-full p-4">
       <div className="flex justify-between items-center mb-4">
@@ -25,9 +38,9 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
           className="md:hidden text-gray-700 hover:text-gray-900 focus:outline-none"
           onClick={toggleSidebar}
         >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
         </button>
 
         <button className="bg-turquoise-green btn rounded-full text-white hover:bg-green-300">
@@ -40,7 +53,7 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
       <div className="bg-turquoise-green shadow-md rounded-lg p-4">
         <h2 className="text-lg font-semibold mb-4">Group Expenses</h2>
         {loading ? <Loader />
-          : <ul className="space-y-2">
+          : <><ul className="space-y-2">
             {expenses.map((expense) => (
               <li
                 key={expense.id}
@@ -76,9 +89,18 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
                     ))}
                   </ul>
                 </div>
+                {expense.lenderId != user.id ?
+                  <div className="m-4">
+                    <button className="btn bg-blue-400 hover:bg-blue-200">View</button>
+                  </div>
+                  :
+                  <div className="m-4 flex flex-col">
+                    <button className="btn bg-yellow-400 hover:bg-yellow-200 my-2">Edit</button>
+                    <button onClick={handleDeleteExpense(expense.id)} className="btn bg-red-400 hover:bg-red-200  my-2">Delete</button>
+                  </div>}
               </li>
             ))}
-          </ul>}
+          </ul></>}
       </div>
     </div>
   );
