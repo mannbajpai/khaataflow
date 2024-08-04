@@ -51,7 +51,7 @@ export const getGroupExpenses = async (groupId) => {
 }
 
 export const getGroupExpenseById = async (id, groupId) => {
-  return await GroupExpense.findOne({ where: { id, groupId }, include: [ExpenseSplit] });
+  return await GroupExpense.findOne({ where: { id, groupId }, include: [{model:ExpenseSplit,as:"splits"}] });
 }
 
 export const updateGroupExpense = async (id, groupId, expenseData) => {
@@ -67,36 +67,34 @@ export const deleteGroupExpense = async (id, groupId) => {
   return await groupExpense.destroy();
 }
 
-export const myBorrowedSplits = async (groupId, userId) => {
-  return await GroupExpense.findAll({ 
-    where: { groupId },
-    include: [
+const mySplits = async (groupId, userId) => {
+  const borrowedExpenses = await GroupExpense.findAll({
+    where: { groupId},
+    attributes:[],
+    include : [
       {
         model: ExpenseSplit,
-        where: {borrowerId: userId}
+        as : 'splits',
+        where: {
+          borrowerId: userId
+        }
       }
     ]
   });
-}
-
-export const myLendenedSplits = async (userId, groupId) => {
-  {
-    return await GroupExpense.findAll({ 
-      where: { groupId },
-      include: [
-        {
-          model: ExpenseSplit,
-          where: {lenderId: userId}
+  const lendedExpenses = await GroupExpense.findAll({
+    where: { groupId},
+    attributes:[],
+    include : [
+      {
+        model: ExpenseSplit,
+        as : 'splits',
+        where: {
+          lenderId: userId
         }
-      ]
-    });
-  }
-}
-
-export const mySplits = async (groupId, userId) => {
-  const borrowedSplits = await myBorrowedSplits(groupId, userId);
-  const lendedSplits = await myLendenedSplits(groupId, userId);
-  return { borrowedSplits, lendedSplits };
+      }
+    ]
+  });
+  return {borrowedExpenses,lendedExpenses};
 }
 
 export const settleSplit = async (splitId, userId) => {
@@ -112,7 +110,7 @@ const groupExpenseService = {
   updateGroupExpense,
   deleteGroupExpense,
   settleSplit,
-  mySplits,
+  mySplits
 }
 
 export default groupExpenseService;

@@ -1,5 +1,4 @@
 import groupExpenseServices from "../services/groupExpenseService.js";
-
 const createGroupExpense = async (req, res) => {
     try {
         const { amount, description, type, date, borrowers } = req.body;
@@ -32,7 +31,8 @@ const getGroupExpenses = async (req, res) => {
 
 const getGroupExpenseById = async (req, res) => {
     try {
-        const expense = await groupExpenseServices.getGroupExpenseById(req.params.id, req.params.groupId);
+        console.log(req.params)
+        const expense = await groupExpenseServices.getGroupExpenseById(req.params.expenseId, req.params.groupId);
         res.status(200).json({ status: 'success', data: expense });
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message });
@@ -58,9 +58,11 @@ const deleteGroupExpense = async (req, res) => {
 }
 
 const getMySplits = async (req, res) => {
+    console.log(req.params)
+    console.log("Inside getMySplits", req.params.groupId, req.params.userId);
     try {
-        const splits = await groupExpenseServices.mySplits(req.params.groupId, req.user.dataValues.id);
-        res.status(200).json({ status: 'success', data: splits});
+        const splits = await groupExpenseServices.mySplits(req.params.groupId, req.params.userId);
+        res.status(200).json({ status: 'success',data:splits});
     } catch (error) {
         res.status(500).json({ status: 'fail', message: error.message});
     }

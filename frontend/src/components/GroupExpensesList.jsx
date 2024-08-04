@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { getGroupExpenses } from "../services/groupExpenseService";
 import Loader from "./Loader";
 import { Link } from "react-router-dom";
-import { MySplits } from "../pages";
 const GroupExpensesList = ({ groupId, toggleSidebar }) => {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);

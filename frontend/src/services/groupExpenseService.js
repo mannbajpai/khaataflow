@@ -25,8 +25,8 @@ const deleteGroupExpense = async (groupId,id) => {
     return response.data;
 }
 
-export const getMySplits = async (groupId) => {
-    const response = await api.get(`/group/expense/${groupId}/splits`);
+export const getMySplits = async (groupId,userId) => {
+    const response = await api.get(`/group/expense/${groupId}/${userId}/splits`);
     return response.data;
 }
 

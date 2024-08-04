@@ -27,7 +27,7 @@ GroupExpense.belongsTo(User, { foreignKey: 'lenderId', as: 'lender' });
 GroupExpense.belongsTo(Group, { foreignKey: 'groupId', as: 'group' });
 GroupExpense.hasMany(ExpenseSplit, { foreignKey: 'groupExpenseId', as: 'splits' });
 
-ExpenseSplit.belongsTo(GroupExpense, { foreignKey: 'groupExpenseId' });
+ExpenseSplit.belongsTo(GroupExpense, {as:"groupExpense", foreignKey: 'groupExpenseId' });
 ExpenseSplit.belongsTo(User, {as:"lender", foreignKey:"lenderId"});
 ExpenseSplit.belongsTo(User, {as:"borrower", foreignKey: 'borrowerId' });
 
