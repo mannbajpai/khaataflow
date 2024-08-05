@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 const GroupExpensesList = ({ groupId, toggleSidebar }) => {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -23,12 +24,19 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
   }, [groupId]);
 
   const handleDeleteExpense = async (expenseId) => {
+    setDeleteLoading(true);
     try {
       const res = await deleteGroupExpense(groupId, expenseId);
-      return res.data;
+      if (res.status === "success") {
+        setExpenses(expenses.filter(expense => expense.id !== expenseId));
+        alert("deleted successfully");
+      } else {
+        alert("failed to delete");
+      }
     } catch (error) {
       throw new Error(error.message);
     }
+    setDeleteLoading(false);
   }
 
   return (
@@ -96,7 +104,7 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
                   :
                   <div className="m-4 flex flex-col">
                     <button className="btn bg-yellow-400 hover:bg-yellow-200 my-2">Edit</button>
-                    <button onClick={handleDeleteExpense(expense.id)} className="btn bg-red-400 hover:bg-red-200  my-2">Delete</button>
+                    {deleteLoading?<Loader/>:<button key={expense.id} onClick={() => handleDeleteExpense(expense.id)} className="btn bg-red-400 hover:bg-red-200  my-2">Delete</button>}
                   </div>}
               </li>
             ))}

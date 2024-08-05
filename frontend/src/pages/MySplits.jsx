@@ -6,6 +6,8 @@ import { getMySplits } from "../services/groupExpenseService"
 import Loader from "../components/Loader"
 import { useParams } from "react-router-dom"
 import { useAuth } from "../context/AuthContext";
+import BorrowedSplits from "../components/BorrowedSplits"
+import LendedSplits from "../components/LendedSplits"
 const MySplits = () => {
     const { groupId } = useParams();
     const [borrowedSplits, setBorrowedSplits] = useState([]);
@@ -36,27 +38,16 @@ const MySplits = () => {
             <div className="pt-4 px-4 bg-base-100">
                 <Navbar />
             </div>
-            <div className="text-3xl">My Splits
+            <div className="container mx-auto p-4">
+                <h2 className="text-2xl font-bold mb-4">My Splits</h2>
                 {loading ?
-                    <Loader /> :
+                    <Loader />
+                    :
                     <>
-                        <div>
-                            {borrowedSplits.map((split) => (
-                                <div className="bg-red-300 text-xl" key={split.id}>
-                                    {split.amount}
-                                </div>
-                            ))}
-                        </div>
-                        <div>
-                            {lendedSplits.map((splits)=>{
-                                splits.map((split) =>(
-                                    <div key={split.id}>split.amount</div>
-                                )
-                                )
-                            })}
-                        </div>
-                    </>
-                }
+                        <BorrowedSplits splits={borrowedSplits} />
+                        <LendedSplits splits={lendedSplits} />
+                    </>}
+                <button className="btn btn-primary mt-4">Settle Split</button>
             </div>
             <Footer />
         </div>
