@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { deleteGroupExpense } from "../services/groupExpenseService";
 import Loader from "./Loader";
 import { Link } from "react-router-dom";
-const GroupExpensesList = ({ groupId, toggleSidebar,members }) => {
+const GroupExpensesList = ({ groupId, toggleSidebar }) => {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deleteLoading, setDeleteLoading] = useState(false);
