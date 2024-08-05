@@ -41,7 +41,7 @@ const joinGroup = async (req, res) => {
 
 export const getMembers = async (req, res) => {
     try {
-        const members = await groupService.getMembers(req.params.id);
+        const members = await groupService.getMembers(req.params.groupId);
         res.status(200).json({ status: 'success', data:{members}})
     } catch (error) {
         res.status(400).json({status:'fail', message:error.message});

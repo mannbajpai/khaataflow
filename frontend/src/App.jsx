@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
-import { Login, Signup, ForgotPasswordPage, Home, AddExpense, GroupPage, Groups, JoinGroupPage, LandingPage, ExpenseDetail,ProfilePage, EditProfilePage, MySplits } from "./pages"
+import { Login, Signup, ForgotPasswordPage, Home, AddExpense, GroupPage, Groups, JoinGroupPage, LandingPage, ExpenseDetail,ProfilePage, EditProfilePage, MySplits, AddGroupExpense } from "./pages"
 
 const App = () => {
   return (
@@ -19,6 +19,7 @@ const App = () => {
         <Route path='/group/:groupId' element={<GroupPage />} />
         <Route path='/joinGroup' element={<JoinGroupPage />} />
         <Route path='/group/:groupId/mySplits' element={<MySplits />} />
+        <Route path='/group/:groupId/addExpense' element={<AddGroupExpense />} />
       </Route>
     </Routes>
   )

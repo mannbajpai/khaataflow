@@ -1,6 +1,6 @@
 import api from "./api";
 
-const createGroupExpense = async (groupId,data) => {
+export const createGroupExpense = async (groupId,data) => {
     const response = await api.post(`/group/expense/${groupId}`,data);
     return response.data;
 }

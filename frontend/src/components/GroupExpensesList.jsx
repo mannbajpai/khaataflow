@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { deleteGroupExpense } from "../services/groupExpenseService";
 import Loader from "./Loader";
 import { Link } from "react-router-dom";
-const GroupExpensesList = ({ groupId, toggleSidebar }) => {
+const GroupExpensesList = ({ groupId, toggleSidebar,members }) => {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -51,9 +51,9 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
           </svg>
         </button>
 
-        <button className="bg-turquoise-green btn rounded-full text-white hover:bg-green-300">
+        <Link to={`/group/${groupId}/addExpense`} className="bg-turquoise-green btn rounded-full text-white hover:bg-green-300">
           Add Group Expense
-        </button>
+        </Link>
         <Link to={`/group/${groupId}/mySplits`} className="bg-blue-500 btn rounded-full text-white hover:bg-blue-300">
           My Splits
         </Link>
@@ -117,6 +117,7 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
 GroupExpensesList.propTypes = {
   groupId: PropTypes.string.isRequired,
   toggleSidebar: PropTypes.func.isRequired,
+  members: PropTypes.array.isRequired,
 }
 
 export default GroupExpensesList;

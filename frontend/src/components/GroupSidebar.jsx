@@ -1,7 +1,6 @@
 import PropTypes from "prop-types"
-function GroupSidebar({ group, isSidebarOpen, toggleSidebar }) {
-  const creator = group.members.find((member) => group.createdBy === member.id);
-  const members = group.members.filter((member) => member.id != creator.id);
+function GroupSidebar({ group, isSidebarOpen, toggleSidebar, creator, members }) {
+
   return (
     <div
       className={`fixed md:static top-0 left-0 w-full md:w-1/3 h-full bg-white shadow-lg md:shadow-none transform md:transform-none transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
@@ -52,6 +51,8 @@ GroupSidebar.propTypes = {
   group: PropTypes.object.isRequired,
   isSidebarOpen: PropTypes.bool.isRequired,
   toggleSidebar: PropTypes.bool.isRequired,
+  creator: PropTypes.object.isRequired,
+  members: PropTypes.array.isRequired,
 }
 
 export default GroupSidebar;

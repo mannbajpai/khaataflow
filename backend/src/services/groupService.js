@@ -87,7 +87,9 @@ export const getCreator = async (groupId) => {
 
 export const getMembers = async (groupId) => {
     try {
-        const group = await Group.findByPk(groupId, {
+        const group = await Group.findByPk(groupId, 
+            {
+            attributes:[],
             include: [
                 {
                     model: User,

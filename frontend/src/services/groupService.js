@@ -40,6 +40,11 @@ const deleteGroup = async (id) => {
     return response.data;
 }
 
+export const getMembers = async (groupId) => {
+    const response = await api.get(`group/${groupId}/members`);
+    return response.data;
+}
+
 export {
     createGroup,
     getAllGroups,
