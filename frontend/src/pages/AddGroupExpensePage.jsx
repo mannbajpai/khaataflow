@@ -10,8 +10,19 @@ const AddGroupExpense = () => {
         amount: '',
         date: '',
         description: '',
-        borrowers: []
+        borrowers: [],
     });
+
+    const [selectedBorrowers, setSelectedBorrowers] = useState([]);
+    
+    selectedBorrowers.map((borrower) => {
+        formData.borrowers.push(borrower.id);
+    })
+    
+
+    const handleSelectedBorrowersChange = (borrowers) => {
+        setSelectedBorrowers(borrowers);
+      };
 
     // Handle form input changes
     const handleChange = (e) => {
@@ -94,7 +105,7 @@ const AddGroupExpense = () => {
                     </div>
 
                     {/* Borrower */}
-                    <BorrowerSelect groupId={groupId}/>
+                    <BorrowerSelect groupId={groupId} onSelectedBorrowersChange={handleSelectedBorrowersChange}/>
 
                     {/* Description (Optional) */}
                     <div>
