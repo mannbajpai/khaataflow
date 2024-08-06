@@ -3,7 +3,7 @@ export const splitEqually = async (groupExpense, borrowers) => {
     const { amount,lenderId, id: groupExpenseId } = groupExpense;
     const splitAmount = amount / borrowers.length;
 
-    for (const borrowerId of borrowers) {
+    for (const {borrowerId} of borrowers) {
         await ExpenseSplit.create({
             groupExpenseId,
             lenderId,
