@@ -50,7 +50,7 @@ function GroupSidebar({ group, isSidebarOpen, toggleSidebar, creator, members })
 GroupSidebar.propTypes = {
   group: PropTypes.object.isRequired,
   isSidebarOpen: PropTypes.bool.isRequired,
-  toggleSidebar: PropTypes.bool.isRequired,
+  toggleSidebar: PropTypes.func.isRequired,
   creator: PropTypes.object.isRequired,
   members: PropTypes.array.isRequired,
 }

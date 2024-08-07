@@ -30,8 +30,13 @@ export const getMySplits = async (groupId,userId) => {
     return response.data;
 }
 
-const settleExpense = async (splitId) => {
+export const settleExpense = async (splitId) => {
     const response = await api.patch(`group/expense/splits/${splitId}/settle`);
+    return response.data;
+}
+
+export const deleteExpense = async (splitId) => {
+    const response = await api.delete(`group/expense/splits/${splitId}/settle`);
     return response.data;
 }
 
@@ -41,7 +46,8 @@ export default {
     getGroupExpenses,
     updateGroupExpense,
     deleteGroupExpense,
-    settleExpense
+    settleExpense,
+    deleteExpense,
 }
 
 

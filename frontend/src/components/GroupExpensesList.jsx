@@ -207,7 +207,6 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
 GroupExpensesList.propTypes = {
   groupId: PropTypes.string.isRequired,
   toggleSidebar: PropTypes.func.isRequired,
-  members: PropTypes.array.isRequired,
 }
 
 export default GroupExpensesList;

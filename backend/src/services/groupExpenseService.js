@@ -1,4 +1,3 @@
-import { where } from "sequelize";
 import { GroupExpense, ExpenseSplit, User } from "../models/index.js";
 import { splitExactly, splitEqually, splitByPercentage } from "./expenseSplit.js";
 
@@ -79,7 +78,7 @@ const mySplits = async (groupId, userId) => {
         where: {
           borrowerId: userId
         },
-        attributes: ["lenderId", "amount", "settled"],
+        attributes: ["id", "lenderId", "amount", "settled"],
         include: {
           model: User,
           as: "lender",
@@ -98,7 +97,7 @@ const mySplits = async (groupId, userId) => {
         where: {
           lenderId: userId
         },
-        attributes: ["borrowerId", "amount", "settled"],
+        attributes: ["id", "borrowerId", "amount", "settled"],
         include: {
           model: User,
           as: "borrower",
@@ -111,9 +110,35 @@ const mySplits = async (groupId, userId) => {
 }
 
 export const settleSplit = async (splitId, userId) => {
-  const expenseSplit = await ExpenseSplit.findOne({ where: { id: splitId, userId } });
+  const expenseSplit = await ExpenseSplit.findOne({ where: { id: splitId, lenderId: userId } });
   if (!expenseSplit) throw new Error("No Split Found");
   return await expenseSplit.update({ settled: true });
+}
+
+export const deleteSplit = async (splitId, userId) => {
+  const expenseSplit = await ExpenseSplit.findOne({
+    where: { id: splitId, lenderId: userId }
+  });
+  if (!expenseSplit) throw new Error("No Split Found");
+  const { groupExpenseId } = expenseSplit;
+
+  const otherSplits = await ExpenseSplit.findAll({
+    where: { groupExpenseId },
+  });
+  // Delete the expense split
+  await expenseSplit.destroy();
+
+  // If there are no other splits, delete the entire groupExpense
+  if (otherSplits.length === 1) { // Only one split exists, which is being deleted
+    const groupExpense = await GroupExpense.findOne({
+      where: { id: groupExpenseId },
+    });
+
+    if (groupExpense) {
+      await groupExpense.destroy();
+      return { message: "Group Expense and its last split deleted successfully." };
+    }
+  }
 }
 
 const groupExpenseService = {
@@ -123,7 +148,8 @@ const groupExpenseService = {
   updateGroupExpense,
   deleteGroupExpense,
   settleSplit,
-  mySplits
+  mySplits,
+  deleteSplit,
 }
 
 export default groupExpenseService;

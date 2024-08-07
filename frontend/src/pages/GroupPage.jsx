@@ -63,7 +63,7 @@ const GroupPage = () => {
             <div className="flex flex-col md:flex-row md:space-x-4">
               <GroupSidebar group={group} isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} creator={creator} members={members} />
               <div className="flex-1 mt-4 md:mt-0">
-                <GroupExpensesList groupId={groupId} toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen}/>
+                <GroupExpensesList groupId={groupId} toggleSidebar={toggleSidebar}/>
               </div>
             </div>
           </>

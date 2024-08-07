@@ -50,7 +50,7 @@ const updateGroupExpense = async (req, res) => {
 
 const deleteGroupExpense = async (req, res) => {
     try {
-        const expense = await groupExpenseServices.deleteGroupExpense(req.params.id, req.params.groupId);
+         await groupExpenseServices.deleteGroupExpense(req.params.id, req.params.groupId);
         res.status(200).json({ status: 'success', message: 'Deleted successfully' });
     } catch (error) {
         res.status(500).json({ status: 'fail', message: error.message });
@@ -58,8 +58,6 @@ const deleteGroupExpense = async (req, res) => {
 }
 
 const getMySplits = async (req, res) => {
-    console.log(req.params)
-    console.log("Inside getMySplits", req.params.groupId, req.params.userId);
     try {
         const splits = await groupExpenseServices.mySplits(req.params.groupId, req.params.userId);
         res.status(200).json({ status: 'success',data:splits});
@@ -70,12 +68,21 @@ const getMySplits = async (req, res) => {
 
 const settleExpenseSplit = async (req, res) => {
     try {
-        await groupExpenseServices.settleSplit(req.params.splitId, req.user.dataVlues.id);
-        res.status(200).send({ message: "Split settled" });
+        await groupExpenseServices.settleSplit(req.params.splitId, req.user.dataValues.id);
+        res.status(200).send({status:"success", message: "Split settled" });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({status:"fail", message: error.message });
     }
 };
+
+const deleteExpenseSplit = async (req, res) => {
+    try {
+        await groupExpenseServices.deleteSplit(req.params.splitId, req.user.dataValues.id);
+        res.status(200).send({status:"success", message: "Split Deleted"});
+    } catch (error) {
+        res.status(500).json({status:"fail", message: error.message});
+    }
+}
 
 const groupExpenseController = {
     createGroupExpense,
@@ -85,6 +92,7 @@ const groupExpenseController = {
     deleteGroupExpense,
     settleExpenseSplit,
     getMySplits,
+    deleteExpenseSplit
 }
 
 export default groupExpenseController;

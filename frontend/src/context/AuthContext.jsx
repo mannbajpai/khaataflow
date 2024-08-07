@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
 };
 
 AuthProvider.propTypes = {
-    children: PropTypes.func.isRequired,
+    children: PropTypes.object.isRequired,
 }
 
 export default AuthContext;

@@ -1,4 +1,3 @@
-import PropTypes from "prop-types"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import { useNavigate } from "react-router-dom"
@@ -21,7 +20,6 @@ const MySplits = () => {
         const fetchSplits = async (groupId) => {
             try {
                 const res = await getMySplits(groupId, user.id);
-                console.log(res);
                 if (res.status === 'success') {
                     setBorrowedSplits(res.data.borrowedExpenses);
                     setLendedSplits(res.data.lendedExpenses);
@@ -60,8 +58,6 @@ const MySplits = () => {
     )
 }
 
-MySplits.propTypes = {
-    groupId: PropTypes.string.isRequired,
-}
+
 
 export default MySplits

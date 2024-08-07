@@ -13,6 +13,7 @@ router.put("/:groupId/:id", groupExpenseController.updateGroupExpense);
 router.delete("/:groupId/:id", groupExpenseController.deleteGroupExpense);
 router.get("/:groupId/:userId/splits", groupExpenseController.getMySplits);
 router.patch("/splits/:splitId/settle", groupExpenseController.settleExpenseSplit);
+router.delete("/splits/:splitId/settle", groupExpenseController.deleteExpenseSplit);
 
 export default router;
 

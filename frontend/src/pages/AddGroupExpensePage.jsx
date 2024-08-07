@@ -59,10 +59,8 @@ const AddGroupExpense = () => {
         navigate(-1);
     };
 
-    console.log("Form Data : ", formData);
-    console.log("Selected Borrowers : ", selectedBorrowers);
     formData.borrowers = selectedBorrowers;
-    console.log("Updated Form Data : ", formData);
+
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-turquoise-green">
             <div className="w-full max-w-3xl p-8 space-y-4 bg-white rounded-lg shadow-lg">
