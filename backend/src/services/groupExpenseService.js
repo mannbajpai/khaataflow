@@ -1,3 +1,4 @@
+import { where } from "sequelize";
 import { GroupExpense, ExpenseSplit, User } from "../models/index.js";
 import { splitExactly, splitEqually, splitByPercentage } from "./expenseSplit.js";
 
@@ -51,7 +52,7 @@ export const getGroupExpenses = async (groupId) => {
 }
 
 export const getGroupExpenseById = async (id, groupId) => {
-  return await GroupExpense.findOne({ where: { id, groupId }, include: [{model:ExpenseSplit,as:"splits"}] });
+  return await GroupExpense.findOne({ where: { id, groupId }, include: [{ model: ExpenseSplit, as: "splits" }] });
 }
 
 export const updateGroupExpense = async (id, groupId, expenseData) => {
@@ -69,34 +70,44 @@ export const deleteGroupExpense = async (id, groupId) => {
 
 const mySplits = async (groupId, userId) => {
   const borrowedExpenses = await GroupExpense.findAll({
-    where: { groupId},
-    attributes:[],
-    include : [
+    where: { groupId },
+    attributes: [],
+    include: [
       {
         model: ExpenseSplit,
-        as : 'splits',
+        as: 'splits',
         where: {
           borrowerId: userId
         },
-        attributes: ["lenderId","amount","settled"]
+        attributes: ["lenderId", "amount", "settled"],
+        include: {
+          model: User,
+          as: "lender",
+          attributes: ["username"]
+        }
       }
     ]
   });
   const lendedExpenses = await GroupExpense.findAll({
-    where: { groupId},
-    attributes:[],
-    include : [
+    where: { groupId },
+    attributes: [],
+    include: [
       {
         model: ExpenseSplit,
-        as : 'splits',
+        as: 'splits',
         where: {
           lenderId: userId
         },
-        attributes: ["borrowerId","amount","settled"]
+        attributes: ["borrowerId", "amount", "settled"],
+        include: {
+          model: User,
+          as: "borrower",
+          attributes: ["username"]
+        }
       }
     ]
   });
-  return {borrowedExpenses,lendedExpenses};
+  return { borrowedExpenses, lendedExpenses };
 }
 
 export const settleSplit = async (splitId, userId) => {

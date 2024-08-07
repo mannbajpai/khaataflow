@@ -159,7 +159,7 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
             <div className="flex justify-center mt-4">
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                className={`mx-1 px-3 py-1 border rounded ${currentPage === 1 ? "bg-gray-200" : "bg-white"
+                className={`mx-1 px-3 py-1 border rounded-xl hover:bg-base-200 ${currentPage === 1 ? "bg-gray-200" : "bg-white"
                   }`}
                 disabled={currentPage === 1}
               >
@@ -169,8 +169,8 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
                 <button
                   key={index}
                   onClick={() => setCurrentPage(index + 1)}
-                  className={`mx-1 px-3 py-1 border rounded ${currentPage === index + 1
-                      ? "bg-turquoise-green text-white"
+                  className={`mx-1 px-3 py-1 border rounded-xl hover:bg-blue-200 ${currentPage === index + 1
+                      ? "bg-blue-400 text-white"
                       : "bg-white"
                     }`}
                 >
@@ -181,7 +181,7 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
                 onClick={() =>
                   setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                 }
-                className={`mx-1 px-3 py-1 border rounded ${currentPage === totalPages ? "bg-gray-200" : "bg-white"
+                className={`mx-1 px-3 py-1 border rounded-xl hover:bg-base-300 ${currentPage === totalPages ? "bg-gray-200" : "bg-white"
                   }`}
                 disabled={currentPage === totalPages}
               >

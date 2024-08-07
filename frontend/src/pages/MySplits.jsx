@@ -1,6 +1,7 @@
 import PropTypes from "prop-types"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
+import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { getMySplits } from "../services/groupExpenseService"
 import Loader from "../components/Loader"
@@ -14,6 +15,7 @@ const MySplits = () => {
     const [lendedSplits, setLendedSplits] = useState([]);
     const [loading, setLoading] = useState(true);
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchSplits = async (groupId) => {
@@ -39,7 +41,12 @@ const MySplits = () => {
                 <Navbar />
             </div>
             <div className="container mx-auto p-4">
-                <h2 className="text-2xl font-bold mb-4">My Splits</h2>
+                <button onClick={()=> navigate(-1)} className="btn ">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+                    </svg>
+                </button>
+                <h2 className="text-3xl text-center font-bold mb-4">My Splits</h2>
                 {loading ?
                     <Loader />
                     :
@@ -47,7 +54,6 @@ const MySplits = () => {
                         <BorrowedSplits splits={borrowedSplits} />
                         <LendedSplits splits={lendedSplits} />
                     </>}
-                <button className="btn btn-primary mt-4">Settle Split</button>
             </div>
             <Footer />
         </div>
