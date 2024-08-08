@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Loader from "../components/Loader";
 import logo from "../assets/logo-2.png"
+import { NotifyContainer, notifySuccess } from "../components/Notification";
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState();
-    const {login} = useAuth();
+    const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -17,10 +18,13 @@ const Login = () => {
         const success = await login(email, password);
         if (success) {
             setLoading(false);
-            navigate("/home");
+            notifySuccess("Login successful")
+            setTimeout(() => {
+                navigate("/home");
+            }, 3000)
         } else {
             setLoading(false);
-            alert("Login failed. Please check your credentials.");
+            notifySuccess("Login failed. Please check your credentials.");
         }
     };
     return (
@@ -52,7 +56,7 @@ const Login = () => {
                             Login
                         </button>
                     </form>
-                    {loading && <Loader/>}
+                    {loading && <Loader />}
                     <a href="/forgot-password" className="text-primary block text-center mt-4">
                         Forgot Password?
                     </a>
@@ -61,6 +65,7 @@ const Login = () => {
                     </a>
                 </div>
             </div>
+            <NotifyContainer />
         </div>
     );
 };

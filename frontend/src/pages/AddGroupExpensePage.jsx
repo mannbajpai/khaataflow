@@ -3,9 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { createGroupExpense } from '../services/groupExpenseService';
 import { useAuth } from '../context/AuthContext';
 import BorrowerSelect from '../components/BorrowerSelect';
+import { NotifyContainer, notifyError, notifySuccess, notifyWarning } from '../components/Notification';
 const AddGroupExpense = () => {
     const navigate = useNavigate();
-    const {user} = useAuth();
+    const { user } = useAuth();
     const { groupId } = useParams()
     const [formData, setFormData] = useState({
         groupId: Number(groupId),
@@ -39,18 +40,20 @@ const AddGroupExpense = () => {
 
         // Perform validation (optional)
         if (!formData.amount || !formData.date || !formData.type || !formData.description) {
-            alert('Please fill in all required fields');
+            notifyWarning('Please fill in all required fields');
             return;
         }
         try {
             const response = await createGroupExpense(groupId, formData);
             if (response) {
-                navigate(`/group/${groupId}`);
-                alert('Expense Added Successfully');
+                notifySuccess('Expense Added Successfully');
+                setTimeout(() => {
+                    navigate(`/group/${groupId}`);
+                }, 3000);
             }
         } catch (error) {
             console.error(error.message);
-            alert('Error adding expense:', error.message);
+            notifyError('Error adding expense:', error.message);
         }
     };
 
@@ -140,6 +143,7 @@ const AddGroupExpense = () => {
                     </div>
                 </form>
             </div >
+            <NotifyContainer />
         </div >
     );
 };

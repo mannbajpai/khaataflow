@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom"
 import { useAuth } from "../context/AuthContext";
 import BorrowedSplits from "../components/BorrowedSplits"
 import LendedSplits from "../components/LendedSplits"
+import { NotifyContainer, notifyError } from "../components/Notification"
 const MySplits = () => {
     const { groupId } = useParams();
     const [borrowedSplits, setBorrowedSplits] = useState([]);
@@ -25,7 +26,7 @@ const MySplits = () => {
                     setLendedSplits(res.data.lendedExpenses);
                 }
             } catch (error) {
-                alert("Error getting splits");
+                notifyError("Error getting splits");
                 setLoading(false);
                 throw new Error(error.message);
             }
@@ -54,6 +55,7 @@ const MySplits = () => {
                     </>}
             </div>
             <Footer />
+            <NotifyContainer/>
         </div>
     )
 }

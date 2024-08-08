@@ -8,6 +8,7 @@ import fuser1 from "../assets/female-user-1.png"
 import fuser2 from "../assets/female-user-2.png"
 import muser1 from "../assets/male-user-1.png"
 import muser2 from "../assets/male-user-2.png"
+import { NotifyContainer, notifyError, notifySuccess } from "../components/Notification";
 const EditProfilePage = () => {
     const { user, setUser } = useAuth(); // Assuming setUser is available for updating user state
     const navigate = useNavigate();
@@ -37,11 +38,11 @@ const EditProfilePage = () => {
         try {
             const updatedUser = await updateUser(formData);
             setUser(updatedUser.data.user);
-            alert("Profile updated successfully!");
+            notifySuccess("Profile updated successfully!");
             navigate('/me');
         } catch (error) {
             console.error(error);
-            alert("Failed to update profile.");
+            notifyError("Failed to update profile.");
         }
     };
 
@@ -109,6 +110,7 @@ const EditProfilePage = () => {
                     </button>
                 </div>
             </form>
+            <NotifyContainer/>
         </div>
     );
 };

@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { joinGroup } from "../services/groupService";
 import { useNavigate } from "react-router-dom";
+import { NotifyContainer, notifyError, notifySuccess } from "../components/Notification";
 const JoinGroupPage = () => {
   const [groupCode, setGroupCode] = useState("");
   const navigate = useNavigate();
@@ -13,10 +14,10 @@ const JoinGroupPage = () => {
     try {
       const res = await joinGroup(groupCode);
       if (res.status === "success") {
-        alert('Group Joined Successfully');
+        notifySuccess('Group Joined Successfully');
       }
     } catch (error) {
-      alert("Error joining group");
+      notifyError("Error joining group");
       throw new Error(error.message);
     }
   };
@@ -54,7 +55,7 @@ const JoinGroupPage = () => {
               Join Group
             </button>
           </div>
-
+          <NotifyContainer />
         </div>
       </div>
       <Footer />

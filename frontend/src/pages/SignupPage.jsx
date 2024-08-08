@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import Footer from "../components/Footer";
 import logo from "../assets/logo-2.png"
+import { NotifyContainer, notifyError, notifySuccess } from "../components/Notification";
 const Signup = () => {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
@@ -17,9 +18,10 @@ const Signup = () => {
         e.preventDefault();
         const success = await signup(username, email, password);
         if (success) {
+            notifySuccess("Successfully signed up")
             navigate("/");
         } else {
-            alert("Signup failed. Please try again.");
+            notifyError("Signup failed. Please try again.");
         }
         setLoading(false);
     };
@@ -65,6 +67,7 @@ const Signup = () => {
                         Already have an account? Login
                     </a>
                 </div>
+                <NotifyContainer/>
             </div>
             <Footer />
         </>

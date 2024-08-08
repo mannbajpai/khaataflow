@@ -1,6 +1,7 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {createExpense} from "../services/expenseService"
+import { createExpense } from "../services/expenseService"
+import { NotifyContainer, notifyError, notifySuccess, notifyWarning } from '../components/Notification';
 
 const AddExpense = () => {
   const navigate = useNavigate();
@@ -29,17 +30,19 @@ const AddExpense = () => {
 
     // Perform validation (optional)
     if (!formData.amount || !formData.date || !formData.category || !formData.name) {
-      alert('Please fill in all required fields');
+      notifyWarning('Please fill in all required fields');
       return;
     }
     try {
       const response = await createExpense(formData);
-      if(response) {
-        navigate('/home');
-        alert('Expense Added Successfully');
+      if (response.status === 'success') {
+        notifySuccess('Expense Added Successfully');
+        setTimeout(() => {
+          navigate('/home');
+        }, 3000);
       }
     } catch (error) {
-      console.error('Error adding expense:', error);
+      notifyError('Error adding expense:', error);
     }
   };
 
@@ -154,6 +157,7 @@ const AddExpense = () => {
           </div>
         </form>
       </div>
+      <NotifyContainer />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { settleExpense, deleteExpense } from '../services/groupExpenseService';
+import {notifySuccess, notifyError ,NotifyContainer } from "../components/Notification"
 const LendedSplits = ({ splits }) => {
 
     const [expenseSplits, setExpenseSplits] = useState(splits)
@@ -17,12 +18,12 @@ const LendedSplits = ({ splits }) => {
                         )
                     }))
                 );
-                alert(res.message);
+                notifySuccess(res.message);
             } else {
-                alert(res.message);
+                notifyError(res.message);
             }
         } catch (error) {
-            alert("Error Settling Split");
+            notifyError("Error Settling Split");
             throw new Error("failure", error.message);
         }
     };
@@ -37,12 +38,12 @@ const LendedSplits = ({ splits }) => {
                         splits: expense.splits.filter(split => split.id !== splitId)
                     }))
                 );
-                alert(res.message);
+                notifySuccess(res.message || 'Split deleted successfully!');
             } else {
-                alert("Failed to delete the split.");
+                notifyError("Failed to delete the split.");
             }
         } catch (error) {
-            alert("Error Deleting Split");
+            notifyError("Error Deleting Split");
             throw new Error(error.message);
         }
     };
@@ -90,6 +91,7 @@ const LendedSplits = ({ splits }) => {
                     </tbody>
                 </table>
             </div>
+            <NotifyContainer/>
         </div>
     );
 };

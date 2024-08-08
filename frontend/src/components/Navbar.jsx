@@ -7,6 +7,7 @@ import fuser2 from "../assets/female-user-2.png"
 import muser1 from "../assets/male-user-1.png"
 import muser2 from "../assets/male-user-2.png"
 import defaultUser from "../assets/male-user-2.png"
+import { NotifyContainer, notifySuccess } from "./Notification";
 const Navbar = () => {
   const { logout, user } = useAuth();
   const location = useLocation();
@@ -17,7 +18,8 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/");
+    notifySuccess("Logout successful");
+    setTimeout(() => {navigate("/");},3000)
   }
 
   const toggleMenu = () => {
@@ -90,6 +92,7 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
+      <NotifyContainer/>
     </div>
   )
 }

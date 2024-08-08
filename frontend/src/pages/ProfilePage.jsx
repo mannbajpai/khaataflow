@@ -4,16 +4,17 @@ import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { deleteUser } from "../services/userService";
+import { NotifyContainer, notifyError, notifySuccess } from "../components/Notification";
 const ProfilePage = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const handleDeleteUser = async () => {
         try {
             await deleteUser();
-            alert("Account Deleted");
+            notifySuccess("Account Deleted");
             navigate('/');
         } catch (error) {
-            alert("Account cannot be deleted");
+            notifyError("Account cannot be deleted");
         }
     }
 
@@ -51,6 +52,7 @@ const ProfilePage = () => {
                     </dialog>
                 </div>
             </div>
+            <NotifyContainer/>
         </div>
     );
 };

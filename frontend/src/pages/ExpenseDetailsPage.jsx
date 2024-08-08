@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getExpenseById, updateExpense, deleteExpense } from '../services/expenseService';
+import { NotifyContainer, notifyError, notifySuccess } from '../components/Notification';
 
 const ExpenseDetail = () => {
 
@@ -51,7 +52,7 @@ const ExpenseDetail = () => {
       setEditMode(false);
     } catch (error) {
       console.error('Error updating expense:', error);
-      alert('Failed to update expense.');
+      notifyError('Failed to update expense.');
     }
   };
 
@@ -62,11 +63,11 @@ const ExpenseDetail = () => {
   const handleDeleteExpense = async () => {
     try {
       await deleteExpense(id);
-      alert('Expense deleted successfully!');
+      notifySuccess('Expense deleted successfully!');
       navigate('/home');
     } catch (error) {
       console.error('Error deleting expense:', error);
-      alert('Failed to delete expense.');
+      notifyError('Failed to delete expense.');
     }
   };
 
@@ -207,6 +208,7 @@ const ExpenseDetail = () => {
           </div>
         </div>
       )}
+      <NotifyContainer/>
     </div>
   );
 };

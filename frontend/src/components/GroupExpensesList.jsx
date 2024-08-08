@@ -4,6 +4,7 @@ import { getGroupExpenses } from "../services/groupExpenseService";
 import { useAuth } from "../context/AuthContext";
 import { deleteGroupExpense } from "../services/groupExpenseService";
 import Loader from "./Loader";
+import { notifySuccess, notifyError, NotifyContainer } from "./Notification";
 import { Link } from "react-router-dom";
 const GroupExpensesList = ({ groupId, toggleSidebar }) => {
   const [expenses, setExpenses] = useState([]);
@@ -31,9 +32,9 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
       const res = await deleteGroupExpense(groupId, expenseId);
       if (res.status === "success") {
         setExpenses(expenses.filter(expense => expense.id !== expenseId));
-        alert("deleted successfully");
+        notifySuccess("deleted successfully");
       } else {
-        alert("failed to delete");
+        notifyError("failed to delete");
       }
     } catch (error) {
       throw new Error(error.message);
@@ -198,6 +199,7 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
           </>
         )}
       </div>
+      <NotifyContainer/>
     </div>
   );
 };
