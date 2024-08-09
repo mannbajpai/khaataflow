@@ -1,6 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
-import { Login, Signup, ForgotPasswordPage, Home, AddExpense, GroupPage, Groups, JoinGroupPage, LandingPage, ExpenseDetail,ProfilePage, EditProfilePage, MySplits, AddGroupExpense } from "./pages"
+import {
+  LandingPage, Login, Signup, ForgotPasswordPage,
+  Home, AddExpense, ExpenseDetail, ProfilePage, EditProfilePage,
+  GroupPage, Groups, JoinGroupPage, MySplits, AddGroupExpense, GroupExpenseDetail
+} from "./pages"
 
 const App = () => {
   return (
@@ -13,13 +17,14 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path='/expense/:id' element={<ExpenseDetail />} />
         <Route path="/addExpense" element={<AddExpense />} />
-        <Route path="/me" element={<ProfilePage/>}/>
-        <Route path="/editProfile" element={<EditProfilePage/>}/>
+        <Route path="/me" element={<ProfilePage />} />
+        <Route path="/editProfile" element={<EditProfilePage />} />
         <Route path='/group' element={<Groups />} />
         <Route path='/group/:groupId' element={<GroupPage />} />
         <Route path='/joinGroup' element={<JoinGroupPage />} />
         <Route path='/group/:groupId/mySplits' element={<MySplits />} />
         <Route path='/group/:groupId/addExpense' element={<AddGroupExpense />} />
+        <Route path='/group/:groupId/expense/:id/' element={<GroupExpenseDetail/>}/>
       </Route>
     </Routes>
   )

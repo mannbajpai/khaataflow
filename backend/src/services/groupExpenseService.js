@@ -51,7 +51,17 @@ export const getGroupExpenses = async (groupId) => {
 }
 
 export const getGroupExpenseById = async (id, groupId) => {
-  return await GroupExpense.findOne({ where: { id, groupId }, include: [{ model: ExpenseSplit, as: "splits" }] });
+  return await GroupExpense.findOne({
+    where: { id, groupId },
+    attributes: ["type", "date", "description", "amount"],
+    include: [
+      {
+        model: ExpenseSplit, as: "splits", attributes: ["amount", "settled"],
+        include: { model: User, as: "borrower", attributes: ["username"] }
+      },
+      { model: User, as: "lender", attributes: ["username"] }
+    ]
+  });
 }
 
 export const updateGroupExpense = async (id, groupId, expenseData) => {

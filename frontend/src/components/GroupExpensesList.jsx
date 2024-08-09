@@ -130,9 +130,9 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
                   </div>
                   {expense.lenderId != user.id ? (
                     <div className="m-4">
-                      <button className="btn bg-blue-400 hover:bg-blue-200">
+                      <Link to={`/group/${groupId}/expense/${expense.id}`} className="btn bg-blue-400 hover:bg-blue-200">
                         View
-                      </button>
+                      </Link>
                     </div>
                   ) : (
                     <div className="m-4 flex flex-col">

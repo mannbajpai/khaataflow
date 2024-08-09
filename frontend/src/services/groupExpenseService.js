@@ -10,12 +10,12 @@ export const getGroupExpenses = async (groupId) => {
     return response.data;
 }
 
-const getGroupExpense = async (groupId,id) => {
+export const getGroupExpense = async (groupId,id) => {
     const response = await api.get(`/group/expense/${groupId}/${id}`);
     return response.data;
 }
 
-const updateGroupExpense = async (groupId,id,data) => {
+export const updateGroupExpense = async (groupId,id,data) => {
     const response = await api.patch(`/group/expense/${groupId}/${id}`,data);
     return response.data;
 }
