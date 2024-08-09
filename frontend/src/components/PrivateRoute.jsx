@@ -1,11 +1,11 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { LoaderImage } from "./Loader";
+import {LoaderContent} from "./Loader";
 const PrivateRoute = () => {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <LoaderImage />;
+    return <LoaderContent />;
   }
 
   return (

@@ -48,6 +48,15 @@ export const getMembers = async (req, res) => {
     }
 }
 
+export const isGroupMember = async (req, res) => {
+    try {
+        const member = await groupService.checkMembership(req.params.groupId, req.user.dataValues.id);
+        res.status(200).json({status:'success', data:member})
+    } catch (error) {
+        res.status(500).json({status:'fail', message:error.message});
+    }
+}
+
 export const removeMember = async (req,res)=>{
     try {
         const result = await groupService.removeMember(req.params.id, req.user.dataValues.id);
@@ -83,7 +92,8 @@ const groupController = {
     updateGroup,
     deleteGroup,
     getMembers,
-    removeMember
+    removeMember,
+    isGroupMember
 }
 
 export default groupController;

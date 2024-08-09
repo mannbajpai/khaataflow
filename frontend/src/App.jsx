@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
+import PrivateGroupRoute from './components/PrivateGroupRoute';
 import {
   LandingPage, Login, Signup, ForgotPasswordPage,
   Home, AddExpense, ExpenseDetail, ProfilePage, EditProfilePage,
@@ -20,11 +21,13 @@ const App = () => {
         <Route path="/me" element={<ProfilePage />} />
         <Route path="/editProfile" element={<EditProfilePage />} />
         <Route path='/group' element={<Groups />} />
-        <Route path='/group/:groupId' element={<GroupPage />} />
         <Route path='/joinGroup' element={<JoinGroupPage />} />
-        <Route path='/group/:groupId/mySplits' element={<MySplits />} />
-        <Route path='/group/:groupId/addExpense' element={<AddGroupExpense />} />
-        <Route path='/group/:groupId/expense/:id/' element={<GroupExpenseDetail/>}/>
+        <Route element={<PrivateGroupRoute />}>
+          <Route path='/group/:groupId' element={<GroupPage />} />
+          <Route path='/group/:groupId/mySplits' element={<MySplits />} />
+          <Route path='/group/:groupId/addExpense' element={<AddGroupExpense />} />
+          <Route path='/group/:groupId/expense/:id/' element={<GroupExpenseDetail />} />
+        </Route>
       </Route>
     </Routes>
   )

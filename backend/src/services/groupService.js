@@ -46,13 +46,6 @@ export const getGroupById = async (id) => {
                 model: User,
                 as: 'members'
             },
-            /*{
-                model: GroupExpense, as: "expenses",
-                include: [{
-                    model: ExpenseSplit,
-                    as: "splits"
-                }]
-            }*/
         ],
     });
 };
@@ -106,6 +99,18 @@ export const getMembers = async (groupId) => {
     } catch (error) {
         console.error('Error fetching group members:', error);
         throw new Error('Failed to fetch group members');
+    }
+}
+
+export const checkMembership = async (groupId, userId) =>{
+    try {
+        const member = GroupMember.findOne({where: {groupId, userId}})
+        if (member === null){
+            throw new Error('Not a member')
+        }
+        return member;
+    } catch (error) {
+        throw new Error(error.message);
     }
 }
 
@@ -181,6 +186,7 @@ const groupService = {
     getMembers,
     removeMember,
     getCreator,
+    checkMembership
 }
 
 export default groupService;
