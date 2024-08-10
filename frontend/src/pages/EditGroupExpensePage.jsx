@@ -40,7 +40,6 @@ const EditGroupExpense = () => {
             return;
         }
         try {
-            setLoading(true);
             const response = await updateGroupExpense(groupId, id, formData);
             if (response) {
                 notifySuccess('Expense Updated Successfully');
@@ -52,7 +51,6 @@ const EditGroupExpense = () => {
             console.error(error.message);
             notifyError('Error Updating expense:', error.message);
         }
-        setLoading(false);
     };
 
 
