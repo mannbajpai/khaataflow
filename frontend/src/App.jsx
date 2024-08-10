@@ -4,7 +4,8 @@ import PrivateGroupRoute from './components/PrivateGroupRoute';
 import {
   LandingPage, Login, Signup, ForgotPasswordPage,
   Home, AddExpense, ExpenseDetail, ProfilePage, EditProfilePage,
-  GroupPage, Groups, JoinGroupPage, MySplits, AddGroupExpense, GroupExpenseDetail, EditGroupExpense
+  GroupPage, Groups, JoinGroupPage, MySplits, AddGroupExpense, GroupExpenseDetail, EditGroupExpense,
+  ErrorPage
 } from "./pages"
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
           <Route path='/group/:groupId/expense/:id/edit' element={<EditGroupExpense />} />
         </Route>
       </Route>
+      <Route path="*" element={<ErrorPage />} />
     </Routes>
   )
 }

@@ -4,7 +4,9 @@ import { updateGroupExpense, getGroupExpense } from '../services/groupExpenseSer
 import BorrowerSelect from '../components/BorrowerSelect';
 import { NotifyContainer, notifyError, notifySuccess, notifyWarning } from '../components/Notification';
 import Loader from "../components/Loader"
+import { useAuth } from '../context/AuthContext';
 const EditGroupExpense = () => {
+    const {user} = useAuth()
     const navigate = useNavigate();
     const { groupId, id } = useParams()
     const [formData, setFormData] = useState({
@@ -66,17 +68,21 @@ const EditGroupExpense = () => {
             setLoading(true);
             const res = await getGroupExpense(groupId, id);
             const data = res.data;
-            setFormData({
-                type: data.type,
-                amount: data.amount,
-                date: data.date,
-                description: data.description,
-            });
+            if (data.lender.id === user.id){
+                setFormData({
+                    type: data.type,
+                    amount: data.amount,
+                    date: data.date,
+                    description: data.description,
+                });
+            } else {
+                navigate("/home");
+            }
             setLoading(false);
         };
 
         fetchGroupExpense();
-    }, [groupId, id]);
+    }, [groupId, id, user.id, navigate]);
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-turquoise-green">
