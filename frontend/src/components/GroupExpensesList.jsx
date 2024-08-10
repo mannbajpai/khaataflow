@@ -136,9 +136,9 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
                     </div>
                   ) : (
                     <div className="m-4 flex flex-col">
-                      <button className="btn bg-yellow-400 hover:bg-yellow-200 my-2">
+                      <Link to={`/group/${groupId}/expense/${expense.id}/edit`} className="btn bg-yellow-400 hover:bg-yellow-200 my-2">
                         Edit
-                      </button>
+                      </Link>
                       {deleteLoading ? (
                         <Loader />
                       ) : (

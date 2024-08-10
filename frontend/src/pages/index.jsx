@@ -13,6 +13,7 @@ import EditProfilePage from "./EditProfilePage"
 import MySplits from "./MySplits"
 import AddGroupExpense from "./AddGroupExpensePage"
 import GroupExpenseDetail from "./GroupExpenseDetailsPage"
+import EditGroupExpense from "./EditGroupExpensePage"
 export {
     AddExpense,
     ForgotPasswordPage,
@@ -29,4 +30,5 @@ export {
     MySplits,
     AddGroupExpense,
     GroupExpenseDetail,
+    EditGroupExpense
 }

@@ -41,7 +41,7 @@ const getGroupExpenseById = async (req, res) => {
 
 const updateGroupExpense = async (req, res) => {
     try {
-        const expense = await groupExpenseServices.updateGroupExpense(req.params.id, req.params.groupId, req.body);
+        const expense = await groupExpenseServices.updateGroupExpense(req.params.expenseId, req.params.groupId, req.body);
         res.status(200).json({ status: 'success', data: expense })
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message });

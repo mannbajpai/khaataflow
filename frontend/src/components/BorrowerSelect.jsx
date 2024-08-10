@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { getMembers } from '../services/groupService';
 import { useAuth } from '../context/AuthContext';
 const BorrowerSelect = ({ groupId, onSelectedBorrowersChange, expenseType}) => {
-    console.log(expenseType);
     const { user } = useAuth()
     const [members, setMembers] = useState([]);
     const [selectedBorrowers, setSelectedBorrowers] = useState([]);

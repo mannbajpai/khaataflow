@@ -9,7 +9,7 @@ router.use(authenticate);
 router.post("/:groupId", groupExpenseController.createGroupExpense);
 router.get("/:groupId", groupExpenseController.getGroupExpenses);
 router.get("/:groupId/:expenseId", groupExpenseController.getGroupExpenseById);
-router.put("/:groupId/:id", groupExpenseController.updateGroupExpense);
+router.patch("/:groupId/:expenseId", groupExpenseController.updateGroupExpense);
 router.delete("/:groupId/:id", groupExpenseController.deleteGroupExpense);
 router.get("/:groupId/:userId/splits", groupExpenseController.getMySplits);
 router.patch("/splits/:splitId/settle", groupExpenseController.settleExpenseSplit);
