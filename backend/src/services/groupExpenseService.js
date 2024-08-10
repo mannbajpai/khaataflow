@@ -59,7 +59,7 @@ export const getGroupExpenseById = async (id, groupId) => {
         model: ExpenseSplit, as: "splits", attributes: ["amount", "settled"],
         include: { model: User, as: "borrower", attributes: ["username"] }
       },
-      { model: User, as: "lender", attributes: ["username"] }
+      { model: User, as: "lender", attributes: ["id","username"] }
     ]
   });
 }
