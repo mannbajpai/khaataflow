@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { updateUser } from "../services/userService"; // Add your service for updating the profile
 import Navbar from "../components/Navbar";
+
 import fuser1 from "../assets/female-user-1.png"
 import fuser2 from "../assets/female-user-2.png"
 import muser1 from "../assets/male-user-1.png"
 import muser2 from "../assets/male-user-2.png"
-import { NotifyContainer, notifyError, notifySuccess } from "../components/Notification";
+import { NotifyContainer, notifyError, notifySuccess, notifyWarning } from "../components/Notification";
 const EditProfilePage = () => {
     const { user, setUser } = useAuth(); // Assuming setUser is available for updating user state
     const navigate = useNavigate();
@@ -16,6 +17,8 @@ const EditProfilePage = () => {
         username: user.username,
         name: user.name,
         profilePhoto: user.profilePhoto || "/default-avatar.png",
+        password: '',
+        oldPassword: '',
     });
 
     const profilePhotos = [
@@ -33,13 +36,18 @@ const EditProfilePage = () => {
         setFormData({ ...formData, profilePhoto: photo });
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            if (!(formData.oldPassword === "" && formData.password === "") && !(formData.oldPassword !== "" && formData.password !== "")) {
+                notifyWarning("Input all required fields");
+                return;
+            }
             const updatedUser = await updateUser(formData);
             setUser(updatedUser.data.user);
             notifySuccess("Profile updated successfully!");
-            navigate('/me');
+            setTimeout(() => navigate('/me'), 3000);
         } catch (error) {
             console.error(error);
             notifyError("Failed to update profile.");
@@ -79,6 +87,28 @@ const EditProfilePage = () => {
                 </div>
 
                 <div className="mb-4">
+                    <label className="block text-gray-700 mb-2">Old Password</label>
+                    <input
+                        type="text"
+                        name="oldPassword"
+                        value={formData.oldPassword}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-turquoise"
+                    />
+                </div>
+
+                <div className="mb-4">
+                    <label className="block text-gray-700 mb-2">New Passowrd</label>
+                    <input
+                        type="text"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-turquoise"
+                    />
+                </div>
+
+                <div className="mb-4">
                     <label className="block text-gray-700 mb-2">Profile Photo</label>
                     <div className="grid grid-cols-2 gap-4">
                         {profilePhotos.map((photo) => (
@@ -110,7 +140,7 @@ const EditProfilePage = () => {
                     </button>
                 </div>
             </form>
-            <NotifyContainer/>
+            <NotifyContainer />
         </div>
     );
 };

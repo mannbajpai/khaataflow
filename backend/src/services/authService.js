@@ -11,7 +11,7 @@ const createToken = (id) => {
 };
 
 
-const comparePassword = async (inputPassword, storedPassword) => {
+export const comparePassword = async (inputPassword, storedPassword) => {
   return await bcrypt.compare(inputPassword, storedPassword);
 };
 
@@ -30,7 +30,6 @@ const checkExistingUser = async (email, username) => {
 
 const createUser = async (username, email, password) => {
   const hashedPassword = await bcrypt.hash(password, 12);
-  console.log(`Password hashed :${hashedPassword}`)
   return await User.create({ username: username, email: email, password: hashedPassword });
 };
 
