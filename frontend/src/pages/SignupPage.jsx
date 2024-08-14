@@ -23,7 +23,7 @@ const Signup = () => {
         const success = await signup(username, email, password);
         if (success) {
             notifySuccess("Successfully signed up")
-            setTimeout(()=>navigate('/home'), 3000);
+            setTimeout(()=>navigate('/login'), 3000);
         } else {
             notifyError("Signup failed. Please try again.");
         }

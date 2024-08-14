@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Loader from "../components/Loader";
 import logo from "../assets/logo-2.png"
-import { NotifyContainer, notifySuccess } from "../components/Notification";
+import { NotifyContainer, notifyError, notifySuccess } from "../components/Notification";
 const Login = () => {
 
     const [email, setEmail] = useState('');
@@ -26,7 +26,7 @@ const Login = () => {
             }, 3000)
         } else {
             setLoading(false);
-            notifySuccess("Login failed. Please check your credentials.");
+            notifyError("Login failed. Please check your credentials.");
         }
     };
     return (
