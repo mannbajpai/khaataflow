@@ -2,7 +2,8 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/index.js";
 
 export const authenticate = async (req, res, next) => {
-    const token = req.cookies.access_token;
+
+    const token = (process.env.NODE_ENV === "production")?req.headers.authorization?.split(' ')[1]:req.cookies.access_token;
     if (!token) {
         return res.status(401).json({ status: "fail", message: "User not logged in" });
     }
