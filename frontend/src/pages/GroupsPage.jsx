@@ -30,7 +30,10 @@ const GroupsPage = () => {
         <Navbar />
       </div>
       <div className="flex-1 p-8">
-        <Link to='/joinGroup' className="btn btn-lg bg-turquoise-green">Join Group</Link>
+      <div className="flex flex-row justify-between">
+      <Link to='/joinGroup' className="btn btn-lg bg-turquoise-green text-white hover:text-green-700 hover:bg-green-300 focus:border-green-700">Join Group</Link>
+      <Link to='/createGroup' className="btn btn-lg text-white hover:text-blue-700 bg-blue-400 hover:bg-blue-200 focus:border-blue-700">Create Group</Link>
+      </div>
         <h1 className="text-3xl font-bold mb-6 text-center">Your Groups</h1>
         {loading?<Loader/>:<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {groups.map((group) => (

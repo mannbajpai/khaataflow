@@ -14,7 +14,7 @@ const generateUniqueCode = async () => {
 }
 
 export const createGroup = async (groupData, userId) => {
-    const { name, description, members } = groupData;
+    const { name, description } = groupData;
     const code = await generateUniqueCode();
     console.log(groupData, userId)
     const group = await Group.create({
@@ -23,13 +23,6 @@ export const createGroup = async (groupData, userId) => {
         createdBy: userId,
         code
     });
-
-    for (const memberId of members) {
-        await GroupMember.create({
-            groupId: group.id,
-            userId: memberId,
-        });
-    }
 
     await GroupMember.create({
         groupId: group.id,

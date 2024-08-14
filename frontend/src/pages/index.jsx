@@ -3,6 +3,7 @@ import ForgotPasswordPage from "./ForgetPassword"
 import GroupPage from "./GroupPage"
 import Groups from "./GroupsPage"
 import JoinGroupPage from "./JoinGroupPage"
+import CreateGroupPage from "./CreateGroupPage"
 import LandingPage from "./LandingPage"
 import Login from "./LoginPage"
 import Signup from "./SignupPage"
@@ -20,6 +21,7 @@ export {
     ForgotPasswordPage,
     Groups,
     JoinGroupPage,
+    CreateGroupPage,
     LandingPage,
     Login,
     Signup,

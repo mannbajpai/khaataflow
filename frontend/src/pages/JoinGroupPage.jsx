@@ -4,22 +4,27 @@ import Footer from "../components/Footer";
 import { joinGroup } from "../services/groupService";
 import { useNavigate } from "react-router-dom";
 import { NotifyContainer, notifyError, notifySuccess } from "../components/Notification";
+import Loader from "../components/Loader";
 const JoinGroupPage = () => {
   const [groupCode, setGroupCode] = useState("");
+  const [loading, setLoading] = useState("");
   const navigate = useNavigate();
 
 
   const handleJoinGroup = async (e) => {
     e.preventDefault();
     try {
-      const res = await joinGroup(groupCode);
+      setLoading(true);
+      const res = await joinGroup({code:groupCode});
       if (res.status === "success") {
         notifySuccess('Group Joined Successfully');
+        setTimeout(()=>navigate(-1),2000)
       }
     } catch (error) {
       notifyError("Error joining group");
       throw new Error(error.message);
     }
+    setLoading(false);
   };
 
   const handleCancel = () => {
@@ -55,6 +60,7 @@ const JoinGroupPage = () => {
               Join Group
             </button>
           </div>
+          {loading && <Loader/>}
           <NotifyContainer />
         </div>
       </div>
