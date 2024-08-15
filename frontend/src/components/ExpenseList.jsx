@@ -1,9 +1,10 @@
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const ExpenseList = ({expenses}) => {
-
+  const memoizedExpenses = useMemo(() => expenses, [expenses]);
   const navigate = useNavigate();
   const handleViewExpense = (expenseId) => {
     navigate(`/expense/${expenseId}`);
@@ -23,7 +24,7 @@ const ExpenseList = ({expenses}) => {
           </tr>
         </thead>
         <tbody>
-          {expenses.map((expense) => (
+          {memoizedExpenses.map((expense) => (
             <tr key={expense.id} className="hover:bg-gray-100 text-center">
               <td className="py-2 px-4 border-b border-gray-200">{expense.type}</td>
               <td className="py-2 px-4 border-b border-gray-200">{expense.name}</td>

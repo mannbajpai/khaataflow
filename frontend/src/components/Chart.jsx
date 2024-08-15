@@ -1,27 +1,28 @@
-import PropTypes from 'prop-types';
+import { useContext } from "react";
 import { Doughnut, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
-
+import BalanceContext from "../context/BalanceContext";
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
-const ChartsSection = ({ balanceData, expenseData }) => {
+const ChartsSection = () => {
+    const { memoizedBalanceData, memoizedExpenseData } = useContext(BalanceContext);
     const doughnutData = {
         labels: ['Income', 'Expenses'],
         datasets: [
             {
                 label: 'Balance',
-                data: [balanceData.income, balanceData.expenses],
+                data: [memoizedBalanceData.income, memoizedBalanceData.expenses],
                 backgroundColor: ['#4CAF50', '#F44336'],
             },
         ],
     };
 
     const pieData = {
-        labels: expenseData.categories,
+        labels: memoizedExpenseData.categories,
         datasets: [
             {
                 label: 'Expenses',
-                data: expenseData.amounts,
+                data: memoizedExpenseData.amounts,
                 backgroundColor: [
                     '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
                 ],
@@ -50,11 +51,6 @@ const ChartsSection = ({ balanceData, expenseData }) => {
         </div>
     );
 };
-
-ChartsSection.propTypes = {
-    balanceData: PropTypes.object.isRequired,
-    expenseData: PropTypes.object.isRequired,
-}
 
 
 export default ChartsSection;
