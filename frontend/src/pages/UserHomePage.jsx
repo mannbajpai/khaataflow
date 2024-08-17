@@ -79,21 +79,22 @@ const Home = () => {
         <div className="pt-4 px-4 bg-base-100">
           <Navbar />
         </div>
-        <main className="flex flex-grow md:flex-row p-4 bg-base-100 text-base-content space-x-4">
-          <div className="w-1/3 p-4">
-            {loading ? <Loader /> : (
-              <Suspense fallback={<Loader />}>
-                <ChartsSection />
-              </Suspense>
-            )}
-          </div>
-          <div className="w-2/3 p-4 text-secondary-content">
+        <main className="flex flex-col lg:flex-row p-4 bg-base-100 text-base-content space-x-4">
+        <div className="lg:w-2/3 w-full m-4 text-secondary-content">
             {loading ? <Loader /> : (
               <Suspense fallback={<Loader />}>
                 <ExpenseList expenses={memoizedExpenses} />
               </Suspense>
             )}
           </div>
+          <div className="lg:w-1/3 w-full m-4">
+            {loading ? <Loader /> : (
+              <Suspense fallback={<Loader />}>
+                <ChartsSection />
+              </Suspense>
+            )}
+          </div>
+          
         </main>
         <Footer />
       </div>
