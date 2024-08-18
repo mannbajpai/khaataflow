@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { settleExpense, deleteExpense } from '../services/groupExpenseService';
-import {notifySuccess, notifyError ,NotifyContainer } from "../components/Notification"
-const LendedSplits = ({ splits }) => {
+import { notifySuccess, notifyError, NotifyContainer } from "../components/Notification";
 
-    const [expenseSplits, setExpenseSplits] = useState(splits)
+const LendedSplits = ({ splits }) => {
+    const [expenseSplits, setExpenseSplits] = useState(splits);
 
     const settleSplit = async (splitId) => {
         try {
@@ -48,6 +48,10 @@ const LendedSplits = ({ splits }) => {
         }
     };
 
+    const memoizedExpenseSplits = useMemo(() => {
+        return expenseSplits;
+    }, [expenseSplits]);
+
     return (
         <div className="mb-4 p-4 bg-white shadow-md rounded-lg">
             <h3 className="text-xl font-bold mb-4 text-turquoise-green">Lended Splits</h3>
@@ -62,7 +66,7 @@ const LendedSplits = ({ splits }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {expenseSplits.map((expense) => (
+                        {memoizedExpenseSplits.map((expense) => (
                             expense.splits.map((split, splitIndex) => (
                                 <tr key={splitIndex} className="hover:bg-gray-100 transition duration-300 text-center">
                                     <td className="py-2 px-4 border-b">
@@ -91,7 +95,7 @@ const LendedSplits = ({ splits }) => {
                     </tbody>
                 </table>
             </div>
-            <NotifyContainer/>
+            <NotifyContainer />
         </div>
     );
 };

@@ -8,47 +8,38 @@ export const createGroupExpense = async ({ lenderId, groupId, amount, descriptio
     amount,
     description,
     type,
-    date
+    date,
   });
-  // Split the expense based on the type
-  switch (type) {
-    case 'equal':
-      await splitEqually(groupExpense, borrowers);
-      break;
-    case 'exact':
-      await splitExactly(groupExpense, borrowers);
-      break;
-    case 'percentage':
-      await splitByPercentage(groupExpense, borrowers);
-      break;
-    default:
-      throw new Error('Invalid split type');
-  }
 
+  // Split the expense based on the type
+  const splitFunctions = {
+    equal: splitEqually,
+    exact: splitExactly,
+    percentage: splitByPercentage,
+  };
+
+  const splitFunction = splitFunctions[type];
+  if (!splitFunction) throw new Error("Invalid split type");
+
+  await splitFunction(groupExpense, borrowers);
   return groupExpense;
-}
+};
 
 export const getGroupExpenses = async (groupId) => {
   return await GroupExpense.findAll({
     where: { groupId },
-    include: [{
-      model: ExpenseSplit,
-      as: "splits",
-      include: [
-        {
-          model: User,
-          as: "lender",
-          attributes: ['username']
-        },
-        {
-          model: User,
-          as: "borrower",
-          attributes: ['username']
-        }
-      ]
-    }]
-  })
-}
+    include: [
+      {
+        model: ExpenseSplit,
+        as: "splits",
+        include: [
+          { model: User, as: "lender", attributes: ["username"] },
+          { model: User, as: "borrower", attributes: ["username"] },
+        ],
+      },
+    ],
+  });
+};
 
 export const getGroupExpenseById = async (id, groupId) => {
   return await GroupExpense.findOne({
@@ -56,124 +47,111 @@ export const getGroupExpenseById = async (id, groupId) => {
     attributes: ["type", "date", "description", "amount"],
     include: [
       {
-        model: ExpenseSplit, as: "splits", attributes: ["amount", "settled"],
-        include: { model: User, as: "borrower", attributes: ["username"] }
+        model: ExpenseSplit,
+        as: "splits",
+        attributes: ["amount", "settled"],
+        include: { model: User, as: "borrower", attributes: ["username"] },
       },
-      { model: User, as: "lender", attributes: ["id","username"] }
-    ]
+      { model: User, as: "lender", attributes: ["id", "username"] },
+    ],
   });
-}
+};
 
 export const updateGroupExpense = async (id, groupId, expenseData) => {
-  const groupExpense = await GroupExpense.findOne({ where: { id, groupId } })
-  if (!groupExpense) throw new Error("No expense Found");
+  const groupExpense = await GroupExpense.findOne({
+    where: { id, groupId },
+  });
+  if (!groupExpense) throw new Error("No expense found");
+
   const updatedGroupExpense = await groupExpense.update(expenseData);
-  // Split the expense based on the type
-  switch (updatedGroupExpense.type) {
-    case 'equal':
-      await splitEqually(updatedGroupExpense, expenseData.borrowers);
-      break;
-    case 'exact':
-      await splitExactly(updatedGroupExpense, expenseData.borrowers);
-      break;
-    case 'percentage':
-      await splitByPercentage(updatedGroupExpense, expenseData.borrowers);
-      break;
-    default:
-      throw new Error('Invalid split type');
-  }
-}
 
-  export const deleteGroupExpense = async (id, groupId) => {
-    const groupExpense = await GroupExpense.findOne({ where: { id, groupId } });
-    if (!groupExpense) throw new Error("No expense found");
-    await ExpenseSplit.destroy({ where: { groupExpenseId: id } });
-    return await groupExpense.destroy();
+  // Update the splits based on the type only if the borrowers have changed
+  if (expenseData.borrowers) {
+    const splitFunctions = {
+      equal: splitEqually,
+      exact: splitExactly,
+      percentage: splitByPercentage,
+    };
+
+    const splitFunction = splitFunctions[updatedGroupExpense.type];
+    if (!splitFunction) throw new Error("Invalid split type");
+
+    await splitFunction(updatedGroupExpense, expenseData.borrowers);
   }
 
-  const mySplits = async (groupId, userId) => {
-    const borrowedExpenses = await GroupExpense.findAll({
-      where: { groupId },
-      attributes: [],
-      include: [
-        {
-          model: ExpenseSplit,
-          as: 'splits',
-          where: {
-            borrowerId: userId
-          },
-          attributes: ["id", "lenderId", "amount", "settled"],
-          include: {
-            model: User,
-            as: "lender",
-            attributes: ["username"]
-          }
-        }
-      ]
+  return updatedGroupExpense;
+};
+
+export const deleteGroupExpense = async (id, groupId) => {
+  const groupExpense = await GroupExpense.findOne({
+    where: { id, groupId },
+    include: { model: ExpenseSplit, as: "splits" },
+  });
+
+  if (!groupExpense) throw new Error("No expense found");
+
+  await ExpenseSplit.destroy({ where: { groupExpenseId: id } });
+  await groupExpense.destroy();
+};
+
+export const mySplits = async (groupId, userId) => {
+  const splits = await ExpenseSplit.findAll({
+    where: { groupExpenseId: groupId },
+    attributes: ["id", "lenderId", "borrowerId", "amount", "settled"],
+    include: [
+      { model: User, as: "lender", attributes: ["username"] },
+      { model: User, as: "borrower", attributes: ["username"] },
+    ],
+  });
+
+  const borrowedExpenses = splits.filter((split) => split.borrowerId === userId);
+  const lendedExpenses = splits.filter((split) => split.lenderId === userId);
+
+  return { borrowedExpenses, lendedExpenses };
+};
+
+export const settleSplit = async (splitId, userId) => {
+  const expenseSplit = await ExpenseSplit.findOne({
+    where: { id: splitId, lenderId: userId },
+  });
+  if (!expenseSplit) throw new Error("No Split Found");
+
+  return await expenseSplit.update({ settled: true });
+};
+
+export const deleteSplit = async (splitId, userId) => {
+  const expenseSplit = await ExpenseSplit.findOne({
+    where: { id: splitId, lenderId: userId },
+  });
+  if (!expenseSplit) throw new Error("No Split Found");
+
+  const otherSplitsCount = await ExpenseSplit.count({
+    where: { groupExpenseId: expenseSplit.groupExpenseId },
+  });
+
+  await expenseSplit.destroy();
+
+  if (otherSplitsCount === 1) {
+    const groupExpense = await GroupExpense.findOne({
+      where: { id: expenseSplit.groupExpenseId },
     });
-    const lendedExpenses = await GroupExpense.findAll({
-      where: { groupId },
-      attributes: [],
-      include: [
-        {
-          model: ExpenseSplit,
-          as: 'splits',
-          where: {
-            lenderId: userId
-          },
-          attributes: ["id", "borrowerId", "amount", "settled"],
-          include: {
-            model: User,
-            as: "borrower",
-            attributes: ["username"]
-          }
-        }
-      ]
-    });
-    return { borrowedExpenses, lendedExpenses };
-  }
 
-  export const settleSplit = async (splitId, userId) => {
-    const expenseSplit = await ExpenseSplit.findOne({ where: { id: splitId, lenderId: userId } });
-    if (!expenseSplit) throw new Error("No Split Found");
-    return await expenseSplit.update({ settled: true });
-  }
-
-  export const deleteSplit = async (splitId, userId) => {
-    const expenseSplit = await ExpenseSplit.findOne({
-      where: { id: splitId, lenderId: userId }
-    });
-    if (!expenseSplit) throw new Error("No Split Found");
-    const { groupExpenseId } = expenseSplit;
-
-    const otherSplits = await ExpenseSplit.findAll({
-      where: { groupExpenseId },
-    });
-    // Delete the expense split
-    await expenseSplit.destroy();
-
-    // If there are no other splits, delete the entire groupExpense
-    if (otherSplits.length === 1) { // Only one split exists, which is being deleted
-      const groupExpense = await GroupExpense.findOne({
-        where: { id: groupExpenseId },
-      });
-
-      if (groupExpense) {
-        await groupExpense.destroy();
-        return { message: "Group Expense and its last split deleted successfully." };
-      }
+    if (groupExpense) {
+      await groupExpense.destroy();
+      return { message: "Group Expense and its last split deleted successfully." };
     }
   }
+};
 
-  const groupExpenseService = {
-    createGroupExpense,
-    getGroupExpenses,
-    getGroupExpenseById,
-    updateGroupExpense,
-    deleteGroupExpense,
-    settleSplit,
-    mySplits,
-    deleteSplit,
-  }
+const groupExpenseService = {
+  createGroupExpense,
+  getGroupExpenses,
+  getGroupExpenseById,
+  updateGroupExpense,
+  deleteGroupExpense,
+  settleSplit,
+  mySplits,
+  deleteSplit,
+};
 
-  export default groupExpenseService;
+export default groupExpenseService;
