@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo, Suspense, lazy } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
+import Pagination from "../components/Pagination"; 
 import { getAllGroups } from "../services/groupService";
 import GroupContext from "../context/GroupContext";
 
@@ -12,6 +13,8 @@ const GroupActions = lazy(() => import("../components/GroupActions"));
 const GroupsPage = () => {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -28,7 +31,13 @@ const GroupsPage = () => {
     fetchGroups();
   }, []);
 
-  const memoizedGroups = useMemo(() => groups, [groups]);
+  const totalPages = useMemo(() => Math.ceil(groups.length / itemsPerPage), [groups.length]);
+  const currentGroups = useMemo(
+    () => groups.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage),
+    [groups, currentPage, itemsPerPage]
+  );
+
+  const memoizedGroups = useMemo(() => currentGroups, [currentGroups]);
 
   return (
     <GroupContext.Provider value={{ memoizedGroups }}>
@@ -44,13 +53,22 @@ const GroupsPage = () => {
           {loading ? (
             <Loader />
           ) : (
-            <Suspense fallback={<Loader />}>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {memoizedGroups.map((group) => (
-                  <GroupCard key={group.id} group={group} />
-                ))}
-              </div>
-            </Suspense>
+            <>
+              <Suspense fallback={<Loader />}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {memoizedGroups.map((group) => (
+                    <GroupCard key={group.id} group={group} />
+                  ))}
+                </div>
+              </Suspense>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+                totalItems={groups.length}
+                itemsPerPage={itemsPerPage}
+              />
+            </>
           )}
         </div>
         <Footer />
