@@ -1,6 +1,6 @@
 import api from './api';
 
-const getAllGroups = async () => {
+export const getAllGroups = async () => {
     try {
         const response = await api.get('/group/');
         return response.data;
@@ -10,7 +10,7 @@ const getAllGroups = async () => {
 
 }
 
-const createGroup = async (data) => {
+export const createGroup = async (data) => {
     try {
         const response = await api.post('/group/', data);
         return response.data;
@@ -20,22 +20,22 @@ const createGroup = async (data) => {
 
 }
 
-const joinGroup = async (data) => {
+export const joinGroup = async (data) => {
     const response = await api.post('/group/join', data);
     return response.data;
 }
 
 
-const getGroup = async (id) => {
+export const getGroup = async (id) => {
     const response = await api.get(`/group/${id}`);
     return response.data;
 }
 
-const updateGroup = async (id, data) => {
+export const updateGroup = async (id, data) => {
     const response = await api.patch(`/group/${id}`, data);
     return response.data;
 }
-const deleteGroup = async (id) => {
+export const deleteGroup = async (id) => {
     const response = await api.delete(`/group/${id}`);
     return response.data;
 }
@@ -50,11 +50,14 @@ export const isMember = async (groupId) => {
     return response.data;
 }
 
-export {
-    createGroup,
-    getAllGroups,
-    joinGroup,
-    getGroup,
-    updateGroup,
-    deleteGroup,
+export const leaveGroup = async (groupId) => {
+    const response = await api.delete(`group/${groupId}/leaveGroup`);
+    return response.data;
 }
+
+
+export const removeMember = async (groupId, memberId) => {
+    const response  = await api.delete(`group/${groupId}/members/${memberId}`);
+    return response.data;
+}
+

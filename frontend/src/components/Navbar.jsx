@@ -50,7 +50,7 @@ const Navbar = () => {
       </div>
       <div className="navbar-end">
         <div className="dropdown dropdown-end">
-          {user ? <span className="text-xl font-semibold lg:absolute top-2 right-12">{user.username}</span> : <span>Login please</span>}
+          <span className="text-xl font-semibold lg:absolute top-2 right-12">{user.username}</span>
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar" onClick={toggleMenu}>
             <div className="w-10 rounded-full">
               <img

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, Suspense, lazy } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import Loader from "../components/Loader";
+import Loader, { LoaderContent } from "../components/Loader";
 import { getAllExpenses } from "../services/expenseService";
 import BalanceContext from "../context/BalanceContext";
 
@@ -88,7 +88,7 @@ const Home = () => {
             )}
           </div>
           <div className="lg:w-1/3 w-full m-4">
-            {loading ? <Loader /> : (
+            {loading ? <LoaderContent/> : (
               <Suspense fallback={<Loader />}>
                 <ChartsSection />
               </Suspense>
