@@ -1,4 +1,4 @@
-import { Expense, ExpenseSplit, Group, GroupExpense, GroupMember, User } from "../models/index.js"
+import { Group, GroupMember, User } from "../models/index.js"
 
 const generateUniqueCode = async () => {
     let chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
@@ -73,7 +73,7 @@ export const getCreator = async (groupId) => {
 
 export const getMembers = async (groupId) => {
     try {
-        const group = await Group.findByPk(groupId, 
+        const group = await Group.findByPk(groupId,
             {
             attributes:[],
             include: [
@@ -107,7 +107,7 @@ export const checkMembership = async (groupId, userId) =>{
     }
 }
 
-export const removeMember = async (groupId, userId) => {
+export const removeMember = async (groupId, memberId, userId) => {
     try {
         const group = await Group.findByPk(groupId);
 
@@ -115,7 +115,11 @@ export const removeMember = async (groupId, userId) => {
             throw new Error('Group not found');
         }
 
-        const member = await User.findByPk(userId);
+        if (group.createdBy !== userId){
+            throw new Error('You are not allowed to remove a member');
+        }
+
+        const member = await User.findByPk(memberId);
 
         if (!member) {
             throw new Error('User not found');
@@ -134,11 +138,50 @@ export const removeMember = async (groupId, userId) => {
             throw new Error('Member not part of the group');
         }
 
-        console.log(`Member with ID ${userId} removed from group ${groupId}`);
+        console.log(`Member with ID ${memberId} removed from group ${groupId}`);
         return { message: 'Member removed successfully' };
     } catch (error) {
         console.error('Error removing member:', error);
         throw new Error('Failed to remove member');
+    }
+}
+
+export const leaveGroup = async (groupId, userId) => {
+    try {
+        const group = await Group.findByPk(groupId);
+
+        if (!group) {
+            throw new Error('Group not found');
+        }
+
+        if (group.createdBy === userId){
+            const members = await getMembers(group.id);
+                    if (members.length === 1) {
+                        await group.destroy();
+                    } else {
+                        const newOwnerId = (members.find((member) => member.id !== userId)).id;
+                        await group.update({ createdBy: newOwnerId });
+                    }
+        }
+
+        const member = await GroupMember.findOne({
+            where: {
+                groupId: group.id,
+                userId,
+            }
+        })
+
+        if (!member) {
+            throw new Error('Member not part of the group');
+        }
+
+        await member.destroy()
+
+        console.log(`Leaved Group`);
+        return { message: 'Group Left successfully' };
+    } catch (error) {
+        console.error('Error leaving group:', error);
+        throw new Error('Failed to leave group:', error);
     }
 }
 
@@ -168,18 +211,3 @@ export const deleteGroup = async (id, userId) => {
     await group.destroy();
     return group;
 }
-
-const groupService = {
-    createGroup,
-    getGroupById,
-    getAllGroupsForUser,
-    joinGroupByCode,
-    updateGroup,
-    deleteGroup,
-    getMembers,
-    removeMember,
-    getCreator,
-    checkMembership
-}
-
-export default groupService;

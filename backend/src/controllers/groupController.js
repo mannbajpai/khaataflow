@@ -1,4 +1,4 @@
-import groupService from "../services/groupService.js";
+import * as groupService from "../services/groupService.js";
 
 export const createGroup = async (req, res) => {
     try {
@@ -30,7 +30,7 @@ export const getAllGroups = async (req, res) => {
     }
 };
 
-const joinGroup = async (req, res) => {
+export const joinGroup = async (req, res) => {
     try {
         const group = await groupService.joinGroupByCode(req.body.code, req.user.dataValues.id);
         res.status(200).json({ status: 'success', data: { group } });
@@ -59,7 +59,16 @@ export const isGroupMember = async (req, res) => {
 
 export const removeMember = async (req,res)=>{
     try {
-        const result = await groupService.removeMember(req.params.id, req.user.dataValues.id);
+        const result = await groupService.removeMember(req.params.id, req.params.memberId, req.user.dataValues.id);
+        res.status(200).json({status:'success', result:{result}})
+    } catch (error) {
+        res.status(400).json({status:'fail', message:error.message});
+    }
+}
+
+export const leaveGroup = async (req,res)=>{
+    try {
+        const result = await groupService.leaveGroup(req.params.id, req.user.dataValues.id);
         res.status(200).json({status:'success', result:{result}})
     } catch (error) {
         res.status(400).json({status:'fail', message:error.message});
@@ -83,17 +92,3 @@ export const deleteGroup = async (req, res) => {
         res.status(400).json({ status: 'fail', message: error.message });
     }
 };
-
-const groupController = {
-    createGroup,
-    getGroup,
-    getAllGroups,
-    joinGroup,
-    updateGroup,
-    deleteGroup,
-    getMembers,
-    removeMember,
-    isGroupMember
-}
-
-export default groupController;
