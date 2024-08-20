@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext";
 import fuser1 from "../assets/female-user-1.png"
@@ -12,10 +12,12 @@ const Navbar = () => {
   const { logout, user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const isHomePage = location.pathname.startsWith("/home/");
-  const link = isHomePage ? "/group/" : "/home/";
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-
+  const [isHomePage, setIsHomePage] = useState(false);
+  const link = isHomePage ? "/group/" : "/home/";
+  useEffect(() => {
+    setIsHomePage(location.pathname === "/home" || location.pathname.startsWith("/home/"));
+  }, [location.pathname]);
   const handleLogout = () => {
     logout();
     notifySuccess("Logout successful");

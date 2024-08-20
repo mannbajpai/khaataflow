@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo, Suspense, lazy } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
-import Pagination from "../components/Pagination"; 
+import Pagination from "../components/Pagination";
 import { getAllGroups } from "../services/groupService";
 import GroupContext from "../context/GroupContext";
 
