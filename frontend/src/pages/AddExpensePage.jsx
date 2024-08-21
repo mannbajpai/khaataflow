@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createExpense } from "../services/expenseService"
 import { NotifyContainer, notifyError, notifySuccess, notifyWarning } from '../components/Notification';
-
+import Loader from "../components/Loader"
 const AddExpense = () => {
   const navigate = useNavigate();
 
@@ -14,6 +14,8 @@ const AddExpense = () => {
     name: '',
     description: '',
   });
+
+  const [loading, setLoading] = useState(false);
 
   // Handle form input changes
   const handleChange = (e) => {
@@ -34,16 +36,20 @@ const AddExpense = () => {
       return;
     }
     try {
+      setLoading(true);
       const response = await createExpense(formData);
       if (response.status === 'success') {
         notifySuccess('Expense Added Successfully');
         setTimeout(() => {
+          setLoading(false);
           navigate('/home');
         }, 3000);
       }
     } catch (error) {
       notifyError('Error adding expense:', error);
+      setLoading(false);
     }
+
   };
 
   // Handle cancel action
@@ -143,9 +149,9 @@ const AddExpense = () => {
           <div className="flex justify-between">
             <button
               type="submit"
-              className="btn bg-turquoise-green hover:bg-green-200"
+              className={`btn bg-turquoise-green hover:bg-green-200 ${loading && "btn-disabled"}`}
             >
-              Submit
+              {loading ? <Loader /> : "Submit"}
             </button>
             <button
               type="button"

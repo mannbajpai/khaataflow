@@ -4,6 +4,7 @@ import { createGroupExpense } from '../services/groupExpenseService';
 import { useAuth } from '../context/AuthContext';
 import BorrowerSelect from '../components/BorrowerSelect';
 import { NotifyContainer, notifyError, notifySuccess, notifyWarning } from '../components/Notification';
+import Loader from '../components/Loader';
 const AddGroupExpense = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
@@ -19,7 +20,7 @@ const AddGroupExpense = () => {
     });
 
     const [selectedBorrowers, setSelectedBorrowers] = useState([]);
-
+    const [loading, setLoading] = useState(false);
 
     const handleSelectedBorrowersChange = (borrowers) => {
         setSelectedBorrowers(borrowers);
@@ -44,16 +45,18 @@ const AddGroupExpense = () => {
             return;
         }
         try {
+            setLoading(true);
             const response = await createGroupExpense(groupId, formData);
             if (response) {
                 notifySuccess('Expense Added Successfully');
                 setTimeout(() => {
+                    setLoading(false);
                     navigate(`/group/${groupId}`);
                 }, 3000);
             }
         } catch (error) {
-            console.error(error.message);
             notifyError('Error adding expense:', error.message);
+            setLoading(false);
         }
     };
 
@@ -129,9 +132,9 @@ const AddGroupExpense = () => {
                     <div className="flex justify-between">
                         <button
                             type="submit"
-                            className="btn bg-turquoise-green hover:bg-green-200"
+                            className={`btn bg-turquoise-green hover:bg-green-200 ${loading && "btn-disabled"}`}
                         >
-                            Submit
+                            {loading?<Loader/>:"Submit"}
                         </button>
                         <button
                             type="button"

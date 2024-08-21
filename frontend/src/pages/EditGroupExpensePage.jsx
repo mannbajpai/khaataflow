@@ -6,7 +6,7 @@ import { NotifyContainer, notifyError, notifySuccess, notifyWarning } from '../c
 import Loader from "../components/Loader"
 import { useAuth } from '../context/AuthContext';
 const EditGroupExpense = () => {
-    const {user} = useAuth()
+    const { user } = useAuth()
     const navigate = useNavigate();
     const { groupId, id } = useParams()
     const [formData, setFormData] = useState({
@@ -19,6 +19,7 @@ const EditGroupExpense = () => {
 
     const [selectedBorrowers, setSelectedBorrowers] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [submitLoading, setsubmitLoading] = useState(false);
     const handleSelectedBorrowersChange = (borrowers) => {
         setSelectedBorrowers(borrowers);
     };
@@ -42,16 +43,19 @@ const EditGroupExpense = () => {
             return;
         }
         try {
+            setsubmitLoading(true);
             const response = await updateGroupExpense(groupId, id, formData);
             if (response) {
                 notifySuccess('Expense Updated Successfully');
                 setTimeout(() => {
+                    setsubmitLoading(false);
                     navigate(`/group/${groupId}`);
                 }, 3000);
             }
         } catch (error) {
-            console.error(error.message);
-            notifyError('Error Updating expense:', error.message);
+            notifyError('Error Updating expense');
+            setsubmitLoading(false);
+            throw new Error(error);
         }
     };
 
@@ -68,7 +72,7 @@ const EditGroupExpense = () => {
             setLoading(true);
             const res = await getGroupExpense(groupId, id);
             const data = res.data;
-            if (data.lender.id === user.id){
+            if (data.lender.id === user.id) {
                 setFormData({
                     type: data.type,
                     amount: data.amount,
@@ -152,9 +156,9 @@ const EditGroupExpense = () => {
                         <div className="flex justify-between">
                             <button
                                 type="submit"
-                                className="btn text-green-800 bg-turquoise-green hover:bg-green-200"
+                                className={`btn text-green-800 bg-turquoise-green hover:bg-green-200 ${loading && "btn-disabled"}`}
                             >
-                                Submit
+                                {submitLoading ? <Loader /> : "Submit"}
                             </button>
                             <button
                                 type="button"

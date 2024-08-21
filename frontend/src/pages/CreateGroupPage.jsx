@@ -58,7 +58,7 @@ const CreateGroupPage = () => {
                             Cancel
                         </button>
                         <button
-                            className="btn bg-turquoise-green hover:bg-green-300"
+                            className={`btn bg-turquoise-green hover:bg-green-300 ${loading&&"btn-disabled"}`}
                             onClick={handleCreateGroup}
                         >
                             Create Group
