@@ -12,7 +12,7 @@ const ExpenseList = ({ expenses }) => {
 
   return (
     <>
-      <div className='overflow-x-auto rounded-2xl'>
+      <div className='max-w-[92vw] overflow-x-auto rounded-2xl'>
         <table className="lg:w-[60vw] w-full mr-2 bg-gray-200 border-gray-100 rounded-xl">
           <thead className="text-black">
             <tr className=''>

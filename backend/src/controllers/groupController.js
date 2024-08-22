@@ -59,7 +59,7 @@ export const isGroupMember = async (req, res) => {
 
 export const removeMember = async (req,res)=>{
     try {
-        const result = await groupService.removeMember(req.params.id, req.params.memberId, req.user.dataValues.id);
+        const result = await groupService.removeMember(req.params.groupId, req.params.memberId, req.user.dataValues.id);
         res.status(200).json({status:'success', result:{result}})
     } catch (error) {
         res.status(400).json({status:'fail', message:error.message});

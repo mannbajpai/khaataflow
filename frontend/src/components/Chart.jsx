@@ -31,11 +31,11 @@ const ChartsSection = () => {
   };
 
   return (
-    <div className="grid lg:grid-cols-1 md:grid-cols-2 sm:grid-cols-1 gap-4 w-full overflow-x-auto">
+    <div className="grid lg:grid-cols-1 md:grid-cols-2 sm:grid-cols-1 gap-4 max-w-[90vw]">
       <div className="card bg-base-300 text-white shadow-xl p-4">
         <div className="card-body">
           <h2 className="card-title text-center text-lg lg:text-xl">Balance Overview</h2>
-          <div className="sm:h-[35vh] md:h-[40vh] lg:h-[50vh]">
+          <div className="">
             <Doughnut data={doughnutData} />
           </div>
         </div>
@@ -43,7 +43,7 @@ const ChartsSection = () => {
       <div className="card bg-base-300 text-white shadow-xl p-4">
         <div className="card-body">
           <h2 className="card-title text-center text-lg lg:text-xl">Expense Breakdown</h2>
-          <div className="sm:h-[35vh] md:h-[45vh] lg:h-[55vh]">
+          <div className="">
             <Pie data={pieData} />
           </div>
         </div>
