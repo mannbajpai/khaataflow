@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Loader from "./Loader";
 
-const GroupExpenseItem = ({ expense, groupId, user, deleteLoading, onDelete }) => (
-  <li className="bg-gray-100 p-2 rounded flex justify-between items-center">
-    <div>
+const GroupExpenseItem = ({ expense, groupId, user, deleteLoading, onDelete, isDeleting }) => (
+  <li className="bg-gray-100 p-2 rounded md:flex sm:flex-row md:justify-between sm:justify-center items-center">
+    <div className="text-left">
       <span className="font-semibold">{expense.description}</span>
       <p className="text-sm text-gray-500">{expense.date}</p>
     </div>
@@ -40,7 +40,7 @@ const GroupExpenseItem = ({ expense, groupId, user, deleteLoading, onDelete }) =
         <Link to={`/group/${groupId}/expense/${expense.id}/edit`} className="btn bg-yellow-400 hover:bg-yellow-200 my-2">
           Edit
         </Link>
-        {deleteLoading ? (
+        {deleteLoading && isDeleting ? (
           <Loader />
         ) : (
           <button onClick={() => onDelete(expense.id)} className="btn bg-red-400 hover:bg-red-200 my-2">
@@ -58,6 +58,7 @@ GroupExpenseItem.propTypes = {
   user: PropTypes.object.isRequired,
   deleteLoading: PropTypes.bool.isRequired,
   onDelete: PropTypes.func.isRequired,
+  isDeleting: PropTypes.bool,
 };
 
 export default GroupExpenseItem;

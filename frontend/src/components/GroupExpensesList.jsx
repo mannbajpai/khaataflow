@@ -12,6 +12,7 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const expensesPerPage = 5;
   const { user } = useAuth();
@@ -28,6 +29,7 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
   }, [groupId]);
 
   const handleDeleteExpense = useCallback(async (expenseId) => {
+    setIsDeleting((prev) => ({ ...prev, [expenseId]: true }));
     setDeleteLoading(true);
     try {
       const res = await deleteGroupExpense(groupId, expenseId);
@@ -71,6 +73,7 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
                   user={user}
                   deleteLoading={deleteLoading}
                   onDelete={handleDeleteExpense}
+                  isDeleting={isDeleting[expense.id]}
                 />
               ))}
             </ul>
