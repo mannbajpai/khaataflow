@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { joinGroup } from "../services/groupService";
 import { useNavigate } from "react-router-dom";
 import { NotifyContainer, notifyError, notifySuccess } from "../components/Notification";
 import Loader from "../components/Loader";
+import GroupContext from "../context/GroupContext";
+import { useAuth } from "../context/AuthContext";
 const JoinGroupPage = () => {
+  const {user} = useAuth();
+  const {setMembers} = useContext(GroupContext);
   const [groupCode, setGroupCode] = useState("");
   const [loading, setLoading] = useState("");
   const navigate = useNavigate();
-
 
   const handleJoinGroup = async (e) => {
     e.preventDefault();
@@ -18,6 +21,7 @@ const JoinGroupPage = () => {
       const res = await joinGroup({code:groupCode});
       if (res.status === "success") {
         notifySuccess('Group Joined Successfully');
+        setMembers((prevMembers) => [...prevMembers, user])
         setTimeout(()=>navigate(-1),2000)
       }
     } catch (error) {

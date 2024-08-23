@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import Loader from "../components/Loader";
 import Pagination from "../components/Pagination";
 import { getAllGroups } from "../services/groupService";
-import GroupContext from "../context/GroupContext";
+import GroupsContext from "../context/GroupsContext";
 
 // Lazy load the GroupCard and GroupActions components
 const GroupCard = lazy(() => import("../components/GroupCard"));
@@ -40,7 +40,7 @@ const GroupsPage = () => {
   const memoizedGroups = useMemo(() => currentGroups, [currentGroups]);
 
   return (
-    <GroupContext.Provider value={{ memoizedGroups }}>
+    <GroupsContext.Provider value={{ memoizedGroups }}>
       <div className="min-h-screen flex flex-col">
         <div className="pt-4 px-4 bg-base-100">
           <Navbar />
@@ -73,7 +73,7 @@ const GroupsPage = () => {
         </div>
         <Footer />
       </div>
-    </GroupContext.Provider>
+    </GroupsContext.Provider>
   );
 };
 
