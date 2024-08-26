@@ -5,10 +5,10 @@ import { NotifyContainer, notifyError, notifySuccess } from "./Notification";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import GroupContext from "../context/GroupContext";
-function GroupSidebar({  isSidebarOpen, toggleSidebar }) {
+function GroupSidebar({ isSidebarOpen, toggleSidebar }) {
 
   const { user } = useAuth();
-  const {group, creator, members : Members} = useContext(GroupContext);
+  const { group, creator, members: Members } = useContext(GroupContext);
   const [members, setMembers] = useState(Members)
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const navigate = useNavigate()
@@ -22,7 +22,7 @@ function GroupSidebar({  isSidebarOpen, toggleSidebar }) {
       const res = await leaveGroup(group.id);
       if (res.status === 'success') {
         notifySuccess("Left Group Successfully")
-        setMembers((prevMembers)=> prevMembers.filter((member)=> member.id !== user.id))
+        setMembers((prevMembers) => prevMembers.filter((member) => member.id !== user.id))
         setTimeout(() => navigate('/home'), 3000)
       }
     } catch (error) {
@@ -34,10 +34,10 @@ function GroupSidebar({  isSidebarOpen, toggleSidebar }) {
   const handleRemoveMember = async (memberId) => {
     try {
       const res = await removeMember(group.id, memberId);
-      console.log("user removed response : ",res);
+      console.log("user removed response : ", res);
       if (res.status === 'success') {
         notifySuccess("Removed Member Successfully");
-        setMembers((prevMembers)=> prevMembers.filter((member)=> member.id != memberId))
+        setMembers((prevMembers) => prevMembers.filter((member) => member.id != memberId))
       }
     } catch (error) {
       notifyError("Error while removing member");
@@ -114,20 +114,21 @@ function GroupSidebar({  isSidebarOpen, toggleSidebar }) {
               >
                 <p className="text-gray-700">{member.username}</p>
                 <div className="dropdown dropdown-end">
-                  <div tabIndex={0} role="button" className="cursor-pointer" onClick={toggleMenu}>
+                  {(member.id === user.id) && <div tabIndex={0} role="button" className="cursor-pointer" onClick={toggleMenu}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                     </svg>
-                  </div>
+                  </div>}
                   <ul tabIndex={0} className={`dropdown-content menu bg-white rounded-box z-[1] w-44 p-2 shadow text-red-500 ${isMenuVisible ? 'visible' : 'hidden'}`}>
-                    {(creator.id === user.id) ?
+                    {creator.id === user.id ? (
                       <li>
-                        <button onClick={()=>handleRemoveMember(member.id)}>Remove Member
+                        <button onClick={() => handleRemoveMember(member.id)}>Remove Member
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM4 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 10.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
                           </svg>
                         </button>
-                      </li> :
+                      </li>
+                    ) : (
                       <li>
                         <button onClick={handleLeaveGroup}>Leave Group
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
@@ -135,7 +136,7 @@ function GroupSidebar({  isSidebarOpen, toggleSidebar }) {
                           </svg>
                         </button>
                       </li>
-                    }
+                    )}
                   </ul>
                 </div>
               </li>
