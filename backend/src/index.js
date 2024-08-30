@@ -44,3 +44,4 @@ syncDb().then(()=>{
     console.error('Unable to Connect', err);
 })
 
+export default app;
