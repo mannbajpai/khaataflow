@@ -4,9 +4,11 @@ import Footer from "../components/Footer";
 import { useAuth } from "../context/AuthContext";
 import { LoaderContent } from "../components/Loader";
 
+
 const LandingPage = () => {
     const navigate = useNavigate();
     const {user, loading} = useAuth();
+    if (loading) return <LoaderContent/>
     if (user) {
         navigate('/home');
     }
@@ -31,7 +33,7 @@ const LandingPage = () => {
                     </div>
                 </div>
             </nav>
-            {loading?<LoaderContent/>:<div className="flex-grow flex items-center justify-center bg-gradient-to-r from-white to-green-50">
+            <div className="flex-grow flex items-center justify-center bg-gradient-to-r from-white to-green-50">
                 <div className="text-center px-6 py-12 md:py-24">
                     <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
                         Welcome to KhaataFlow
@@ -49,7 +51,7 @@ const LandingPage = () => {
                         Get Started
                     </Link>
                 </div>
-            </div>}
+            </div>
             <Footer />
         </div>
     );
