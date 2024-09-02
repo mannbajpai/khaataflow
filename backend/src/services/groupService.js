@@ -190,7 +190,7 @@ export const joinGroupByCode = async (code, userId) => {
     if (!group) throw new Error('Group Not Find');
 
     const isMember = await GroupMember.findOne({ where: { groupId: group.id, userId } });
-    if (isMember) throw new Error('User Already a member of the group');
+    if (isMember) throw new Error({message:'User Already a member of the group'});
 
     await GroupMember.create({ groupId: group.id, userId });
     return group;

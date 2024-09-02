@@ -3,7 +3,16 @@ import { User } from "../models/index.js";
 
 export const authenticate = async (req, res, next) => {
 
-    const token = (process.env.NODE_ENV === "production")?req.headers.authorization?.split(' ')[1]:req.cookies.access_token;
+    //const token = (process.env.NODE_ENV === "production")?req.headers.authorization?.split(' ')[1]:req.cookies.access_token;
+
+    // Try to extract the token from the Authorization header
+    let token = req.headers.authorization?.split(' ')[1];
+
+    // If the token is not in the Authorization header, try to get it from cookies
+    if (!token) {
+        token = req.cookies.access_token;
+    }
+
     if (!token) {
         return res.status(401).json({ status: "fail", message: "User not logged in" });
     }
