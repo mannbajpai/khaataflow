@@ -157,7 +157,9 @@ export const leaveGroup = async (groupId, userId) => {
         if (group.createdBy === userId){
             const members = await getMembers(group.id);
                     if (members.length === 1) {
+                        await GroupMember.destroy({where: {userId, groupId}})
                         await group.destroy();
+                        return {message: 'Group Left successfully'}
                     } else {
                         const newOwnerId = (members.find((member) => member.id !== userId)).id;
                         await group.update({ createdBy: newOwnerId });

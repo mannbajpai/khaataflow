@@ -11,10 +11,10 @@ router.get('/:id', groupController.getGroup);
 router.get('/', groupController.getAllGroups);
 router.post('/join', groupController.joinGroup);
 router.patch('/:id', groupController.updateGroup);
+router.delete('/:groupId/leaveGroup', groupController.leaveGroup);
 router.delete('/:id', groupController.deleteGroup);
 router.get('/:groupId/members', groupController.getMembers);
 router.get('/:groupId/member', groupController.isGroupMember);
-router.delete('/:groupId/leaveGroup', groupController.leaveGroup);
 router.delete('/:groupId/members/:memberId', groupController.removeMember);
 
 export default router;
