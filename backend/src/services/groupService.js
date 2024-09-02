@@ -207,9 +207,11 @@ export const updateGroup = async (id, data) => {
 }
 
 export const deleteGroup = async (id, userId) => {
-    const group = Group.findByPk(id);
+    const group = await Group.findByPk(id);
     if (!group) throw new Error('Group Not Found');
-    if (group.createdBy !== userId) throw new Error('Only the creator can delete the group');
+    if (group.createdBy !== userId){
+        throw new Error('Only the creator can delete the group');
+    }
     await group.destroy();
-    return group;
+    return "Group Deleted Successfully";
 }

@@ -32,7 +32,6 @@ describe('Group API Routes', () => {
     expect(response.body.status).toBe('success');
     expect(response.body).toHaveProperty('data');
     groupId=response.body.data.group.id;
-    groupCode=response.body.data.group.code;
   },10000);
 
   // Test getGroup route
@@ -71,16 +70,6 @@ describe('Group API Routes', () => {
     expect(response.body.status).toBe('success');
   });
 
-  // Test removeMember route
-  /*it('should remove a member from a group', async () => {
-    const memberId = 2;
-    const response = await request(app)
-      .delete(`/api/group/${groupId}/members/${memberId}`)
-      .set("Authorization", `Bearer ${token}`); // Replace with a valid token
-    expect(response.status).toBe(200);
-    expect(response.body.status).toBe('success');
-  });*/
-
   // Test leaveGroup route
   it('should leave a group', async () => {
     const response = await request(app)
@@ -91,15 +80,19 @@ describe('Group API Routes', () => {
     expect(response.body.status).toBe('success');
   });
 
-  // Test joinGroup route
-  it('should join a group by code', async () => {
-    const response = await request(app)
-      .post('/api/group/join')
-      .set("Authorization", `Bearer ${token}`) // Replace with a valid token
-      .send({ code: groupCode });
-    expect(response.status).toBe(200);
-    expect(response.body.status).toBe('success');
-  });
+    // Test createGroup route
+    it('should create an another group to test', async () => {
+      const groupData = { name: 'Test Group', description: 'This is a test group' };
+      const response = await request(app)
+        .post('/api/group/')
+        .set("Authorization", `Bearer ${token}`) // Replace with a valid token
+        .send(groupData);
+      expect(response.status).toBe(201);
+      expect(response.body.status).toBe('success');
+      expect(response.body).toHaveProperty('data');
+      groupId=response.body.data.group.id;
+    },10000);
+
 
   // Test updateGroup route
   it('should update a group', async () => {

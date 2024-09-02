@@ -86,8 +86,8 @@ export const updateGroup = async (req, res) => {
 
 export const deleteGroup = async (req, res) => {
     try {
-        await groupService.deleteGroup(req.params.id, req.user.dataValues.id);
-        res.status(204).json({ status: 'success', data: null });
+        const result = await groupService.deleteGroup(req.params.id, req.user.dataValues.id);
+        res.status(204).json({ status: 'success', result: result });
     } catch (error) {
         res.status(400).json({ status: 'fail', message: error.message });
     }
