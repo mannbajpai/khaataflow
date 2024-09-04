@@ -8,7 +8,7 @@ KhaataFlow is an expense management application inspired by Splitwise. It allows
 
 - ### [Features](#features)
 - ### [Tech Stack](#tech-stack)
-- ### [Project Architecture](#architecture)
+- ### [Project Architecture](#project-architecture)
 - ### [Setup](#setup)
 
 ## Features
