@@ -1,5 +1,22 @@
-# KhaataFlow
+# KhaataFlow Backend
 ## API Documentation
+
+This backend provides REST API endpoints for the KhaataFlow expense management application.
+
+### Quick Start
+The easiest way to run the backend is using Docker Compose from the project root:
+```bash
+docker-compose up --build
+```
+
+The backend will be available at `http://localhost:5000/api`
+
+### Manual Setup
+For development without Docker:
+```bash
+npm install
+npm start
+```
 
  - ### [Auth](#auth)
  - ### [Expense](#expense)

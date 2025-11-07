@@ -9,7 +9,8 @@ KhaataFlow is an expense management application inspired by Splitwise. It allows
 - ### [Features](#features)
 - ### [Tech Stack](#tech-stack)
 - ### [Project Architecture](#project-architecture)
-- ### [Setup](#setup)
+- ### [Quick Start with Docker](#quick-start-with-docker)
+- ### [Manual Setup](#manual-setup)
 
 ## Features
 
@@ -46,7 +47,50 @@ KhaataFlow is an expense management application inspired by Splitwise. It allows
     * CloudFront exposed to the internet.
     * Other components secured by security groups.
 
-## Setup
+## Quick Start with Docker
+
+The easiest way to run KhaataFlow is using Docker Compose, which sets up all services (frontend, backend, and database) automatically.
+
+### Prerequisites
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+### Run the Application
+1. Clone the repository
+    ```bash
+    git clone https://github.com/mannbajpai/khaataflow.git
+    cd khaataflow
+    ```
+
+2. Start all services
+    ```bash
+    docker-compose up --build
+    ```
+
+3. Access the application
+    - **Frontend**: http://localhost:5173
+    - **Backend API**: http://localhost:5000/api
+    - **Database**: localhost:5432 (internal only)
+
+### Stop the Application
+```bash
+docker-compose down
+```
+
+### Run Tests
+```bash
+# Backend tests (runs during Docker build)
+docker-compose build backend
+
+# Frontend tests (runs during Docker build)  
+docker-compose build frontend
+```
+
+## Manual Setup
+
+## Manual Setup
+
+If you prefer to run the application without Docker, follow these steps:
 
 - Clone the repository
     ```bash
