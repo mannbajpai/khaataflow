@@ -1,31 +1,35 @@
-import { useContext, useState } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import { joinGroup } from "../services/groupService";
-import { useNavigate } from "react-router-dom";
-import { NotifyContainer, notifyError, notifySuccess } from "../components/Notification";
-import Loader from "../components/Loader";
-import GroupContext from "../context/GroupContext";
-import { useAuth } from "../context/AuthContext";
+import { useContext, useState } from 'react';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { joinGroup } from '../services/groupService';
+import { useNavigate } from 'react-router-dom';
+import {
+  NotifyContainer,
+  notifyError,
+  notifySuccess,
+} from '../components/Notification';
+import Loader from '../components/Loader';
+import GroupContext from '../context/GroupContext';
+import { useAuth } from '../context/AuthContext';
 const JoinGroupPage = () => {
-  const {user} = useAuth();
-  const {setMembers} = useContext(GroupContext);
-  const [groupCode, setGroupCode] = useState("");
-  const [loading, setLoading] = useState("");
+  const { user } = useAuth();
+  const { setMembers } = useContext(GroupContext);
+  const [groupCode, setGroupCode] = useState('');
+  const [loading, setLoading] = useState('');
   const navigate = useNavigate();
 
   const handleJoinGroup = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await joinGroup({code:groupCode});
-      if (res.status === "success") {
+      const res = await joinGroup({ code: groupCode });
+      if (res.status === 'success') {
         notifySuccess('Group Joined Successfully');
-        setMembers((prevMembers) => [...prevMembers, user])
-        setTimeout(()=>navigate(-1),2000)
+        setMembers((prevMembers) => [...prevMembers, user]);
+        setTimeout(() => navigate(-1), 2000);
       }
     } catch (error) {
-      notifyError("Error joining group");
+      notifyError('Error joining group');
       throw new Error(error.message);
     }
     setLoading(false);
@@ -33,7 +37,7 @@ const JoinGroupPage = () => {
 
   const handleCancel = () => {
     navigate(-1);
-  }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -64,7 +68,7 @@ const JoinGroupPage = () => {
               Join Group
             </button>
           </div>
-          {loading && <Loader/>}
+          {loading && <Loader />}
           <NotifyContainer />
         </div>
       </div>

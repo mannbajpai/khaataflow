@@ -1,7 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getExpenseById, updateExpense, deleteExpense } from '../services/expenseService';
-import { NotifyContainer, notifyError, notifySuccess } from '../components/Notification';
+import {
+  getExpenseById,
+  updateExpense,
+  deleteExpense,
+} from '../services/expenseService';
+import {
+  NotifyContainer,
+  notifyError,
+  notifySuccess,
+} from '../components/Notification';
 
 const ExpenseDetail = () => {
   const { id } = useParams();
@@ -72,24 +80,45 @@ const ExpenseDetail = () => {
     }
   };
 
-  if (!expense) return <span className="loading loading-ring loading-lg"></span>;
+  if (!expense)
+    return <span className="loading loading-ring loading-lg"></span>;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-turquoise-green">
       <div className="bg-white w-full max-w-3xl shadow-xl rounded-xl p-6 mx-8 my-4">
-
-        <button className='btn glass' onClick={editMode ? (handleCancel) : (() => navigate(-1))}>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+        <button
+          className="btn glass"
+          onClick={editMode ? handleCancel : () => navigate(-1)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
+            />
           </svg>
         </button>
-        <h1 className="text-3xl text-center font-bold mb-6 text-gray-800">Expense Details</h1>
+        <h1 className="text-3xl text-center font-bold mb-6 text-gray-800">
+          Expense Details
+        </h1>
 
         {editMode ? (
-          <form onSubmit={handleUpdateExpense} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form
+            onSubmit={handleUpdateExpense}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
             {/* Type (Expense or Income) */}
             <div>
-              <label className="block mb-2 font-semibold text-gray-700">Type</label>
+              <label className="block mb-2 font-semibold text-gray-700">
+                Type
+              </label>
               <select
                 name="type"
                 value={formData.type}
@@ -103,7 +132,9 @@ const ExpenseDetail = () => {
 
             {/* Amount */}
             <div>
-              <label className="block mb-2 font-semibold text-gray-700">Amount</label>
+              <label className="block mb-2 font-semibold text-gray-700">
+                Amount
+              </label>
               <input
                 type="number"
                 name="amount"
@@ -115,7 +146,9 @@ const ExpenseDetail = () => {
 
             {/* Date */}
             <div>
-              <label className="block mb-2 font-semibold text-gray-700">Date</label>
+              <label className="block mb-2 font-semibold text-gray-700">
+                Date
+              </label>
               <input
                 type="date"
                 name="date"
@@ -127,7 +160,9 @@ const ExpenseDetail = () => {
 
             {/* Category */}
             <div>
-              <label className="block mb-2 font-semibold text-gray-700">Category</label>
+              <label className="block mb-2 font-semibold text-gray-700">
+                Category
+              </label>
               <select
                 name="category"
                 value={formData.category}
@@ -143,7 +178,9 @@ const ExpenseDetail = () => {
 
             {/* Name */}
             <div>
-              <label className="block mb-2 font-semibold text-gray-700">Name</label>
+              <label className="block mb-2 font-semibold text-gray-700">
+                Name
+              </label>
               <input
                 type="text"
                 name="name"
@@ -155,7 +192,9 @@ const ExpenseDetail = () => {
 
             {/* Description (Optional) */}
             <div className="md:col-span-2">
-              <label className="block mb-2 font-semibold text-gray-700">Description (Optional)</label>
+              <label className="block mb-2 font-semibold text-gray-700">
+                Description (Optional)
+              </label>
               <textarea
                 name="description"
                 value={formData.description}
@@ -175,19 +214,33 @@ const ExpenseDetail = () => {
               </button>
               <button
                 type="button"
-                onClick={()=>document.getElementById('my_modal_cancel').showModal()}
+                onClick={() =>
+                  document.getElementById('my_modal_cancel').showModal()
+                }
                 className="btn w-24 text-red-700 bg-red-300 hover:bg-red-100"
               >
                 Cancel
               </button>
-              <dialog id="my_modal_cancel" className="modal modal-bottom sm:modal-middle">
+              <dialog
+                id="my_modal_cancel"
+                className="modal modal-bottom sm:modal-middle"
+              >
                 <div className="modal-box">
                   <h3 className="font-bold text-lg">Warning</h3>
-                  <p className="py-4">Are you sure want to discard the changes?</p>
+                  <p className="py-4">
+                    Are you sure want to discard the changes?
+                  </p>
                   <div className="modal-action">
                     <form method="dialog">
-                      <button className='btn w-24 text-blue-700 bg-blue-300 hover:bg-blue-100 mx-2'>Cancel</button>
-                      <button onClick={handleCancel} className="btn w-24 text-red-700 bg-red-300 hover:bg-red-100 mx-2">Confirm</button>
+                      <button className="btn w-24 text-blue-700 bg-blue-300 hover:bg-blue-100 mx-2">
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleCancel}
+                        className="btn w-24 text-red-700 bg-red-300 hover:bg-red-100 mx-2"
+                      >
+                        Confirm
+                      </button>
                     </form>
                   </div>
                 </div>
@@ -203,7 +256,8 @@ const ExpenseDetail = () => {
               <strong>Amount:</strong> Rs. {expense.amount}
             </div>
             <div className="mb-4">
-              <strong>Date:</strong> {new Date(expense.date).toLocaleDateString()}
+              <strong>Date:</strong>{' '}
+              {new Date(expense.date).toLocaleDateString()}
             </div>
             <div className="mb-4">
               <strong>Category:</strong> {expense.category}
@@ -219,19 +273,33 @@ const ExpenseDetail = () => {
                 Edit
               </button>
               <button
-                onClick={()=>document.getElementById('my_modal_delete').showModal()}
+                onClick={() =>
+                  document.getElementById('my_modal_delete').showModal()
+                }
                 className="btn w-24 text-red-700 bg-red-300 hover:bg-red-100"
               >
                 Delete
               </button>
-              <dialog id="my_modal_delete" className="modal modal-bottom sm:modal-middle">
+              <dialog
+                id="my_modal_delete"
+                className="modal modal-bottom sm:modal-middle"
+              >
                 <div className="modal-box">
                   <h3 className="font-bold text-xl text-red-500">Warning!</h3>
-                  <p className="py-4">Are You Sure You Want To Delete The Expense?</p>
+                  <p className="py-4">
+                    Are You Sure You Want To Delete The Expense?
+                  </p>
                   <div className="modal-action">
                     <form method="dialog">
-                    <button className='btn w-24 text-blue-700 bg-blue-300 hover:bg-blue-100 mx-2'>Cancel</button>
-                      <button onClick={handleDeleteExpense} className="btn w-24 text-red-700 bg-red-300 hover:bg-red-100 mx-2">Confirm</button>
+                      <button className="btn w-24 text-blue-700 bg-blue-300 hover:bg-blue-100 mx-2">
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleDeleteExpense}
+                        className="btn w-24 text-red-700 bg-red-300 hover:bg-red-100 mx-2"
+                      >
+                        Confirm
+                      </button>
                     </form>
                   </div>
                 </div>

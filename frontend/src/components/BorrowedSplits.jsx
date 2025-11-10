@@ -1,11 +1,11 @@
-
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types';
 
 const BorrowedSplits = ({ splits }) => {
-
   return (
     <div className="mb-4 p-4 bg-white shadow-md rounded-lg">
-      <h3 className="text-xl font-bold mb-4 text-turquoise-green">Borrowed Splits</h3>
+      <h3 className="text-xl font-bold mb-4 text-turquoise-green">
+        Borrowed Splits
+      </h3>
       <div className="overflow-x-auto">
         <table className="table-auto w-full border-collapse">
           <thead className="bg-turquoise-green text-white">
@@ -16,23 +16,32 @@ const BorrowedSplits = ({ splits }) => {
             </tr>
           </thead>
           <tbody>
-            {splits.map((expense) => (
+            {splits.map((expense) =>
               expense.splits.map((split, splitIndex) => (
-                <tr key={splitIndex} className="hover:bg-gray-100 transition duration-300 text-center">
+                <tr
+                  key={splitIndex}
+                  className="hover:bg-gray-100 transition duration-300 text-center"
+                >
                   <td className="py-2 px-4 border-b">
-                    <span className="font-medium text-gray-700">{split.lender.username}</span>
+                    <span className="font-medium text-gray-700">
+                      {split.lender.username}
+                    </span>
                   </td>
                   <td className="py-2 px-4 border-b">
-                    <span className="text-gray-700 font-semibold">Rs. {split.amount.toFixed(2)}</span>
+                    <span className="text-gray-700 font-semibold">
+                      Rs. {split.amount.toFixed(2)}
+                    </span>
                   </td>
                   <td className="py-2 px-4 border-b">
-                    <span className={`py-1 px-2 rounded-full text-xs font-semibold ${split.settled ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
+                    <span
+                      className={`py-1 px-2 rounded-full text-xs font-semibold ${split.settled ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}
+                    >
                       {split.settled ? 'Yes' : 'No'}
                     </span>
                   </td>
                 </tr>
               ))
-            ))}
+            )}
           </tbody>
         </table>
       </div>

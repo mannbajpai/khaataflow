@@ -1,11 +1,11 @@
-import { Outlet, Navigate, useParams } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { useState, useEffect } from "react";
-import  Loader  from "./Loader";
-import { isMember } from "../services/groupService"; 
+import { Outlet, Navigate, useParams } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useState, useEffect } from 'react';
+import Loader from './Loader';
+import { isMember } from '../services/groupService';
 
 const PrivateGroupRoute = () => {
-  const { user, loading:authLoading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { groupId } = useParams();
   const [Member, setIsMember] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -25,7 +25,7 @@ const PrivateGroupRoute = () => {
           setIsMember(false);
         }
       } catch (error) {
-        console.error("Error checking group membership:", error);
+        console.error('Error checking group membership:', error);
       } finally {
         setLoading(false);
       }
@@ -38,7 +38,7 @@ const PrivateGroupRoute = () => {
     return <Loader />;
   }
 
-  return Member ? <Outlet /> : <Navigate to={"/home"} />;
+  return Member ? <Outlet /> : <Navigate to={'/home'} />;
 };
 
 export default PrivateGroupRoute;

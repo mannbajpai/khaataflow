@@ -1,0 +1,106 @@
+name: CI
+
+on:
+  push:
+    branches: [ main]
+  pull_request:
+    branches: [ main]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: khaataflow_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+
+    - name: Install backend dependencies
+      run: |
+        cd backend
+        npm ci
+
+    - name: Run linting
+      run: |
+        cd backend
+        npm run lint
+
+    - name: Run formatting check
+      run: |
+        cd backend
+        npm run format -- --check
+
+    - name: Run tests
+      run: |
+        cd backend
+        npm test
+      env:
+        NODE_ENV: test
+        DB_HOST: localhost
+        DB_USER: postgres
+        DB_PASSWORD: postgres
+        DB_NAME: khaataflow_test
+        DB_PORT: 5432
+        JWT_SECRET: test_secret
+        ORIGIN: http://localhost:3000
+
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        npm ci
+
+    - name: Run linting
+      run: |
+        cd frontend
+        npm run lint
+
+    - name: Run formatting check
+      run: |
+        cd frontend
+        npm run format:check
+
+    - name: Run tests
+      run: |
+        cd frontend
+        npm test
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build Docker images
+      run: docker-compose build

@@ -27,21 +27,25 @@ The frontend will be available at `http://localhost:5173`
 For development without Docker:
 
 1. Install dependencies:
+
 ```bash
 npm install
 ```
 
 2. Start the development server:
+
 ```bash
 npm run dev
 ```
 
 3. Run tests:
+
 ```bash
 npm test
 ```
 
 4. Build for production:
+
 ```bash
 npm run build
 ```

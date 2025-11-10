@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const GroupCard = ({ group }) => {
   return (
@@ -28,8 +28,8 @@ const GroupCard = ({ group }) => {
   );
 };
 
-GroupCard.propTypes= {
-    group: PropTypes.object.isRequired,
-}
+GroupCard.propTypes = {
+  group: PropTypes.object.isRequired,
+};
 
 export default GroupCard;
