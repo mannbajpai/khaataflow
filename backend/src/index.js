@@ -39,14 +39,17 @@ app.use('/api/user/', userRoutes);
 app.use('/api/group/expense/', groupExpenseRoutes);
 app.use('/', observabilityRoutes);
 
-syncDb()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+// Only start server if not in test mode
+if (process.env.NODE_ENV !== 'test') {
+  syncDb()
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+      });
+    })
+    .catch((err) => {
+      console.error('Unable to Connect', err);
     });
-  })
-  .catch((err) => {
-    console.error('Unable to Connect', err);
-  });
+}
 
 export default app;

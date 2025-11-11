@@ -1,4 +1,11 @@
-import { User, Group, GroupMember, Expense, GroupExpense, ExpenseSplit } from '../src/models/index.js';
+import {
+  User,
+  Group,
+  GroupMember,
+  Expense,
+  GroupExpense,
+  ExpenseSplit,
+} from '../src/models/index.js';
 import sequelize from '../src/config/db.js';
 import bcrypt from 'bcryptjs';
 
@@ -17,7 +24,11 @@ const seedData = async () => {
     const userData = [
       { username: 'alice', email: 'alice@example.com', name: 'Alice Johnson' },
       { username: 'bob', email: 'bob@example.com', name: 'Bob Smith' },
-      { username: 'charlie', email: 'charlie@example.com', name: 'Charlie Brown' },
+      {
+        username: 'charlie',
+        email: 'charlie@example.com',
+        name: 'Charlie Brown',
+      },
       { username: 'diana', email: 'diana@example.com', name: 'Diana Prince' },
     ];
 
@@ -59,7 +70,13 @@ const seedData = async () => {
     const startDate = new Date();
     startDate.setMonth(startDate.getMonth() - 12);
 
-    const expenseCategories = ['Food', 'Transport', 'Entertainment', 'Accommodation', 'Shopping'];
+    const expenseCategories = [
+      'Food',
+      'Transport',
+      'Entertainment',
+      'Accommodation',
+      'Shopping',
+    ];
     const descriptions = [
       'Lunch at restaurant',
       'Bus tickets',
@@ -89,8 +106,12 @@ const seedData = async () => {
             userId: user.id,
             amount: Math.floor(Math.random() * 5000) + 500, // $5-$55
             name: descriptions[Math.floor(Math.random() * descriptions.length)],
-            description: descriptions[Math.floor(Math.random() * descriptions.length)],
-            category: expenseCategories[Math.floor(Math.random() * expenseCategories.length)],
+            description:
+              descriptions[Math.floor(Math.random() * descriptions.length)],
+            category:
+              expenseCategories[
+                Math.floor(Math.random() * expenseCategories.length)
+              ],
             date: expenseDate,
             type: 'expense',
           });
@@ -112,13 +133,16 @@ const seedData = async () => {
             groupId: group.id,
             lenderId: lender.id,
             amount,
-            description: descriptions[Math.floor(Math.random() * descriptions.length)],
+            description:
+              descriptions[Math.floor(Math.random() * descriptions.length)],
             date: expenseDate,
             type: 'equal', // For simplicity, all equal splits
           });
 
           // Create expense splits for all group members
-          const members = await GroupMember.findAll({ where: { groupId: group.id } });
+          const members = await GroupMember.findAll({
+            where: { groupId: group.id },
+          });
           const splitAmount = amount / members.length;
 
           for (const member of members) {
@@ -137,7 +161,6 @@ const seedData = async () => {
     console.log('Seed data created successfully!');
     console.log(`Created ${users.length} users, ${groups.length} groups`);
     console.log('Generated 12 months of expense data');
-
   } catch (error) {
     console.error('Error seeding data:', error);
   } finally {

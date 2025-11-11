@@ -19,7 +19,10 @@ export const metricsMiddleware = (req, res, next) => {
   const start = Date.now();
 
   // Record request
-  httpRequestsTotal.inc({ method: req.method, route: req.route?.path || req.path });
+  httpRequestsTotal.inc({
+    method: req.method,
+    route: req.route?.path || req.path,
+  });
 
   // Hook into response finish
   res.on('finish', () => {
@@ -29,7 +32,11 @@ export const metricsMiddleware = (req, res, next) => {
       .observe(duration);
 
     // Record response status
-    httpRequestsTotal.inc({ method: req.method, route: req.route?.path || req.path, status_code: res.statusCode });
+    httpRequestsTotal.inc({
+      method: req.method,
+      route: req.route?.path || req.path,
+      status_code: res.statusCode,
+    });
   });
 
   next();

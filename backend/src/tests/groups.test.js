@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import app from '../index.js';
 import request from 'supertest';
 
@@ -7,6 +7,13 @@ describe('Group API Routes', () => {
   let groupId;
 
   beforeAll(async () => {
+    // Create a test user and login to get token
+    await request(app).post('/api/auth/signup').send({
+      username: 'testuser000',
+      email: 'testuser000@test.com',
+      password: 'test',
+    });
+
     const res = await request(app).post('/api/auth/login').send({
       email: 'testuser000@test.com',
       password: 'test',
@@ -16,7 +23,7 @@ describe('Group API Routes', () => {
     expect(res.body.status).toBe('success');
     expect(res.body).toHaveProperty('token');
     token = res.body.token; // Store the token
-  });
+  }, 15000);
 
   // Test createGroup route
   it('should create a new group', async () => {
@@ -43,7 +50,7 @@ describe('Group API Routes', () => {
     }
     const response = await request(app)
       .get(`/api/group/${groupId}`)
-      .set("Authorization", `Bearer ${token}`); // Replace with a valid token
+      .set('Authorization', `Bearer ${token}`); // Replace with a valid token
     expect(response.status).toBe(200);
     expect(response.body.status).toBe('success');
   });

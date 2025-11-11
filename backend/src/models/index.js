@@ -49,7 +49,12 @@ ExpenseSplit.belongsTo(User, { as: 'borrower', foreignKey: 'borrowerId' });
 
 const syncDb = async () => {
   try {
-    await sequelize.sync({ alter: true });
+    // In test mode, force recreate all tables
+    if (process.env.NODE_ENV === 'test') {
+      await sequelize.sync({ force: true });
+    } else {
+      await sequelize.sync({ alter: true });
+    }
     console.log('Databased Synced');
   } catch (error) {
     console.log('Database Syncing Error!', error);
