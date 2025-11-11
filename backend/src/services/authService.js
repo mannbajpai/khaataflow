@@ -1,7 +1,7 @@
 import { User } from '../models/index.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import dotenv from "dotenv"
+import dotenv from 'dotenv';
 dotenv.config();
 
 const createToken = (id) => {
@@ -9,7 +9,6 @@ const createToken = (id) => {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
-
 
 export const comparePassword = async (inputPassword, storedPassword) => {
   return await bcrypt.compare(inputPassword, storedPassword);
@@ -30,7 +29,11 @@ const checkExistingUser = async (email, username) => {
 
 const createUser = async (username, email, password) => {
   const hashedPassword = await bcrypt.hash(password, 12);
-  return await User.create({ username: username, email: email, password: hashedPassword });
+  return await User.create({
+    username: username,
+    email: email,
+    password: hashedPassword,
+  });
 };
 
 const validateUserCredentials = async (email, password) => {

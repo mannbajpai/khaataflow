@@ -4,8 +4,12 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
+    setupFiles: ['./src/tests/setup.js'],
     coverage: {
       reporter: ['text', 'json', 'html'],
     },
+  },
+  esbuild: {
+    target: 'node18',
   },
 });

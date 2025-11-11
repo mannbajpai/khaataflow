@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const GroupExpensesHeader = ({ groupId, toggleSidebar }) => (
   <div className="flex justify-between items-center mb-4">

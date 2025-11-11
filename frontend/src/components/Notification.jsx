@@ -36,7 +36,7 @@ export const notifyError = (message) =>
 
 export const NotifyContainer = () => (
   <ToastContainer
-    position='top-center'
+    position="top-center"
     autoClose={5000}
     hideProgressBar={false}
     newestOnTop={false}

@@ -1,12 +1,15 @@
-import PropTypes from "prop-types";
-import { useEffect, useState, useMemo, useCallback } from "react";
-import { getGroupExpenses, deleteGroupExpense } from "../services/groupExpenseService";
-import { useAuth } from "../context/AuthContext";
-import Loader from "./Loader";
-import * as Notification from "./Notification";
-import Pagination from "./Pagination";
-import GroupExpenseItem from "./GroupExpenseItem";
-import GroupExpensesHeader from "./GroupExpensesHeader";
+import PropTypes from 'prop-types';
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import {
+  getGroupExpenses,
+  deleteGroupExpense,
+} from '../services/groupExpenseService';
+import { useAuth } from '../context/AuthContext';
+import Loader from './Loader';
+import * as Notification from './Notification';
+import Pagination from './Pagination';
+import GroupExpenseItem from './GroupExpenseItem';
+import GroupExpensesHeader from './GroupExpensesHeader';
 
 const GroupExpensesList = ({ groupId, toggleSidebar }) => {
   const [expenses, setExpenses] = useState([]);
@@ -20,7 +23,7 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
   useEffect(() => {
     const fetchExpenses = async () => {
       const res = await getGroupExpenses(groupId);
-      if (res.status === "success") {
+      if (res.status === 'success') {
         setExpenses(res.data);
       }
       setLoading(false);
@@ -28,27 +31,33 @@ const GroupExpensesList = ({ groupId, toggleSidebar }) => {
     fetchExpenses();
   }, [groupId]);
 
-  const handleDeleteExpense = useCallback(async (expenseId) => {
-    setIsDeleting((prev) => ({ ...prev, [expenseId]: true }));
-    setDeleteLoading(true);
-    try {
-      const res = await deleteGroupExpense(groupId, expenseId);
-      if (res.status === "success") {
-        setExpenses((prevExpenses) =>
-          prevExpenses.filter((expense) => expense.id !== expenseId)
-        );
-        Notification.notifySuccess("Deleted successfully");
-      } else {
-        Notification.notifyError("Failed to delete");
+  const handleDeleteExpense = useCallback(
+    async (expenseId) => {
+      setIsDeleting((prev) => ({ ...prev, [expenseId]: true }));
+      setDeleteLoading(true);
+      try {
+        const res = await deleteGroupExpense(groupId, expenseId);
+        if (res.status === 'success') {
+          setExpenses((prevExpenses) =>
+            prevExpenses.filter((expense) => expense.id !== expenseId)
+          );
+          Notification.notifySuccess('Deleted successfully');
+        } else {
+          Notification.notifyError('Failed to delete');
+        }
+      } catch (error) {
+        Notification.notifyError(error.message);
+      } finally {
+        setDeleteLoading(false);
       }
-    } catch (error) {
-      Notification.notifyError(error.message);
-    } finally {
-      setDeleteLoading(false);
-    }
-  }, [groupId]);
+    },
+    [groupId]
+  );
 
-  const totalPages = useMemo(() => Math.ceil(expenses.length / expensesPerPage), [expenses]);
+  const totalPages = useMemo(
+    () => Math.ceil(expenses.length / expensesPerPage),
+    [expenses]
+  );
   const currentExpenses = useMemo(() => {
     const indexOfLastExpense = currentPage * expensesPerPage;
     const indexOfFirstExpense = indexOfLastExpense - expensesPerPage;

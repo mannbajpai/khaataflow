@@ -2,12 +2,15 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { test, expect } from 'vitest';
 import App from '../App';
+import { AuthProvider } from '../context/AuthContext';
 
 test('renders landing page', () => {
-    render(
+  render(
+    <AuthProvider>
       <MemoryRouter initialEntries={['/']}>
         <App />
       </MemoryRouter>
-    );
-    expect(screen.getByText('Welcome to KhaataFlow')).toBeInTheDocument();
-  });
+    </AuthProvider>
+  );
+  expect(screen.getByText('Welcome to KhaataFlow')).toBeInTheDocument();
+});

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const GroupActions = () => (
   <div className="flex flex-row justify-between mb-6">

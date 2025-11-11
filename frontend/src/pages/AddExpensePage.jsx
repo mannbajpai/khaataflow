@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createExpense } from "../services/expenseService"
-import { NotifyContainer, notifyError, notifySuccess, notifyWarning } from '../components/Notification';
-import Loader from "../components/Loader"
+import { createExpense } from '../services/expenseService';
+import {
+  NotifyContainer,
+  notifyError,
+  notifySuccess,
+  notifyWarning,
+} from '../components/Notification';
+import Loader from '../components/Loader';
 const AddExpense = () => {
   const navigate = useNavigate();
 
@@ -31,7 +36,12 @@ const AddExpense = () => {
     e.preventDefault();
 
     // Perform validation (optional)
-    if (!formData.amount || !formData.date || !formData.category || !formData.name) {
+    if (
+      !formData.amount ||
+      !formData.date ||
+      !formData.category ||
+      !formData.name
+    ) {
       notifyWarning('Please fill in all required fields');
       return;
     }
@@ -49,7 +59,6 @@ const AddExpense = () => {
       notifyError('Error adding expense:', error);
       setLoading(false);
     }
-
   };
 
   // Handle cancel action
@@ -61,9 +70,12 @@ const AddExpense = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-turquoise-green">
       <div className="w-full max-w-3xl p-8 space-y-4 bg-white rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-center">Add Expense</h1>
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
           {/* Type (Expense or Income) */}
-          <div className=''>
+          <div className="">
             <label className="block mb-2 font-semibold">Type</label>
             <select
               name="type"
@@ -135,7 +147,9 @@ const AddExpense = () => {
 
           {/* Description (Optional) */}
           <div>
-            <label className="block mb-2 font-semibold">Description (Optional)</label>
+            <label className="block mb-2 font-semibold">
+              Description (Optional)
+            </label>
             <textarea
               name="description"
               value={formData.description}
@@ -149,9 +163,9 @@ const AddExpense = () => {
           <div className="flex justify-between">
             <button
               type="submit"
-              className={`btn bg-turquoise-green hover:bg-green-200 ${loading && "btn-disabled"}`}
+              className={`btn bg-turquoise-green hover:bg-green-200 ${loading && 'btn-disabled'}`}
             >
-              {loading ? <Loader /> : "Submit"}
+              {loading ? <Loader /> : 'Submit'}
             </button>
             <button
               type="button"

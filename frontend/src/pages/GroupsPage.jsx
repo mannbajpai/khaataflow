@@ -1,14 +1,14 @@
-import { useEffect, useState, useMemo, Suspense, lazy } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import Loader from "../components/Loader";
-import Pagination from "../components/Pagination";
-import { getAllGroups } from "../services/groupService";
-import GroupsContext from "../context/GroupsContext";
+import { useEffect, useState, useMemo, Suspense, lazy } from 'react';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import Loader from '../components/Loader';
+import Pagination from '../components/Pagination';
+import { getAllGroups } from '../services/groupService';
+import GroupsContext from '../context/GroupsContext';
 
 // Lazy load the GroupCard and GroupActions components
-const GroupCard = lazy(() => import("../components/GroupCard"));
-const GroupActions = lazy(() => import("../components/GroupActions"));
+const GroupCard = lazy(() => import('../components/GroupCard'));
+const GroupActions = lazy(() => import('../components/GroupActions'));
 
 const GroupsPage = () => {
   const [groups, setGroups] = useState([]);
@@ -22,7 +22,7 @@ const GroupsPage = () => {
         const response = await getAllGroups();
         setGroups(response.data.groups);
       } catch (error) {
-        console.error("Failed to fetch groups:", error);
+        console.error('Failed to fetch groups:', error);
       } finally {
         setLoading(false);
       }
@@ -31,9 +31,16 @@ const GroupsPage = () => {
     fetchGroups();
   }, []);
 
-  const totalPages = useMemo(() => Math.ceil(groups.length / itemsPerPage), [groups.length]);
+  const totalPages = useMemo(
+    () => Math.ceil(groups.length / itemsPerPage),
+    [groups.length]
+  );
   const currentGroups = useMemo(
-    () => groups.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage),
+    () =>
+      groups.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+      ),
     [groups, currentPage, itemsPerPage]
   );
 
