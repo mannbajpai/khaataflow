@@ -48,6 +48,11 @@ jobs:
         cd backend
         npm run format -- --check
 
+    - name: Wait for database
+      run: |
+        cd backend
+        timeout 60 bash -c 'until pg_isready -h localhost -p 5432; do sleep 1; done'
+
     - name: Run tests
       run: |
         cd backend
@@ -61,6 +66,10 @@ jobs:
         DB_PORT: 5432
         JWT_SECRET: test_secret
         ORIGIN: http://localhost:3000
+        PGHOST: localhost
+        PGUSER: postgres
+        PGPASSWORD: postgres
+        PGDATABASE: khaataflow_test
 
   frontend:
     runs-on: ubuntu-latest

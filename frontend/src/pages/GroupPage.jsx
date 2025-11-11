@@ -49,7 +49,9 @@ const GroupPage = () => {
   }, [groupId]);
 
   const creator = group.members.find((member) => group.createdBy === member.id);
-  const members = group.members.filter((member) => member && member.id !== creator?.id);
+  const members = group.members.filter(
+    (member) => member && member.id !== creator?.id
+  );
 
   return (
     <GroupContext.Provider value={{ groupId, group, members, creator }}>

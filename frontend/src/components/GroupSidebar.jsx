@@ -183,87 +183,90 @@ function GroupSidebar({ isSidebarOpen, toggleSidebar }) {
         <div>
           <h2 className="text-lg font-semibold">Members</h2>
           <ul className="space-y-2">
-            {members.map((member) => (
-              member && (
-                <li
-                  key={member.id}
-                  className="bg-gray-200 p-2 rounded flex items-center justify-between"
-                >
-                  <p className="text-gray-700">{member.username}</p>
-                  <div className="dropdown dropdown-end">
-                    {member.id === user.id && (
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className="cursor-pointer"
-                        onClick={toggleMenu}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="size-6"
+            {members.map(
+              (member) =>
+                member && (
+                  <li
+                    key={member.id}
+                    className="bg-gray-200 p-2 rounded flex items-center justify-between"
+                  >
+                    <p className="text-gray-700">{member.username}</p>
+                    <div className="dropdown dropdown-end">
+                      {member.id === user.id && (
+                        <div
+                          tabIndex={0}
+                          role="button"
+                          className="cursor-pointer"
+                          onClick={toggleMenu}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-                          />
-                        </svg>
-                      </div>
-                    )}
-                    <ul
-                      tabIndex={0}
-                      className={`dropdown-content menu bg-white rounded-box z-[1] w-44 p-2 shadow text-red-500 ${isMenuVisible ? 'visible' : 'hidden'}`}
-                    >
-                      {creator.id === user.id ? (
-                        <li>
-                          <button onClick={() => handleRemoveMember(member.id)}>
-                            Remove Member
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth={1.5}
-                              stroke="currentColor"
-                              className="size-4"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM4 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 10.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
-                              />
-                            </svg>
-                          </button>
-                        </li>
-                      ) : (
-                        <li>
-                          <button onClick={handleLeaveGroup}>
-                            Leave Group
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth={1.5}
-                              stroke="currentColor"
-                              className="size-4"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM4 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 10.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
-                              />
-                            </svg>
-                          </button>
-                        </li>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="size-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                            />
+                          </svg>
+                        </div>
                       )}
-                    </ul>
-                  </div>
-                </li>
-              )
-            ))}
+                      <ul
+                        tabIndex={0}
+                        className={`dropdown-content menu bg-white rounded-box z-[1] w-44 p-2 shadow text-red-500 ${isMenuVisible ? 'visible' : 'hidden'}`}
+                      >
+                        {creator.id === user.id ? (
+                          <li>
+                            <button
+                              onClick={() => handleRemoveMember(member.id)}
+                            >
+                              Remove Member
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="size-4"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM4 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 10.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
+                                />
+                              </svg>
+                            </button>
+                          </li>
+                        ) : (
+                          <li>
+                            <button onClick={handleLeaveGroup}>
+                              Leave Group
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="size-4"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM4 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 10.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
+                                />
+                              </svg>
+                            </button>
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                  </li>
+                )
+            )}
           </ul>
         </div>
       </div>
